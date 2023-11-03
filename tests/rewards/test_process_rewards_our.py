@@ -102,6 +102,7 @@ def test_process_rewards_all_our_validators_are_ideal() -> None:
         42,
         net_epoch_to_index_to_validator,
         our_epoch_to_index_to_validator,
+        dict()
     )
 
     ideal_sources_count_after = our_ideal_sources_count.collect()[0].samples[0].value  # type: ignore
@@ -289,6 +290,7 @@ def test_process_rewards_some_our_validators_are_ideal() -> None:
         42,
         net_epoch_to_index_to_validator,
         our_epoch_to_index_to_validator,
+        dict()
     )
 
     ideal_sources_count_after = our_ideal_sources_count.collect()[0].samples[0].value  # type: ignore
@@ -424,6 +426,7 @@ def test_process_rewards_no_our_validator_is_ideal() -> None:
         42,
         net_epoch_to_index_to_validator,
         our_epoch_to_index_to_validator,
+        dict()
     )
 
     ideal_sources_count_after = our_ideal_sources_count.collect()[0].samples[0].value  # type: ignore

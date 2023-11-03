@@ -45,7 +45,6 @@ keys_count = Gauge(
     "Keys count",
 )
 
-
 def convert_hex_to_bools(hex: str) -> list[bool]:
     """Convert an hexadecimal number into list of booleans
 
@@ -183,6 +182,27 @@ def load_pubkeys_from_file(path: Path) -> set[str]:
         )
 
 
+def load_labels_from_file(path: Path) -> dict[str, dict[str, str]]:
+    """Load labels from a file.
+
+    Parameters:
+    path: A path to a file containing a list of public keys with labels.
+
+        Returns the corresponding dict of public keys with labels.
+    """
+    retval: dict[str, dict[str, str]] = {}
+    first_line: bool = True
+    with path.open() as file_descriptor:
+        for line in file_descriptor:
+            fields = line.rstrip('\n').split(',')
+            if first_line:
+                first_line = False
+                labels = fields
+            else:
+                retval[fields[0]] = dict(zip(labels, fields))
+    return retval
+
+
 def get_our_pubkeys(
     pubkeys_file_path: Path | None,
     web3signer: Web3Signer | None,
@@ -212,6 +232,26 @@ def get_our_pubkeys(
     our_pubkeys = pubkeys_from_file | pubkeys_from_web3signer
     keys_count.set(len(our_pubkeys))
     return our_pubkeys
+
+
+def get_our_labels(
+    labels_file_path: Path | None,
+) -> dict[str, dict[str, str]]:
+    """Get our labels
+
+    Parameters:
+    pubkeys_file_path: The path of file containing keys to watch
+    labels           : Labels as comma separated string
+
+    If `our_labels` is already set and we are not at the beginning of a new epoch,
+    returns `our_labels`.
+    """
+    retval = (
+        load_labels_from_file(labels_file_path)
+        if labels_file_path is not None
+        else {}
+    )
+    return retval
 
 
 def write_liveness_file(liveness_file: Path):

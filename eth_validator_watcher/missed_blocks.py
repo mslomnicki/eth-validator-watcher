@@ -82,7 +82,7 @@ def process_missed_blocks_head(
 
     message_console = (
         f"{emoji} {'Our ' if is_our_validator else '    '}validator "
-        f"{short_proposer_pubkey} {proposed_or_missed} block at head at epoch {epoch} "
+        f"{short_proposer_pubkey} {proposed_or_missed} block at head at epoch {epoch} ({epoch % NB_SLOT_PER_EPOCH})"
         f"- slot {slot} {emoji} - 🔑 {len(our_pubkeys)} keys "
         "watched"
     )
