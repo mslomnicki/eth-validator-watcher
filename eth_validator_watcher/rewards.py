@@ -1,5 +1,6 @@
 """Contains functions to handle rewards calculation"""
 
+import random
 from typing import Tuple
 
 from prometheus_client import Counter, Gauge
@@ -86,14 +87,93 @@ AreIdeal = Tuple[bool, bool, bool]  # source, target, head
     Counter("our_actual_heads_count", "Our actual heads count"),
 )
 
+(
+    our_ideal_sources_per_validator_count,
+    our_ideal_targets_per_validator_count,
+    our_ideal_heads_per_validator_count,
+    our_actual_pos_sources_per_validator_count,
+    our_actual_neg_sources_per_validator_count,
+    our_actual_pos_targets_per_validator_count,
+    our_actual_neg_targets_per_validator_count,
+    our_actual_heads_per_validator_count,
+) = (
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+    None,
+)
+
+
+def init_rewards_per_validator_counters(our_labels: dict[str, dict[str, str]]) -> None:
+    global our_ideal_sources_per_validator_count
+    global our_ideal_targets_per_validator_count
+    global our_ideal_heads_per_validator_count
+    global our_actual_pos_sources_per_validator_count
+    global our_actual_neg_sources_per_validator_count
+    global our_actual_pos_targets_per_validator_count
+    global our_actual_neg_targets_per_validator_count
+    global our_actual_heads_per_validator_count
+
+    if len(our_labels) == 0 or our_ideal_targets_per_validator_count is not None:
+        return
+
+    labels = list(random.choice(list(our_labels.values())).keys())
+    our_ideal_sources_per_validator_count = Counter("our_ideal_sources_per_validator_count",
+                                                    "Our ideal sources count per validator", labels)
+    our_ideal_targets_per_validator_count = Counter("our_ideal_targets_per_validator_count",
+                                                    "Our ideal targets count per validator", labels)
+    our_ideal_heads_per_validator_count = Counter("our_ideal_heads_per_validator_count",
+                                                  "Our ideal heads count per validator", labels)
+    our_actual_pos_sources_per_validator_count = Counter("our_actual_pos_sources_per_validator_count",
+                                                         "Our actual positive sources count per validator",
+                                                         labels)
+    our_actual_neg_sources_per_validator_count = Counter("our_actual_neg_sources_per_validator_count",
+                                                         "Our actual negative sources count per validator",
+                                                         labels)
+    our_actual_pos_targets_per_validator_count = Counter("our_actual_pos_targets_per_validator_count",
+                                                         "Our actual positive targets count per validator",
+                                                         labels)
+    our_actual_neg_targets_per_validator_count = Counter("our_actual_neg_targets_per_validator_count",
+                                                         "Our actual negative targets count per validator",
+                                                         labels)
+    our_actual_heads_per_validator_count = Counter("our_actual_heads_per_validator_count",
+                                                   "Our actual heads count per validator", labels)
+    for labels_dict in our_labels.values():
+        our_ideal_sources_per_validator_count.labels(**labels_dict)
+        our_ideal_targets_per_validator_count.labels(**labels_dict)
+        our_ideal_heads_per_validator_count.labels(**labels_dict)
+        our_actual_pos_sources_per_validator_count.labels(**labels_dict)
+        our_actual_neg_sources_per_validator_count.labels(**labels_dict)
+        our_actual_pos_targets_per_validator_count.labels(**labels_dict)
+        our_actual_neg_targets_per_validator_count.labels(**labels_dict)
+        our_actual_heads_per_validator_count.labels(**labels_dict)
+
+
+def _validator_counters_update(counter_pos: Counter | None, counter_neg: Counter | None, pub_keys: Tuple[str],
+                               values: set[int], labels_dict: dict[str, dict[str, str]]
+                               ) -> None:
+    if counter_pos is None or len(labels_dict) == 0:
+        return
+    for (pubkey, value) in zip(pub_keys, values):
+        labels = labels_dict[pubkey]
+        (
+            counter_pos
+            if value >= 0
+            else counter_neg
+        ).labels(**labels).inc(abs(value))
+
 
 def _log(
-    pubkeys: Tuple[str],
-    are_ideal: Tuple[bool],
-    suboptimal_rate: float,
-    epoch: int,
-    picto: str,
-    label: str,
+        pubkeys: Tuple[str],
+        are_ideal: Tuple[bool],
+        suboptimal_rate: float,
+        epoch: int,
+        picto: str,
+        label: str,
 ) -> None:
     not_perfect_pubkeys = {
         pubkey for (pubkey, perfect) in zip(pubkeys, are_ideal) if not perfect
@@ -112,17 +192,18 @@ def _log(
 
         print(
             f"{picto} Our validator {short_first_not_perfect_pubkeys_str} and {diff} "
-            f"more had not ideal rewards on {label} at epoch {epoch-2} "
+            f"more had not ideal rewards on {label} at epoch {epoch - 2} "
             f"({suboptimal_rate:.2%})"
         )
 
 
 def process_rewards(
-    beacon: Beacon,
-    beacon_type: BeaconType,
-    epoch: int,
-    net_epoch_to_index_to_validator: LimitedDict,
-    our_epoch_to_index_to_validator: LimitedDict,
+        beacon: Beacon,
+        beacon_type: BeaconType,
+        epoch: int,
+        net_epoch_to_index_to_validator: LimitedDict,
+        our_epoch_to_index_to_validator: LimitedDict,
+        our_labels: dict[str, dict[str, str]],
 ) -> None:
     """Process rewards for given epoch and validators
 
@@ -140,6 +221,7 @@ def process_rewards(
             outer key             : epoch
             outer value, inner key: validator indexes
             inner value           : validators
+        our_labels : Validator nodes dictionaries
     """
 
     if epoch < 2:
@@ -308,15 +390,24 @@ def process_rewards(
     our_suboptimal_targets_rate_gauge.set(suboptimal_targets_rate)
     our_suboptimal_heads_rate_gauge.set(suboptimal_heads_rate)
 
+    _validator_counters_update(our_ideal_sources_per_validator_count, None, pubkeys, ideal_sources, our_labels)
+    _validator_counters_update(our_ideal_targets_per_validator_count, None, pubkeys, ideal_targets, our_labels)
+    _validator_counters_update(our_ideal_heads_per_validator_count, None, pubkeys, ideal_heads, our_labels)
+    _validator_counters_update(our_actual_pos_sources_per_validator_count, our_actual_neg_sources_per_validator_count,
+                               pubkeys, actual_sources, our_labels)
+    _validator_counters_update(our_actual_pos_targets_per_validator_count, our_actual_neg_targets_per_validator_count,
+                               pubkeys, actual_targets, our_labels)
+    _validator_counters_update(our_actual_heads_per_validator_count, None, pubkeys, actual_heads, our_labels)
+
     _log(pubkeys, are_sources_ideal, suboptimal_sources_rate, epoch, "🚰", "source")
     _log(pubkeys, are_targets_ideal, suboptimal_targets_rate, epoch, "🎯", "target")
     _log(pubkeys, are_heads_ideal, suboptimal_heads_rate, epoch, "👤", "head ")
 
 
 def _process_validator(
-    pubkey: str,
-    ideal_reward: Reward,
-    actual_reward: Reward,
+        pubkey: str,
+        ideal_reward: Reward,
+        actual_reward: Reward,
 ) -> Tuple[str, Reward, Reward, AreIdeal]:
     (ideal_source_reward, ideal_target_reward, ideal_head_reward) = ideal_reward
     (actual_source_reward, actual_target_reward, actual_head_reward) = actual_reward

@@ -24,7 +24,7 @@ from .missed_blocks import process_missed_blocks_finalized, process_missed_block
 from .models import BeaconType, Validators
 from .next_blocks_proposal import process_future_blocks_proposal
 from .relays import Relays
-from .rewards import process_rewards
+from .rewards import process_rewards, init_rewards_per_validator_counters
 from .slashed_validators import SlashedValidators
 from .suboptimal_attestations import process_suboptimal_attestations
 from .utils import (
@@ -39,6 +39,7 @@ from .utils import (
     convert_seconds_to_dhms,
     eth1_address_lower_0x_prefixed,
     get_our_pubkeys,
+    get_our_labels,
     slots,
     write_liveness_file,
 )
@@ -76,49 +77,57 @@ net_active_validators_gauge = Gauge(
 
 @app.command()
 def handler(
-    beacon_url: str = Option(..., help="URL of beacon node", show_default=False),
-    execution_url: str = Option(None, help="URL of execution node", show_default=False),
-    pubkeys_file_path: Optional[Path] = Option(
-        None,
-        help="File containing the list of public keys to watch",
-        exists=True,
-        file_okay=True,
-        dir_okay=False,
-        show_default=False,
-    ),
-    web3signer_url: Optional[str] = Option(
-        None, help="URL to web3signer managing keys to watch", show_default=False
-    ),
-    fee_recipient: Optional[str] = Option(
-        None,
-        help="Fee recipient address - --execution-url must be set",
-        show_default=False,
-    ),
-    slack_channel: Optional[str] = Option(
-        None,
-        help="Slack channel to send alerts - SLACK_TOKEN env var must be set",
-        show_default=False,
-    ),
-    beacon_type: BeaconType = Option(
-        BeaconType.OTHER,
-        case_sensitive=False,
-        help=(
-            "Use this option if connected to a Teku < 23.6.0, Prysm < 4.0.8, "
-            "Lighthouse or Nimbus beacon node. "
-            "See https://github.com/ConsenSys/teku/issues/7204 for Teku < 23.6.0, "
-            "https://github.com/prysmaticlabs/prysm/issues/11581 for Prysm < 4.0.8, "
-            "https://github.com/sigp/lighthouse/issues/4243 for Lighthouse, "
-            "https://github.com/status-im/nimbus-eth2/issues/5019 and "
-            "https://github.com/status-im/nimbus-eth2/issues/5138 for Nimbus."
+        beacon_url: str = Option(..., help="URL of beacon node", show_default=False),
+        execution_url: str = Option(None, help="URL of execution node", show_default=False),
+        pubkeys_file_path: Optional[Path] = Option(
+            None,
+            help="File containing the list of public keys to watch",
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            show_default=False,
         ),
-        show_default=True,
-    ),
-    relay_url: List[str] = Option(
-        [], help="URL of allow listed relay", show_default=False
-    ),
-    liveness_file: Optional[Path] = Option(
-        None, help="Liveness file", show_default=False
-    ),
+        labels_file_path: Optional[Path] = Option(
+            None,
+            help="File containing the list of public keys to watch with labels",
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+            show_default=False,
+        ),
+        web3signer_url: Optional[str] = Option(
+            None, help="URL to web3signer managing keys to watch", show_default=False
+        ),
+        fee_recipient: Optional[str] = Option(
+            None,
+            help="Fee recipient address - --execution-url must be set",
+            show_default=False,
+        ),
+        slack_channel: Optional[str] = Option(
+            None,
+            help="Slack channel to send alerts - SLACK_TOKEN env var must be set",
+            show_default=False,
+        ),
+        beacon_type: BeaconType = Option(
+            BeaconType.OTHER,
+            case_sensitive=False,
+            help=(
+                    "Use this option if connected to a Teku < 23.6.0, Prysm < 4.0.8, "
+                    "Lighthouse or Nimbus beacon node. "
+                    "See https://github.com/ConsenSys/teku/issues/7204 for Teku < 23.6.0, "
+                    "https://github.com/prysmaticlabs/prysm/issues/11581 for Prysm < 4.0.8, "
+                    "https://github.com/sigp/lighthouse/issues/4243 for Lighthouse, "
+                    "https://github.com/status-im/nimbus-eth2/issues/5019 and "
+                    "https://github.com/status-im/nimbus-eth2/issues/5138 for Nimbus."
+            ),
+            show_default=True,
+        ),
+        relay_url: List[str] = Option(
+            [], help="URL of allow listed relay", show_default=False
+        ),
+        liveness_file: Optional[Path] = Option(
+            None, help="Liveness file", show_default=False
+        ),
 ) -> None:
     """
     🚨 Ethereum Validator Watcher 🚨
@@ -175,6 +184,7 @@ def handler(
             beacon_url,
             execution_url,
             pubkeys_file_path,
+            labels_file_path,
             web3signer_url,
             fee_recipient,
             slack_channel,
@@ -187,15 +197,16 @@ def handler(
 
 
 def _handler(
-    beacon_url: str,
-    execution_url: str | None,
-    pubkeys_file_path: Path | None,
-    web3signer_url: str | None,
-    fee_recipient: str | None,
-    slack_channel: str | None,
-    beacon_type: BeaconType,
-    relays_url: List[str],
-    liveness_file: Path | None,
+        beacon_url: str,
+        execution_url: str | None,
+        pubkeys_file_path: Path | None,
+        labels_file_path: Path | None,
+        web3signer_url: str | None,
+        fee_recipient: str | None,
+        slack_channel: str | None,
+        beacon_type: BeaconType,
+        relays_url: List[str],
+        liveness_file: Path | None,
 ) -> None:
     """Just a wrapper to be able to test the handler function"""
     slack_token = environ.get("SLACK_TOKEN")
@@ -229,6 +240,7 @@ def _handler(
     relays = Relays(relays_url)
 
     our_pubkeys: set[str] = set()
+    our_labels: dict[str, dict[str, str]] = {}
     our_active_idx2val: dict[int, Validators.DataItem.Validator] = {}
     our_validators_indexes_that_missed_attestation: set[int] = set()
     our_validators_indexes_that_missed_previous_attestation: set[int] = set()
@@ -257,7 +269,7 @@ def _handler(
             )
 
             if slot % NB_SLOT_PER_EPOCH == 0:
-                print(f"💪     {CHUCK_NORRIS[slot%len(CHUCK_NORRIS)]}")
+                print(f"💪     {CHUCK_NORRIS[slot % len(CHUCK_NORRIS)]}")
 
             if liveness_file is not None:
                 write_liveness_file(liveness_file)
@@ -278,8 +290,11 @@ def _handler(
         if is_new_epoch:
             try:
                 our_pubkeys = get_our_pubkeys(pubkeys_file_path, web3signer)
+                our_labels = get_our_labels(labels_file_path)
             except ValueError:
                 raise typer.BadParameter("Some pubkeys are invalid")
+
+            init_rewards_per_validator_counters(our_labels)
 
             # Network validators
             # ------------------
@@ -348,11 +363,11 @@ def _handler(
             print(f"🎂     Epoch     {epoch}     starts")
 
         should_process_missed_attestations = (
-            slot_in_epoch >= SLOT_FOR_MISSED_ATTESTATIONS_PROCESS
-            and (
-                last_missed_attestations_process_epoch is None
-                or last_missed_attestations_process_epoch != epoch
-            )
+                slot_in_epoch >= SLOT_FOR_MISSED_ATTESTATIONS_PROCESS
+                and (
+                        last_missed_attestations_process_epoch is None
+                        or last_missed_attestations_process_epoch != epoch
+                )
         )
 
         if should_process_missed_attestations:
@@ -385,6 +400,7 @@ def _handler(
                 epoch,
                 net_epoch2active_idx2val,
                 our_epoch2active_idx2val,
+                our_labels,
             )
 
             last_rewards_process_epoch = epoch

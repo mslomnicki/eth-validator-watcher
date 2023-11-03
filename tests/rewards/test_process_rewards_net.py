@@ -30,6 +30,7 @@ def test_process_rewards_low_epoch() -> None:
             epoch,
             LimitedDict(2),
             LimitedDict(2),
+            dict()
         )
 
 
@@ -43,6 +44,7 @@ def test_process_rewards_no_network_validator() -> None:
         42,
         net_epoch_to_index_to_validator,
         LimitedDict(2),
+        dict()
     )
 
 
@@ -128,6 +130,7 @@ def test_process_rewards_all_net_validators_are_ideal() -> None:
         42,
         net_epoch_to_index_to_validator,
         our_epoch_to_index_to_validator,
+        dict()
     )
 
     ideal_sources_count_after = net_ideal_sources_count.collect()[0].samples[0].value  # type: ignore
@@ -315,6 +318,7 @@ def test_process_rewards_some_net_validators_are_ideal() -> None:
         42,
         net_epoch_to_index_to_validator,
         our_epoch_to_index_to_validator,
+        dict()
     )
 
     ideal_sources_count_after = net_ideal_sources_count.collect()[0].samples[0].value  # type: ignore
@@ -450,6 +454,7 @@ def test_process_rewards_no_net_validator_is_ideal() -> None:
         42,
         net_epoch_to_index_to_validator,
         our_epoch_to_index_to_validator,
+        dict()
     )
 
     ideal_sources_count_after = net_ideal_sources_count.collect()[0].samples[0].value  # type: ignore
