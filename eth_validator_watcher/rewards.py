@@ -96,7 +96,14 @@ AreIdeal = Tuple[bool, bool, bool]  # source, target, head
     our_actual_pos_targets_per_validator_count,
     our_actual_neg_targets_per_validator_count,
     our_actual_heads_per_validator_count,
+
+    our_ideal_attestations_reward_per_validator_count,
+    our_actual_pos_attestations_reward_per_validator_count,
+    our_actual_neg_attestations_reward_per_validator_count,
 ) = (
+    None,
+    None,
+    None,
     None,
     None,
     None,
@@ -117,17 +124,23 @@ def init_rewards_per_validator_counters(our_labels: dict[str, dict[str, str]]) -
     global our_actual_pos_targets_per_validator_count
     global our_actual_neg_targets_per_validator_count
     global our_actual_heads_per_validator_count
+    global our_ideal_attestations_reward_per_validator_count
+    global our_actual_pos_attestations_reward_per_validator_count
+    global our_actual_neg_attestations_reward_per_validator_count
 
     if len(our_labels) == 0 or our_ideal_targets_per_validator_count is not None:
         return
 
     labels = list(random.choice(list(our_labels.values())).keys())
     our_ideal_sources_per_validator_count = Counter("our_ideal_sources_per_validator_count",
-                                                    "Our ideal sources count per validator", labels)
+                                                    "Our ideal sources count per validator",
+                                                    labels)
     our_ideal_targets_per_validator_count = Counter("our_ideal_targets_per_validator_count",
-                                                    "Our ideal targets count per validator", labels)
+                                                    "Our ideal targets count per validator",
+                                                    labels)
     our_ideal_heads_per_validator_count = Counter("our_ideal_heads_per_validator_count",
-                                                  "Our ideal heads count per validator", labels)
+                                                  "Our ideal heads count per validator",
+                                                  labels)
     our_actual_pos_sources_per_validator_count = Counter("our_actual_pos_sources_per_validator_count",
                                                          "Our actual positive sources count per validator",
                                                          labels)
@@ -141,7 +154,19 @@ def init_rewards_per_validator_counters(our_labels: dict[str, dict[str, str]]) -
                                                          "Our actual negative targets count per validator",
                                                          labels)
     our_actual_heads_per_validator_count = Counter("our_actual_heads_per_validator_count",
-                                                   "Our actual heads count per validator", labels)
+                                                   "Our actual heads count per validator",
+                                                   labels)
+    our_ideal_attestations_reward_per_validator_count = Counter("our_ideal_attestations_reward_per_validator_count",
+                                                                "Our ideal attestations per validator",
+                                                                labels)
+    our_actual_pos_attestations_reward_per_validator_count = Counter(
+        "our_actual_pos_attestations_reward_per_validator_count",
+        "Our actual positive attestations per validator",
+        labels)
+    our_actual_neg_attestations_reward_per_validator_count = Counter(
+        "our_actual_neg_attestations_reward_per_validator_count",
+        "Our actual negative attestations per validator",
+        labels)
     for labels_dict in our_labels.values():
         our_ideal_sources_per_validator_count.labels(**labels_dict)
         our_ideal_targets_per_validator_count.labels(**labels_dict)
@@ -151,6 +176,9 @@ def init_rewards_per_validator_counters(our_labels: dict[str, dict[str, str]]) -
         our_actual_pos_targets_per_validator_count.labels(**labels_dict)
         our_actual_neg_targets_per_validator_count.labels(**labels_dict)
         our_actual_heads_per_validator_count.labels(**labels_dict)
+        our_ideal_attestations_reward_per_validator_count.labels(**labels_dict)
+        our_actual_pos_attestations_reward_per_validator_count.labels(**labels_dict)
+        our_actual_neg_attestations_reward_per_validator_count.labels(**labels_dict)
 
 
 def _validator_counters_update(counter_pos: Counter | None, counter_neg: Counter | None, pub_keys: Tuple[str],
@@ -160,6 +188,22 @@ def _validator_counters_update(counter_pos: Counter | None, counter_neg: Counter
         return
     for (pubkey, value) in zip(pub_keys, values):
         labels = labels_dict[pubkey]
+        (
+            counter_pos
+            if value >= 0
+            else counter_neg
+        ).labels(**labels).inc(abs(value))
+
+
+def _validator_summary_counters_update(counter_pos: Counter | None, counter_neg: Counter | None, pub_keys: Tuple[str],
+                                       sources: set[int], targets: set[int], heads: set[int],
+                                       labels_dict: dict[str, dict[str, str]]
+                                       ) -> None:
+    if counter_pos is None or len(labels_dict) == 0:
+        return
+    for (pubkey, source, target, head) in zip(pub_keys, sources, targets, heads):
+        labels = labels_dict[pubkey]
+        value = source + target + head
         (
             counter_pos
             if value >= 0
@@ -398,6 +442,11 @@ def process_rewards(
     _validator_counters_update(our_actual_pos_targets_per_validator_count, our_actual_neg_targets_per_validator_count,
                                pubkeys, actual_targets, our_labels)
     _validator_counters_update(our_actual_heads_per_validator_count, None, pubkeys, actual_heads, our_labels)
+    _validator_summary_counters_update(our_ideal_attestations_reward_per_validator_count, None, pubkeys, ideal_sources,
+                                       ideal_targets, ideal_heads, our_labels)
+    _validator_summary_counters_update(our_actual_pos_attestations_reward_per_validator_count,
+                                       our_actual_neg_attestations_reward_per_validator_count, pubkeys, actual_sources,
+                                       actual_targets, actual_heads, our_labels)
 
     _log(pubkeys, are_sources_ideal, suboptimal_sources_rate, epoch, "🚰", "source")
     _log(pubkeys, are_targets_ideal, suboptimal_targets_rate, epoch, "🎯", "target")
