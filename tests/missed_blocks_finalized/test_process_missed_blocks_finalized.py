@@ -13,7 +13,7 @@ from eth_validator_watcher.models import BlockIdentierType, Header, ProposerDuti
 
 def test_process_missed_blocks_finalized_future_slot() -> None:
     with pytest.raises(AssertionError):
-        process_missed_blocks_finalized("a beacon", 42, 41, {}, None)  # type: ignore
+        process_missed_blocks_finalized("a beacon", 42, 41, {}, {}, None)  # type: ignore
 
 
 def test_process_missed_blocks_finalized_nominal() -> None:
@@ -193,6 +193,7 @@ def test_process_missed_blocks_finalized_nominal() -> None:
                 "0x68",  # proposed - slot: 100
                 "0x69",  # too late - slot: 101
             },
+            {},
             slack,  # type: ignore
         )
         == 100

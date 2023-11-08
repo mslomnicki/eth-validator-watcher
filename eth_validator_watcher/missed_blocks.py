@@ -1,6 +1,7 @@
 """Contains functions to handle missed block proposals detection on head"""
 
 import functools
+import random
 
 from prometheus_client import Counter
 
@@ -32,13 +33,52 @@ missed_block_proposals_finalized_count_details = Counter(
     ["slot", "epoch"],
 )
 
+our_block_processed_head_per_validator_count: Counter | None = None
+our_block_processed_finalized_per_validator_count: Counter | None = None
+our_missed_block_proposals_head_per_validator_count: Counter | None = None
+our_missed_block_proposals_finalized_per_validator_count: Counter | None = None
+
+
+def init_blocks_per_validator_counters(our_labels: dict[str, dict[str, str]]) -> None:
+    global our_block_processed_head_per_validator_count
+    global our_block_processed_finalized_per_validator_count
+    global our_missed_block_proposals_head_per_validator_count
+    global our_missed_block_proposals_finalized_per_validator_count
+
+    if len(our_labels) == 0 or our_block_processed_head_per_validator_count is not None:
+        return
+
+    labels = list(random.choice(list(our_labels.values())).keys())
+    our_block_processed_head_per_validator_count = Counter(
+        "our_block_processed_head_per_validator_count",
+        "Our processed block proposals per validator (head)",
+        labels)
+    our_block_processed_finalized_per_validator_count = Counter(
+        "our_block_processed_finalized_per_validator_count",
+        "Our processed block proposals per validator (finalized)",
+        labels)
+    our_missed_block_proposals_head_per_validator_count = Counter(
+        "our_missed_block_proposals_head_per_validator_count",
+        "Our missed block proposals per validator (head)",
+        labels)
+    our_missed_block_proposals_finalized_per_validator_count = Counter(
+        "our_missed_block_proposals_finalized_per_validator_count",
+        "Our missed block proposals per validator (finalized)",
+        labels)
+    for labels_dict in our_labels.values():
+        our_block_processed_head_per_validator_count.labels(**labels_dict)
+        our_block_processed_finalized_per_validator_count.labels(**labels_dict)
+        our_missed_block_proposals_head_per_validator_count.labels(**labels_dict)
+        our_missed_block_proposals_finalized_per_validator_count.labels(**labels_dict)
+
 
 def process_missed_blocks_head(
-    beacon: Beacon,
-    potential_block: Block | None,
-    slot: int,
-    our_pubkeys: set[str],
-    slack: Slack | None,
+        beacon: Beacon,
+        potential_block: Block | None,
+        slot: int,
+        our_pubkeys: set[str],
+        our_labels: dict[str, dict[str, str]],
+        slack: Slack | None,
 ) -> bool:
     """Process missed block proposals detection at head
 
@@ -82,7 +122,7 @@ def process_missed_blocks_head(
 
     message_console = (
         f"{emoji} {'Our ' if is_our_validator else '    '}validator "
-        f"{short_proposer_pubkey} {proposed_or_missed} block at head at epoch {epoch} ({epoch % NB_SLOT_PER_EPOCH})"
+        f"{short_proposer_pubkey} {proposed_or_missed} block at head at epoch {epoch} "
         f"- slot {slot} {emoji} - 🔑 {len(our_pubkeys)} keys "
         "watched"
     )
@@ -102,15 +142,22 @@ def process_missed_blocks_head(
         missed_block_proposals_head_count.inc()
         missed_block_proposals_head_count_details.labels(slot=slot, epoch=epoch).inc()
 
+    if is_our_validator and our_missed_block_proposals_head_per_validator_count is not None:
+        labels = our_labels[proposer_pubkey]
+        (our_missed_block_proposals_head_per_validator_count
+         if missed
+         else our_block_processed_head_per_validator_count
+         ).labels(**labels).inc()
     return is_our_validator
 
 
 def process_missed_blocks_finalized(
-    beacon: Beacon,
-    last_processed_finalized_slot: int,
-    slot: int,
-    our_pubkeys: set[str],
-    slack: Slack | None,
+        beacon: Beacon,
+        last_processed_finalized_slot: int,
+        slot: int,
+        our_pubkeys: set[str],
+        our_labels: dict[str, dict[str, str]],
+        slack: Slack | None,
 ) -> int:
     """Process missed block proposals detection at finalized
 
@@ -160,6 +207,8 @@ def process_missed_blocks_finalized(
         # Check if the block has been proposed
         try:
             beacon.get_header(slot_)
+            if our_block_processed_finalized_per_validator_count is not None:
+                our_block_processed_finalized_per_validator_count.labels(**our_labels[proposer_pubkey]).inc()
         except NoBlockError:
             short_proposer_pubkey = proposer_pubkey[:10]
 
@@ -184,4 +233,6 @@ def process_missed_blocks_finalized(
                 slot=slot_, epoch=epoch
             ).inc()
 
+            if our_missed_block_proposals_finalized_per_validator_count is not None:
+                our_missed_block_proposals_finalized_per_validator_count.labels(**our_labels[proposer_pubkey]).inc()
     return last_finalized_slot

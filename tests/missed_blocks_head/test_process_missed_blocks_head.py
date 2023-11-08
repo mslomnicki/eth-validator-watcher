@@ -32,7 +32,7 @@ def test_process_missed_blocks_head_no_block() -> None:
     slack = Slack()
 
     counter_before = missed_block_proposals_head_count.collect()[0].samples[0].value  # type: ignore
-    assert process_missed_blocks_head(Beacon(), None, 3, {"0xaaa", "0xddd"}, slack)  # type: ignore
+    assert process_missed_blocks_head(Beacon(), None, 3, {"0xaaa", "0xddd"}, {}, slack)  # type: ignore
     counter_after = missed_block_proposals_head_count.collect()[0].samples[0].value  # type: ignore
 
     # Has sample for slot
@@ -73,7 +73,7 @@ def test_process_missed_blocks_head_habemus_blockam() -> None:
     slack = Slack()
 
     counter_before = missed_block_proposals_head_count.collect()[0].samples[0].value  # type: ignore
-    assert not process_missed_blocks_head(Beacon(), "A BLOCK", 2, {"0xaaa", "0xddd"}, slack)  # type: ignore
+    assert not process_missed_blocks_head(Beacon(), "A BLOCK", 2, {"0xaaa", "0xddd"}, {}, slack)  # type: ignore
     counter_after = missed_block_proposals_head_count.collect()[0].samples[0].value  # type: ignore
 
     # Has sample for slot
