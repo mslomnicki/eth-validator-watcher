@@ -283,12 +283,14 @@ def test_nominal() -> None:
         last_processed_finalized_slot: int,
         slot: int,
         pubkeys: set[str],
+        labels: dict[str, dict[str, str]],
         slack: Slack,
     ) -> int:
         assert isinstance(beacon, Beacon)
         assert last_processed_finalized_slot == 63
         assert slot in {63, 64}
         assert pubkeys == {"0xaaa", "0xbbb", "0xccc", "0xddd", "0xeee", "0xfff"}
+        assert labels == {}
         assert isinstance(slack, Slack)
 
         return 63
@@ -315,12 +317,14 @@ def test_nominal() -> None:
         potential_block: str | None,
         slot: int,
         pubkeys: set[str],
+        labels: dict[str, dict[str, str]],
         slack: Slack,
     ) -> bool:
         assert isinstance(beacon, Beacon)
         assert potential_block == "A BLOCK"
         assert slot in {63, 64}
         assert pubkeys == {"0xaaa", "0xbbb", "0xccc", "0xddd", "0xeee", "0xfff"}
+        assert labels == {}
         assert isinstance(slack, Slack)
 
         return True

@@ -20,7 +20,8 @@ from .missed_attestations import (
     process_double_missed_attestations,
     process_missed_attestations,
 )
-from .missed_blocks import process_missed_blocks_finalized, process_missed_blocks_head
+from .missed_blocks import init_blocks_per_validator_counters, process_missed_blocks_finalized, \
+    process_missed_blocks_head
 from .models import BeaconType, Validators
 from .next_blocks_proposal import process_future_blocks_proposal
 from .relays import Relays
@@ -295,6 +296,7 @@ def _handler(
                 raise typer.BadParameter("Some pubkeys are invalid")
 
             init_rewards_per_validator_counters(our_labels)
+            init_blocks_per_validator_counters(our_labels)
 
             # Network validators
             # ------------------
@@ -408,7 +410,7 @@ def _handler(
         process_future_blocks_proposal(beacon, our_pubkeys, slot, is_new_epoch)
 
         last_processed_finalized_slot = process_missed_blocks_finalized(
-            beacon, last_processed_finalized_slot, slot, our_pubkeys, slack
+            beacon, last_processed_finalized_slot, slot, our_pubkeys, our_labels, slack
         )
 
         delta_sec = MISSED_BLOCK_TIMEOUT_SEC - (time() - slot_start_time_sec)
@@ -435,6 +437,7 @@ def _handler(
             potential_block,
             slot,
             our_pubkeys,
+            our_labels,
             slack,
         )
 
