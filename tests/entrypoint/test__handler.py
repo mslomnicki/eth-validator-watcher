@@ -300,6 +300,7 @@ def test_nominal() -> None:
         potential_block: str | None,
         slot: int,
         index_to_validator: dict[int, Validator],
+        labels: dict[str, dict[str, str]],
     ) -> set[int]:
         assert isinstance(beacon, Beacon)
         assert potential_block == "A BLOCK"
@@ -309,6 +310,7 @@ def test_nominal() -> None:
             2: Validator(pubkey="0xccc", effective_balance=32000000000, slashed=False),
             4: Validator(pubkey="0xeee", effective_balance=32000000000, slashed=False),
         }
+        assert labels == {}
 
         return {0}
 

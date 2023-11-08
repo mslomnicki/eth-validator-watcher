@@ -1,9 +1,10 @@
 """Contains functions to process sub-optimal attestations"""
 
 import functools
+import random
 from collections import defaultdict
 
-from prometheus_client import Gauge
+from prometheus_client import Counter, Gauge
 
 from .beacon import Beacon
 from .models import Block, Validators
@@ -23,13 +24,34 @@ suboptimal_attestations_rate_gauge = Gauge(
     "Suboptimal attestations rate",
 )
 
+our_pos_optimal_attestations_per_validator_counter: Counter | None = None
+our_neg_optimal_attestations_per_validator_counter: Counter | None = None
 
-def process_suboptimal_attestations(
-    beacon: Beacon,
-    block: Block,
-    slot: int,
-    our_active_validators_index_to_validator: dict[int, Validators.DataItem.Validator],
-) -> set[int]:
+
+def init_suboptimal_attestations_per_validator_counters(our_labels: dict[str, dict[str, str]]) -> None:
+    global our_pos_optimal_attestations_per_validator_counter
+    global our_neg_optimal_attestations_per_validator_counter
+
+    if len(our_labels) == 0 or our_pos_optimal_attestations_per_validator_counter is not None:
+        return
+
+    labels = list(random.choice(list(our_labels.values())).keys())
+    our_pos_optimal_attestations_per_validator_counter = Counter(
+        "our_pos_optimal_attestations_per_validator_counter",
+        "Our optimal attestations per validator",
+        labels)
+    our_neg_optimal_attestations_per_validator_counter = Counter(
+        "our_neg_optimal_attestations_per_validator_counter",
+        "Our suboptimal attestations per validator (finalized)",
+        labels)
+    for labels_dict in our_labels.values():
+        our_pos_optimal_attestations_per_validator_counter.labels(**labels_dict)
+        our_neg_optimal_attestations_per_validator_counter.labels(**labels_dict)
+
+
+def process_suboptimal_attestations(beacon: Beacon, block: Block, slot: int,
+                                    our_active_validators_index_to_validator: dict[int, Validators.DataItem.Validator],
+                                    our_labels: dict[str, dict[str, str]]) -> set[int]:
     """Process sub-optimal attestations
 
     Parameters:
@@ -40,6 +62,7 @@ def process_suboptimal_attestations(
     our_active_validators_index_to_pubkey: dictionnary with:
       - key  : index of our active validator
       - value: public key of our active validator
+    our_labels                           : dictionary mapping pubkey to dictionary of prometheus labels
     """
     if slot < 1:
         return set()
@@ -81,8 +104,8 @@ def process_suboptimal_attestations(
 
     # Index ouf our validators that had to attest during the previous slot
     our_validators_index_that_had_to_attest_during_previous_slot = (
-        validators_index_that_had_to_attest_during_previous_slot
-        & our_active_validators_index
+            validators_index_that_had_to_attest_during_previous_slot
+            & our_active_validators_index
     )
 
     # Dictionary
@@ -101,9 +124,9 @@ def process_suboptimal_attestations(
             validator_attestation_success,
         )
         for (
-            actual_committee_index,
-            validator_attestation_success,
-        ) in committee_index_to_validator_attestation_success.items()
+        actual_committee_index,
+        validator_attestation_success,
+    ) in committee_index_to_validator_attestation_success.items()
     )
 
     # Index of validators which actually attested for the previous slot
@@ -115,14 +138,14 @@ def process_suboptimal_attestations(
 
     # Index of our validators that attested optimally during the previous slot
     our_validators_index_that_attested_optimally_during_previous_slot = (
-        validators_index_that_attested_optimally_during_previous_slot
-        & our_validators_index_that_had_to_attest_during_previous_slot
+            validators_index_that_attested_optimally_during_previous_slot
+            & our_validators_index_that_had_to_attest_during_previous_slot
     )
 
     # Index of our validators which failed to attest optimally during the previous slot
     our_validators_index_that_did_not_attest_optimally_during_previous_slot = (
-        our_validators_index_that_had_to_attest_during_previous_slot
-        - our_validators_index_that_attested_optimally_during_previous_slot
+            our_validators_index_that_had_to_attest_during_previous_slot
+            - our_validators_index_that_attested_optimally_during_previous_slot
     )
 
     suboptimal_attestations_rate = (
@@ -158,6 +181,20 @@ def process_suboptimal_attestations(
             f"({round(100 * suboptimal_attestations_rate, 1)} %) had not optimal attestation "
             f"inclusion at slot {previous_slot}"
         )
+
+    if (our_pos_optimal_attestations_per_validator_counter is not None
+            and len(our_validators_index_that_attested_optimally_during_previous_slot) > 0):
+        for idx in our_validators_index_that_attested_optimally_during_previous_slot:
+            validator_pubkey = our_active_validators_index_to_validator[idx].pubkey
+            labels = our_labels[validator_pubkey]
+            our_pos_optimal_attestations_per_validator_counter.labels(**labels).inc()
+
+    if (our_neg_optimal_attestations_per_validator_counter is not None
+            and len(our_validators_index_that_did_not_attest_optimally_during_previous_slot) > 0):
+        for idx in our_validators_index_that_did_not_attest_optimally_during_previous_slot:
+            validator_pubkey = our_active_validators_index_to_validator[idx].pubkey
+            labels = our_labels[validator_pubkey]
+            our_pos_optimal_attestations_per_validator_counter.labels(**labels).inc()
 
     return our_validators_index_that_did_not_attest_optimally_during_previous_slot
 
