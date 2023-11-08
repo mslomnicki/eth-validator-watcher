@@ -61,12 +61,8 @@ def aggregate_attestations(
 def test_low_slot() -> None:
     expected: set[int] = set()
 
-    actual = process_suboptimal_attestations(
-        beacon="A dummy beacon",  # type: ignore
-        block="A dummy block",  # type: ignore
-        slot=0,
-        our_active_validators_index_to_validator={},
-    )
+    actual = process_suboptimal_attestations(beacon="A dummy beacon", block="A dummy block", slot=0,
+                                             our_active_validators_index_to_validator={}, our_labels={})
 
     assert expected == actual
 
@@ -136,17 +132,17 @@ def test_our_pubkeys() -> None:
     suboptimal_attestations.aggregate_attestations = aggregate_attestations
 
     expected = {10, 70}
-    actual = process_suboptimal_attestations(
-        beacon=Beacon(),  # type: ignore
-        block="A dummy block",  # type: ignore
-        slot=42,
-        our_active_validators_index_to_validator={
-            10: Validator(pubkey="0xaaa", effective_balance=32000000000, slashed=False),
-            30: Validator(pubkey="0xccc", effective_balance=32000000000, slashed=False),
-            50: Validator(pubkey="0xeee", effective_balance=32000000000, slashed=False),
-            70: Validator(pubkey="0xggg", effective_balance=32000000000, slashed=False),
-        },
-    )
+    actual = process_suboptimal_attestations(beacon=Beacon(), block="A dummy block", slot=42,
+                                             our_active_validators_index_to_validator={
+                                                 10: Validator(pubkey="0xaaa", effective_balance=32000000000,
+                                                               slashed=False),
+                                                 30: Validator(pubkey="0xccc", effective_balance=32000000000,
+                                                               slashed=False),
+                                                 50: Validator(pubkey="0xeee", effective_balance=32000000000,
+                                                               slashed=False),
+                                                 70: Validator(pubkey="0xggg", effective_balance=32000000000,
+                                                               slashed=False),
+                                             }, our_labels={})
 
     assert expected == actual
     assert suboptimal_attestations_rate_gauge.collect()[0].samples[0].value == 50.0  # type: ignore

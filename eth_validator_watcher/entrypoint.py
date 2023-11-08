@@ -27,7 +27,8 @@ from .next_blocks_proposal import process_future_blocks_proposal
 from .relays import Relays
 from .rewards import process_rewards, init_rewards_per_validator_counters
 from .slashed_validators import SlashedValidators
-from .suboptimal_attestations import process_suboptimal_attestations
+from .suboptimal_attestations import init_suboptimal_attestations_per_validator_counters, \
+    process_suboptimal_attestations
 from .utils import (
     CHUCK_NORRIS,
     MISSED_BLOCK_TIMEOUT_SEC,
@@ -297,6 +298,7 @@ def _handler(
 
             init_rewards_per_validator_counters(our_labels)
             init_blocks_per_validator_counters(our_labels)
+            init_suboptimal_attestations_per_validator_counters(our_labels)
 
             # Network validators
             # ------------------
@@ -426,6 +428,7 @@ def _handler(
                 block,
                 slot,
                 our_active_idx2val,
+                our_labels,
             )
 
             process_fee_recipient(
