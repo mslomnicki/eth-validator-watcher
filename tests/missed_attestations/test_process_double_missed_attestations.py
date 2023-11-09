@@ -15,6 +15,7 @@ def test_process_double_missed_attestations_low_epoch() -> None:
             LimitedDict(0),
             epoch,
             None,
+            {}
         )
 
         expected: set[int] = set()
@@ -48,6 +49,7 @@ def test_process_double_missed_attestations_some_dead_indexes() -> None:
         epoch_to_index_to_validator_index,
         1664,
         slack,  # type: ignore
+        {},
     )
 
     expected = {42, 43}
@@ -72,6 +74,7 @@ def test_process_double_missed_attestations_no_dead_indexes() -> None:
         epoch_to_index_to_validator_index,
         1664,
         None,
+        {},
     )
 
     excepted: Set[int] = set()
