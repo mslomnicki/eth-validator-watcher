@@ -17,6 +17,7 @@ from .execution import Execution
 from .exited_validators import ExitedValidators
 from .fee_recipient import process_fee_recipient
 from .missed_attestations import (
+    init_missed_attestations_per_validator_counters,
     process_double_missed_attestations,
     process_missed_attestations,
 )
@@ -299,6 +300,7 @@ def _handler(
             init_rewards_per_validator_counters(our_labels)
             init_blocks_per_validator_counters(our_labels)
             init_suboptimal_attestations_per_validator_counters(our_labels)
+            init_missed_attestations_per_validator_counters(our_labels)
 
             # Network validators
             # ------------------
@@ -377,7 +379,7 @@ def _handler(
         if should_process_missed_attestations:
             our_validators_indexes_that_missed_attestation = (
                 process_missed_attestations(
-                    beacon, beacon_type, our_epoch2active_idx2val, epoch
+                    beacon, beacon_type, our_epoch2active_idx2val, epoch, our_labels
                 )
             )
 
@@ -387,6 +389,7 @@ def _handler(
                 our_epoch2active_idx2val,
                 epoch,
                 slack,
+                our_labels,
             )
 
             last_missed_attestations_process_epoch = epoch

@@ -237,6 +237,7 @@ def test_nominal() -> None:
         beacon_type: BeaconType,
         epoch_to_index_to_validator_index: LimitedDict,
         epoch: int,
+        labels: dict[str, dict[str, str]],
     ) -> set[int]:
         assert isinstance(beacon, Beacon)
         assert beacon_type is BeaconType.OLD_TEKU
@@ -246,6 +247,7 @@ def test_nominal() -> None:
             4: Validator(pubkey="0xeee", effective_balance=32000000000, slashed=False),
         }
         assert epoch == 1
+        assert labels == {}
 
         return {0, 4}
 
@@ -255,6 +257,7 @@ def test_nominal() -> None:
         epoch_to_index_to_validator_index: LimitedDict,
         epoch: int,
         slack: Slack,
+        labels: dict[str, dict[str, str]],
     ) -> set[int]:
         assert indexes_that_missed_attestation == {0, 4}
         assert indexes_that_previously_missed_attestation == set()
@@ -265,6 +268,7 @@ def test_nominal() -> None:
         }
         assert epoch == 1
         assert isinstance(slack, Slack)
+        assert labels == {}
 
         return {4}
 
