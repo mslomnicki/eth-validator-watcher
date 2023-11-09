@@ -218,8 +218,9 @@ def test_nominal() -> None:
         def __init__(self, urls: list[str]) -> None:
             assert urls == ["http://my-awesome-relay.com"]
 
-        def process(self, slot: int) -> None:
+        def process(self, slot: int, labels: dict[str, dict[str, str]]) -> None:
             assert slot in {63, 64}
+            assert labels == {}
 
     def slots(genesis_time: int) -> Iterator[Tuple[(int, int)]]:
         assert genesis_time == 0
