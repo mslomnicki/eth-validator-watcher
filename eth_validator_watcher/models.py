@@ -179,3 +179,9 @@ class Rewards(BaseModel):
         total_rewards: list[TotalReward]
 
     data: Data
+
+
+class ProposerPayloadDelivered(BaseModel):
+    slot: int
+    value: int
+    proposer_pubkey: str

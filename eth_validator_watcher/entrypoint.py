@@ -25,7 +25,7 @@ from .missed_blocks import init_blocks_per_validator_counters, process_missed_bl
     process_missed_blocks_head
 from .models import BeaconType, Validators
 from .next_blocks_proposal import process_future_blocks_proposal
-from .relays import Relays
+from .relays import init_relays_per_validator_counters, Relays
 from .rewards import process_rewards, init_rewards_per_validator_counters
 from .slashed_validators import SlashedValidators
 from .suboptimal_attestations import init_suboptimal_attestations_per_validator_counters, \
@@ -301,6 +301,7 @@ def _handler(
             init_blocks_per_validator_counters(our_labels)
             init_suboptimal_attestations_per_validator_counters(our_labels)
             init_missed_attestations_per_validator_counters(our_labels)
+            init_relays_per_validator_counters(our_labels)
 
             # Network validators
             # ------------------
@@ -448,7 +449,7 @@ def _handler(
         )
 
         if is_our_validator and potential_block is not None:
-            relays.process(slot)
+            relays.process(slot, our_labels)
 
         our_validators_indexes_that_missed_previous_attestation = (
             our_validators_indexes_that_missed_attestation
