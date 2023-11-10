@@ -23,7 +23,7 @@ from .models import (
     Validators,
     ValidatorsLivenessRequestLighthouse,
     ValidatorsLivenessRequestTeku,
-    ValidatorsLivenessResponse,
+    ValidatorsLivenessResponse, BlockReward,
 )
 
 StatusEnum = Validators.DataItem.StatusEnum
@@ -290,6 +290,25 @@ class Beacon:
         response.raise_for_status()
         rewards_dict = response.json()
         return Rewards(**rewards_dict)
+
+    def get_block_reward(
+        self,
+        slot: int,
+    ) -> BlockReward:
+        """Get block rewards.
+
+        Parameters:
+        slot            : Slot corresponding to the rewards to retrieve
+        """
+
+        response = self.__get_retry_not_found(
+            f"{self.__url}/eth/v1/beacon/rewards/blocks/{slot}",
+            timeout=10,
+        )
+
+        response.raise_for_status()
+        rewards_dict = response.json()
+        return BlockReward(**rewards_dict)
 
     def get_validators_liveness(
         self, beacon_type: BeaconType, epoch: int, validators_index: set[int]

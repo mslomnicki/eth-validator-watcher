@@ -11,6 +11,7 @@ from prometheus_client import Gauge, start_http_server
 from typer import Option
 
 from .beacon import Beacon
+from .block_reward import init_block_reward_per_validator_counters, process_block_reward
 from .coinbase import Coinbase
 from .entry_queue import export_duration_sec as export_entry_queue_dur_sec
 from .execution import Execution
@@ -297,11 +298,12 @@ def _handler(
             except ValueError:
                 raise typer.BadParameter("Some pubkeys are invalid")
 
-            init_rewards_per_validator_counters(our_labels)
+            init_block_reward_per_validator_counters(our_labels)
             init_blocks_per_validator_counters(our_labels)
-            init_suboptimal_attestations_per_validator_counters(our_labels)
             init_missed_attestations_per_validator_counters(our_labels)
             init_relays_per_validator_counters(our_labels)
+            init_rewards_per_validator_counters(our_labels)
+            init_suboptimal_attestations_per_validator_counters(our_labels)
 
             # Network validators
             # ------------------
@@ -450,6 +452,7 @@ def _handler(
 
         if is_our_validator and potential_block is not None:
             relays.process(slot, our_labels)
+            process_block_reward(beacon, slot, our_active_idx2val, our_labels)
 
         our_validators_indexes_that_missed_previous_attestation = (
             our_validators_indexes_that_missed_attestation
