@@ -181,6 +181,14 @@ class Rewards(BaseModel):
     data: Data
 
 
+class BlockReward(BaseModel):
+    class Data(BaseModel):
+        proposer_index: int
+        total: int
+
+    data: Data
+
+
 class ProposerPayloadDelivered(BaseModel):
     slot: int
     value: int

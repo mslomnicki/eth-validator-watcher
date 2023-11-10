@@ -1,0 +1,12 @@
+{
+  "data": {
+    "proposer_index": "718836",
+    "total": "41915528",
+    "attestations": "40432553",
+    "sync_aggregate": "1482975",
+    "proposer_slashings": "0",
+    "attester_slashings": "0"
+  },
+  "execution_optimistic": false,
+  "finalized": true
+}
