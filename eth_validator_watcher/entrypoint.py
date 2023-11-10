@@ -1,6 +1,7 @@
 """Entrypoint for the eth-validator-watcher CLI."""
 
 import functools
+import random
 from os import environ
 from pathlib import Path
 from time import sleep, time
@@ -77,6 +78,8 @@ net_active_validators_gauge = Gauge(
     "total_active_validators_count",
     "Total active validators count",
 )
+
+our_active_validators_per_validator_gauge: Gauge | None = None
 
 
 @app.command()
@@ -213,6 +216,7 @@ def _handler(
         liveness_file: Path | None,
 ) -> None:
     """Just a wrapper to be able to test the handler function"""
+    global our_active_validators_per_validator_gauge
     slack_token = environ.get("SLACK_TOKEN")
 
     if fee_recipient is not None and execution_url is None:
@@ -304,6 +308,14 @@ def _handler(
             init_relays_per_validator_counters(our_labels)
             init_rewards_per_validator_counters(our_labels)
             init_suboptimal_attestations_per_validator_counters(our_labels)
+            if our_active_validators_per_validator_gauge is None and len(our_labels) > 0:
+                our_active_validators_per_validator_gauge = Gauge(
+                    "our_active_validators_per_validator",
+                    "Our active validators per validator",
+                    list(random.choice(list(our_labels.values())).keys())
+                )
+                for labels in our_labels.values():
+                    our_active_validators_per_validator_gauge.labels(**labels)
 
             # Network validators
             # ------------------
@@ -357,6 +369,15 @@ def _handler(
             our_withdrawable_idx2val = with_poss | with_done
 
             exited_validators.process(our_exited_u_idx2val, our_withdrawable_idx2val)
+
+            if len(our_labels) > 0:
+                for status, validators in our_status2idx2val.items():
+                    for validator in validators.values():
+                        labels = our_labels[validator.pubkey]
+                        value = 0
+                        if status == Status.activeOngoing or status == Status.activeExiting or status == Status.activeSlashed:
+                            value = 1
+                        our_active_validators_per_validator_gauge.labels(**labels).set(value)
 
             slashed_validators.process(
                 net_exited_s_idx2val,
