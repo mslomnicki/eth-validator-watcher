@@ -182,7 +182,10 @@ def load_pubkeys_from_file(path: Path) -> set[str]:
         )
 
 
-def load_labels_from_file(path: Path) -> dict[str, dict[str, str]]:
+def load_labels_from_file(
+        path: Path,
+        remove_first_label: bool,
+) -> dict[str, dict[str, str]]:
     """Load labels from a file.
 
     Parameters:
@@ -199,7 +202,10 @@ def load_labels_from_file(path: Path) -> dict[str, dict[str, str]]:
                 first_line = False
                 labels = fields
             else:
-                retval[fields[0]] = dict(zip(labels, fields))
+                if remove_first_label:
+                    retval[fields[0]] = dict(zip(labels[1:], fields[1:]))
+                else:
+                    retval[fields[0]] = dict(zip(labels, fields))
     return retval
 
 
@@ -236,6 +242,7 @@ def get_our_pubkeys(
 
 def get_our_labels(
     labels_file_path: Path | None,
+    remove_first_label: bool,
 ) -> dict[str, dict[str, str]]:
     """Get our labels
 
@@ -247,7 +254,7 @@ def get_our_labels(
     returns `our_labels`.
     """
     retval = (
-        load_labels_from_file(labels_file_path)
+        load_labels_from_file(labels_file_path, remove_first_label)
         if labels_file_path is not None
         else {}
     )

@@ -102,6 +102,10 @@ def handler(
             dir_okay=False,
             show_default=False,
         ),
+        remove_first_label: bool = Option(
+            False,
+            help="Remove first label from labels file",
+        ),
         web3signer_url: Optional[str] = Option(
             None, help="URL to web3signer managing keys to watch", show_default=False
         ),
@@ -191,6 +195,7 @@ def handler(
             beacon_url,
             execution_url,
             pubkeys_file_path,
+            remove_first_label,
             labels_file_path,
             web3signer_url,
             fee_recipient,
@@ -207,6 +212,7 @@ def _handler(
         beacon_url: str,
         execution_url: str | None,
         pubkeys_file_path: Path | None,
+        remove_first_label: bool,
         labels_file_path: Path | None,
         web3signer_url: str | None,
         fee_recipient: str | None,
@@ -298,7 +304,7 @@ def _handler(
         if is_new_epoch:
             try:
                 our_pubkeys = get_our_pubkeys(pubkeys_file_path, web3signer)
-                our_labels = get_our_labels(labels_file_path)
+                our_labels = get_our_labels(labels_file_path, remove_first_label)
             except ValueError:
                 raise typer.BadParameter("Some pubkeys are invalid")
 
