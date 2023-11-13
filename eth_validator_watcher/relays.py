@@ -23,34 +23,27 @@ bad_relay_count = Counter(
     "Bad relay count",
 )
 
-our_pos_mev_block_per_validator_count: Counter | None = None
-our_neg_mev_block_per_validator_count: Counter | None = None
+our_mev_boost_reward_per_validator_count: Counter | None = None
 
 
 def init_relays_per_validator_counters(our_labels: dict[str, dict[str, str]]) -> None:
-    global our_pos_mev_block_per_validator_count
-    global our_neg_mev_block_per_validator_count
+    global our_mev_boost_reward_per_validator_count
 
-    if len(our_labels) == 0 or our_pos_mev_block_per_validator_count is not None:
+    if len(our_labels) == 0 or our_mev_boost_reward_per_validator_count is not None:
         return
 
     labels_neg = list(random.choice(list(our_labels.values())).keys())
     labels_pos = labels_neg.copy()
     labels_pos.append(RELAY_KEY)
-    our_pos_mev_block_per_validator_count = Counter(
-        "our_pos_mev_block_per_validator_count",
-        "Our positive mev blocks per validator counter",
+    our_mev_boost_reward_per_validator_count = Counter(
+        "our_mev_boost_reward_per_validator_count",
+        "Our MEV boost reward per validator counter",
         labels_pos)
-    our_neg_mev_block_per_validator_count = Counter(
-        "our_neg_mev_block_per_validator_count",
-        "Our non mev blocks per validator counter",
-        labels_neg)
     for labels_dict in our_labels.values():
-        our_neg_mev_block_per_validator_count.labels(**labels_dict)
         for relay in RELAY_MAPPING.values():
             labels_with_relay = labels_dict.copy()
             labels_with_relay[RELAY_KEY] = relay
-            our_pos_mev_block_per_validator_count.labels(**labels_with_relay)
+            our_mev_boost_reward_per_validator_count.labels(**labels_with_relay)
 
 
 class Relays:
@@ -106,7 +99,8 @@ class Relays:
                     labels = our_labels[pubkey]
                     labels_with_relay = labels.copy()
                     labels_with_relay[RELAY_KEY] = RELAY_MAPPING[relay_url]
-                    our_pos_mev_block_per_validator_count.labels(**labels_with_relay).inc(payload.value)
+                    our_mev_boost_reward_per_validator_count.labels(**labels_with_relay).inc(
+                        payload.value / 10 ** 9)  # value in Gwei
             if not known_builder:
                 bad_relay_count.inc()
                 print(
