@@ -24,7 +24,13 @@ def test_load_labels_from_file():
             "machine": "mc",
             "mevb_status": "mevb_yes",
             "location": "site_c"
-        }
+        },
+        "0xdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd": {
+            "validator_pubkey": "0xdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "machine": "mc",
+            "mevb_status": "mevb_yes",
+            "location": "site_c"
+        },
     }
     assert load_labels_from_file(labels_path, False) == expected
 
@@ -46,6 +52,11 @@ def test_load_labels_from_file_with_pubkey_removed():
             "machine": "mc",
             "mevb_status": "mevb_yes",
             "location": "site_c"
-        }
+        },
+        "0xdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd": {
+            "machine": "mc",
+            "mevb_status": "mevb_yes",
+            "location": "site_c"
+        },
     }
     assert load_labels_from_file(labels_path, True) == expected

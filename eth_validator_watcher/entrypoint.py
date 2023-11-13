@@ -320,7 +320,7 @@ def _handler(
                     "Our active validators per validator",
                     list(random.choice(list(our_labels.values())).keys())
                 )
-                for labels in our_labels.values():
+                for labels in list(map(dict, set(tuple(sorted(d.items())) for d in our_labels.values()))):
                     our_active_validators_per_validator_gauge.labels(**labels)
 
             # Network validators
@@ -377,13 +377,13 @@ def _handler(
             exited_validators.process(our_exited_u_idx2val, our_withdrawable_idx2val)
 
             if len(our_labels) > 0:
+                for labels in list(map(dict, set(tuple(sorted(d.items())) for d in our_labels.values()))):
+                    our_active_validators_per_validator_gauge.labels(**labels).set(0)
                 for status, validators in our_status2idx2val.items():
                     for validator in validators.values():
                         labels = our_labels[validator.pubkey]
-                        value = 0
                         if status == Status.activeOngoing or status == Status.activeExiting or status == Status.activeSlashed:
-                            value = 1
-                        our_active_validators_per_validator_gauge.labels(**labels).set(value)
+                            our_active_validators_per_validator_gauge.labels(**labels).inc()
 
             slashed_validators.process(
                 net_exited_s_idx2val,
