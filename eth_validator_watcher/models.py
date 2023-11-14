@@ -189,6 +189,14 @@ class BlockReward(BaseModel):
     data: Data
 
 
+class SyncCommitteeReward(BaseModel):
+    class Data(BaseModel):
+        validator_index: int
+        reward: int
+
+    data: list[Data]
+
+
 class ProposerPayloadDelivered(BaseModel):
     slot: int
     value: int

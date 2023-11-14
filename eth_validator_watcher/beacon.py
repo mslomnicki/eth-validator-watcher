@@ -1,6 +1,5 @@
 """Contains the Beacon class which is used to interact with the consensus layer node."""
 
-
 import functools
 from collections import defaultdict
 from functools import lru_cache
@@ -20,6 +19,7 @@ from .models import (
     Header,
     ProposerDuties,
     Rewards,
+    SyncCommitteeReward,
     Validators,
     ValidatorsLivenessRequestLighthouse,
     ValidatorsLivenessRequestTeku,
@@ -28,10 +28,8 @@ from .models import (
 
 StatusEnum = Validators.DataItem.StatusEnum
 
-
 # Hard-coded for now, will need to move this to a config.
 TIMEOUT_BEACON_SEC = 90
-
 
 print = functools.partial(print, flush=True)
 
@@ -185,7 +183,7 @@ class Beacon:
         return ProposerDuties(**proposer_duties_dict)
 
     def get_status_to_index_to_validator(
-        self,
+            self,
     ) -> dict[StatusEnum, dict[int, Validators.DataItem.Validator]]:
         """Get a nested dictionnary with:
         outer key               : Status
@@ -212,7 +210,7 @@ class Beacon:
 
     @lru_cache(maxsize=1)
     def get_duty_slot_to_committee_index_to_validators_index(
-        self, epoch: int
+            self, epoch: int
     ) -> dict[int, dict[int, list[int]]]:
         """Get a nested dictionnary.
         outer key               : Slot number
@@ -244,10 +242,10 @@ class Beacon:
         return result
 
     def get_rewards(
-        self,
-        beacon_type: BeaconType,
-        epoch: int,
-        validators_index: set[int] | None = None,
+            self,
+            beacon_type: BeaconType,
+            epoch: int,
+            validators_index: set[int] | None = None,
     ) -> Rewards:
         """Get rewards.
 
@@ -297,8 +295,8 @@ class Beacon:
         return Rewards(**rewards_dict)
 
     def get_block_reward(
-        self,
-        slot: int,
+            self,
+            slot: int,
     ) -> BlockReward:
         """Get block rewards.
 
@@ -315,8 +313,35 @@ class Beacon:
         rewards_dict = response.json()
         return BlockReward(**rewards_dict)
 
+    def get_sync_committee_reward(
+            self,
+            slot: int,
+    ) -> SyncCommitteeReward:
+        """Get sync committee rewards.
+
+        Parameters:
+        slot            : Slot corresponding to the rewards to retrieve
+        """
+
+        try:
+            response = self.__post_retry_not_found(
+                f"{self.__url}/eth/v1/beacon/rewards/sync_committee/{slot}",
+                timeout=10,
+            )
+
+            response.raise_for_status()
+            rewards_dict = response.json()
+            return SyncCommitteeReward(**rewards_dict)
+        except HTTPError as e:
+            if e.response.status_code == codes.not_found:
+                # If we are here, it means the block does not exist
+                raise NoBlockError from e
+
+            # If we are here, it's an other error
+            raise
+
     def get_validators_liveness(
-        self, beacon_type: BeaconType, epoch: int, validators_index: set[int]
+            self, beacon_type: BeaconType, epoch: int, validators_index: set[int]
     ) -> dict[int, bool]:
         """Get validators liveness.
 
@@ -395,7 +420,7 @@ class Beacon:
             return None
 
     def __get_validators_liveness_lighthouse(
-        self, epoch: int, validators_index: set[int]
+            self, epoch: int, validators_index: set[int]
     ) -> Response:
         """Get validators liveness from Lighthouse.
 
@@ -415,7 +440,7 @@ class Beacon:
         )
 
     def __get_validators_liveness_old_teku(
-        self, epoch: int, validators_index: set[int]
+            self, epoch: int, validators_index: set[int]
     ) -> Response:
         """Get validators liveness from Teku.
 
@@ -435,7 +460,7 @@ class Beacon:
         )
 
     def __get_validators_liveness_beacon_api(
-        self, epoch: int, validators_index: set[int]
+            self, epoch: int, validators_index: set[int]
     ) -> Response:
         """Get validators liveness from neither Lighthouse nor Teku.
 

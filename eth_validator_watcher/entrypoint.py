@@ -32,6 +32,8 @@ from .rewards import process_rewards, init_rewards_per_validator_counters
 from .slashed_validators import SlashedValidators
 from .suboptimal_attestations import init_suboptimal_attestations_per_validator_counters, \
     process_suboptimal_attestations
+from .sync_committee_reward import init_sync_committee_reward_per_validator_counters, \
+    process_sync_committee_reward
 from .utils import (
     CHUCK_NORRIS,
     MISSED_BLOCK_TIMEOUT_SEC,
@@ -314,6 +316,7 @@ def _handler(
             init_relays_per_validator_counters(our_labels)
             init_rewards_per_validator_counters(our_labels)
             init_suboptimal_attestations_per_validator_counters(our_labels)
+            init_sync_committee_reward_per_validator_counters(our_labels)
             if our_active_validators_per_validator_gauge is None and len(our_labels) > 0:
                 our_active_validators_per_validator_gauge = Gauge(
                     "our_active_validators_per_validator",
@@ -467,6 +470,8 @@ def _handler(
             process_fee_recipient(
                 block, our_active_idx2val, execution, fee_recipient, slack
             )
+
+        process_sync_committee_reward(beacon, slot, our_active_idx2val, our_labels)
 
         is_our_validator = process_missed_blocks_head(
             beacon,
