@@ -1,0 +1,3472 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 31,
+      "panels": [],
+      "title": "Some gauges",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 85
+              }
+            ]
+          },
+          "unit": "ETH"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 0,
+        "y": 1
+      },
+      "id": 22,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_ideal_heads_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "net_ih"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_ideal_sources_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "net_is"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_ideal_targets_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "net_it"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "($net_ih+$net_is+$net_it)/10**9",
+          "hide": false,
+          "refId": "net_ideal",
+          "type": "math"
+        }
+      ],
+      "title": "Network ideal",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 4,
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 85
+              }
+            ]
+          },
+          "unit": "ETH"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 2,
+        "y": 1
+      },
+      "id": 24,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_ideal_heads_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "heads"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_ideal_sources_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "sources"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_ideal_targets_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "targets"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "($heads+$sources+$targets)/10**9",
+          "hide": false,
+          "refId": "net_ideal",
+          "type": "math"
+        }
+      ],
+      "title": "Our ideal",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 4,
+          "mappings": [],
+          "max": 1,
+          "min": 0.95,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 0.975
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 4,
+        "y": 1
+      },
+      "id": 28,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_actual_heads_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "ph"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_actual_pos_sources_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "ps"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_actual_neg_sources_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "ns"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_actual_pos_targets_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "pt"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_actual_neg_targets_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "nt"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "($ph+$ps+$pt-$ns-$nt)/($A+$B+$C)",
+          "hide": false,
+          "refId": "sum",
+          "type": "math"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_ideal_heads_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_ideal_sources_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_ideal_targets_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "C"
+        }
+      ],
+      "title": "Net rate",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 4,
+          "mappings": [],
+          "max": 1,
+          "min": 0.95,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 8,
+        "y": 1
+      },
+      "id": 30,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_actual_heads_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "ph"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_actual_pos_sources_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "ps"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_actual_neg_sources_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "ns"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_actual_pos_targets_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "pt"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_actual_neg_targets_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "nt"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "($ph+$ps+$pt-$ns-$nt)/($A+$B+$C)",
+          "hide": false,
+          "refId": "sum",
+          "type": "math"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_ideal_heads_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_ideal_sources_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_ideal_targets_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "C"
+        }
+      ],
+      "title": "Our rate",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 4,
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 85
+              }
+            ]
+          },
+          "unit": "ETH"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 0,
+        "y": 5
+      },
+      "id": 23,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_actual_heads_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "ph"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_actual_pos_sources_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "ps"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_actual_neg_sources_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "ns"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_actual_pos_targets_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "pt"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(net_actual_neg_targets_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "nt"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "($ph+$ps+$pt-$ns-$nt)/10**9",
+          "hide": false,
+          "refId": "sum",
+          "type": "math"
+        }
+      ],
+      "title": "Net actual",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 4,
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 85
+              }
+            ]
+          },
+          "unit": "ETH"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 2,
+        "y": 5
+      },
+      "id": 27,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_actual_heads_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "ph"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_actual_pos_sources_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "ps"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_actual_neg_sources_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "ns"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_actual_pos_targets_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "pt"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(increase(our_actual_neg_targets_per_validator_count_total[$__range]))",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "nt"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "($ph+$ps+$pt-$ns-$nt)/10**9",
+          "hide": false,
+          "refId": "sum",
+          "type": "math"
+        }
+      ],
+      "title": "Our actual",
+      "type": "gauge"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 13,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false,
+                "minWidth": 50
+              },
+              "decimals": 4,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "ETH"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Rate (SUM)"
+                },
+                "properties": [
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "mode": "basic",
+                      "type": "gauge",
+                      "valueDisplayMode": "color"
+                    }
+                  },
+                  {
+                    "id": "unit",
+                    "value": "percentunit"
+                  },
+                  {
+                    "id": "min",
+                    "value": 0.9
+                  },
+                  {
+                    "id": "max",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Validators"
+                },
+                "properties": [
+                  {
+                    "id": "unit"
+                  },
+                  {
+                    "id": "decimals"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 18,
+            "x": 0,
+            "y": 22
+          },
+          "id": 9,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": true
+            },
+            "frameIndex": 0,
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": false,
+                "displayName": "machine"
+              }
+            ]
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(location) (increase(our_ideal_attestations_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "ideal_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(location) (increase(our_actual_pos_attestations_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "",
+              "range": false,
+              "refId": "actual_pos_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(location) (increase(our_actual_neg_attestations_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "hide": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "actual_neg_gwei"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$ideal_gwei/10**9",
+              "hide": false,
+              "reducer": "mean",
+              "refId": "ideal",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "($actual_pos_gwei-$actual_neg_gwei)/10**9",
+              "hide": false,
+              "refId": "actual",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$ideal/$validators",
+              "hide": false,
+              "refId": "ideal_pv",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$actual/$validators",
+              "hide": false,
+              "refId": "actual_pv",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$actual/$ideal",
+              "hide": false,
+              "refId": "rate",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(location) (our_active_validators_per_validator)",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "validators",
+              "useBackend": false
+            }
+          ],
+          "title": "Attestation rewards per location",
+          "transformations": [
+            {
+              "id": "reduce",
+              "options": {
+                "includeTimeField": false,
+                "labelsToFields": true,
+                "mode": "seriesToRows",
+                "reducers": [
+                  "lastNotNull"
+                ]
+              }
+            },
+            {
+              "id": "groupingToMatrix",
+              "options": {
+                "columnField": "Field",
+                "emptyValue": "null",
+                "rowField": "location",
+                "valueField": "Last *"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "indexByName": {},
+                "renameByName": {
+                  "Value": "Validators",
+                  "actual": "Actual reward (SUM)",
+                  "actual_pv": "Actual reward (per val)",
+                  "ideal": "Ideal reward (SUM)",
+                  "ideal_pv": "Ideal reward (per val)",
+                  "location\\Field": "Location",
+                  "rate": "Rate (SUM)",
+                  "rate_pv": "Rate (per val)"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "decimals": 4,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "ETH"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Rate (SUM)"
+                },
+                "properties": [
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "mode": "basic",
+                      "type": "gauge",
+                      "valueDisplayMode": "color"
+                    }
+                  },
+                  {
+                    "id": "unit",
+                    "value": "percentunit"
+                  },
+                  {
+                    "id": "min",
+                    "value": 0.9
+                  },
+                  {
+                    "id": "max",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Validators"
+                },
+                "properties": [
+                  {
+                    "id": "unit"
+                  },
+                  {
+                    "id": "decimals"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 18,
+            "x": 0,
+            "y": 28
+          },
+          "id": 10,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": true
+            },
+            "frameIndex": 0,
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": false,
+                "displayName": "machine"
+              }
+            ]
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(machine) (increase(our_ideal_attestations_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "ideal_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(machine) (increase(our_actual_pos_attestations_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "",
+              "range": false,
+              "refId": "actual_pos_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(machine) (increase(our_actual_neg_attestations_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "hide": true,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "actual_neg_gwei"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$ideal_gwei/10**9",
+              "hide": false,
+              "reducer": "mean",
+              "refId": "ideal",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "($actual_pos_gwei-$actual_neg_gwei)/10**9",
+              "hide": false,
+              "refId": "actual",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$ideal/$validators",
+              "hide": false,
+              "refId": "ideal_pv",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$actual/$validators",
+              "hide": false,
+              "refId": "actual_pv",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$actual/$ideal",
+              "hide": false,
+              "refId": "rate",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(machine) (our_active_validators_per_validator)",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "validators",
+              "useBackend": false
+            }
+          ],
+          "title": "Attestation rewards per machine",
+          "transformations": [
+            {
+              "id": "reduce",
+              "options": {
+                "includeTimeField": false,
+                "labelsToFields": true,
+                "mode": "seriesToRows",
+                "reducers": [
+                  "lastNotNull"
+                ]
+              }
+            },
+            {
+              "id": "groupingToMatrix",
+              "options": {
+                "columnField": "Field",
+                "emptyValue": "null",
+                "rowField": "machine",
+                "valueField": "Last *"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "indexByName": {},
+                "renameByName": {
+                  "Value": "Validators",
+                  "actual": "Actual reward (SUM)",
+                  "actual_pv": "Actual reward (per val)",
+                  "ideal": "Ideal reward (SUM)",
+                  "ideal_pv": "Ideal reward (per val)",
+                  "location\\Field": "Location",
+                  "machine\\Field": "Machine",
+                  "rate": "Rate (SUM)",
+                  "rate_pv": "Rate (per val)"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "decimals": 4,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "ETH"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Rate (SUM)"
+                },
+                "properties": [
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "mode": "basic",
+                      "type": "gauge",
+                      "valueDisplayMode": "color"
+                    }
+                  },
+                  {
+                    "id": "unit",
+                    "value": "percentunit"
+                  },
+                  {
+                    "id": "max",
+                    "value": 1
+                  },
+                  {
+                    "id": "min",
+                    "value": 0.9
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Validators"
+                },
+                "properties": [
+                  {
+                    "id": "unit"
+                  },
+                  {
+                    "id": "decimals"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 18,
+            "x": 0,
+            "y": 39
+          },
+          "id": 11,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": true
+            },
+            "frameIndex": 0,
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": false,
+                "displayName": "machine"
+              }
+            ]
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(mevb_status) (increase(our_ideal_attestations_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "ideal_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(mevb_status) (increase(our_actual_pos_attestations_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "",
+              "range": false,
+              "refId": "actual_pos_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(mevb_status) (increase(our_actual_neg_attestations_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "hide": true,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "actual_neg_gwei"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$ideal_gwei/10**9",
+              "hide": false,
+              "reducer": "mean",
+              "refId": "ideal",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "($actual_pos_gwei-$actual_neg_gwei)/10**9",
+              "hide": false,
+              "refId": "actual",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$ideal/$validators",
+              "hide": false,
+              "refId": "ideal_pv",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$actual/$validators",
+              "hide": false,
+              "refId": "actual_pv",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$actual/$ideal",
+              "hide": false,
+              "refId": "rate",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(mevb_status) (our_active_validators_per_validator)",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "validators",
+              "useBackend": false
+            }
+          ],
+          "title": "Attestation rewards per MEVB status",
+          "transformations": [
+            {
+              "id": "reduce",
+              "options": {
+                "includeTimeField": false,
+                "labelsToFields": true,
+                "mode": "seriesToRows",
+                "reducers": [
+                  "lastNotNull"
+                ]
+              }
+            },
+            {
+              "id": "groupingToMatrix",
+              "options": {
+                "columnField": "Field",
+                "emptyValue": "null",
+                "rowField": "mevb_status",
+                "valueField": "Last *"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "indexByName": {},
+                "renameByName": {
+                  "Value": "Validators",
+                  "actual": "Actual reward (SUM)",
+                  "actual_pv": "Actual reward (per val)",
+                  "ideal": "Ideal reward (SUM)",
+                  "ideal_pv": "Ideal reward (per val)",
+                  "location\\Field": "Location",
+                  "mevb_status\\Field": "MEVB status",
+                  "rate": "Rate (SUM)",
+                  "rate_pv": "Rate (per val)"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        }
+      ],
+      "title": "Attestation rewards",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 14,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false,
+                "minWidth": 50
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Proposed blocks"
+                },
+                "properties": [
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Missed blocks"
+                },
+                "properties": [
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green"
+                        },
+                        {
+                          "color": "red",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": "/.*reward/"
+                },
+                "properties": [
+                  {
+                    "id": "decimals",
+                    "value": 4
+                  },
+                  {
+                    "id": "unit",
+                    "value": "ETH"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 18,
+            "x": 0,
+            "y": 23
+          },
+          "id": 15,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": true
+            },
+            "frameIndex": 0,
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": false,
+                "displayName": "machine"
+              }
+            ]
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(location) (increase(our_block_processed_head_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "proposed {{location}}",
+              "range": false,
+              "refId": "proposed_blocks_prom",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "proposed_blocks_prom",
+              "hide": false,
+              "reducer": "last",
+              "refId": "proposed_blocks",
+              "type": "reduce"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(location) (increase(our_missed_block_proposals_head_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "missed {{location}}",
+              "range": false,
+              "refId": "missed_blocks_prom",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "missed_blocks_prom",
+              "hide": false,
+              "reducer": "last",
+              "refId": "missed_blocks",
+              "type": "reduce"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(location) (increase(our_block_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "hide": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "block_reward_gwei"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$block_reward_gwei/10**9",
+              "hide": false,
+              "refId": "block_reward",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(location) (max without(mev_relay) (increase(our_mev_boost_reward_per_validator_count_total[$__range])))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "mev_reward_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$mev_reward_gwei/10**9",
+              "hide": false,
+              "reducer": "mean",
+              "refId": "mev_reward",
+              "type": "math"
+            }
+          ],
+          "title": "Blocks per location",
+          "transformations": [
+            {
+              "id": "reduce",
+              "options": {
+                "includeTimeField": false,
+                "labelsToFields": true,
+                "mode": "seriesToRows",
+                "reducers": [
+                  "lastNotNull"
+                ]
+              }
+            },
+            {
+              "id": "groupingToMatrix",
+              "options": {
+                "columnField": "Field",
+                "emptyValue": "null",
+                "rowField": "location",
+                "valueField": "Last *"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "indexByName": {},
+                "renameByName": {
+                  "Value": "Proposed blocks",
+                  "actual": "Actual reward (SUM)",
+                  "actual_pv": "Actual reward (per val)",
+                  "block_reward": "Block reward",
+                  "ideal": "Ideal reward (SUM)",
+                  "ideal_pv": "Ideal reward (per val)",
+                  "location\\Field": "Location",
+                  "mev_reward": "MEV reward",
+                  "mevb_reward": "MEV reward",
+                  "missed": "Missed blocks",
+                  "missed_blocks": "Missed blocks",
+                  "proposed_blocks": "Proposed blocks",
+                  "rate": "Rate (SUM)",
+                  "rate_pv": "Rate (per val)"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false,
+                "minWidth": 50
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Proposed blocks"
+                },
+                "properties": [
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Missed blocks"
+                },
+                "properties": [
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green"
+                        },
+                        {
+                          "color": "red",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": "/.*reward/"
+                },
+                "properties": [
+                  {
+                    "id": "decimals",
+                    "value": 4
+                  },
+                  {
+                    "id": "unit",
+                    "value": "ETH"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 18,
+            "x": 0,
+            "y": 29
+          },
+          "id": 19,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": true
+            },
+            "frameIndex": 0,
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": false,
+                "displayName": "machine"
+              }
+            ]
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(machine) (increase(our_block_processed_head_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "proposed {{location}}",
+              "range": false,
+              "refId": "proposed_blocks_prom",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "proposed_blocks_prom",
+              "hide": false,
+              "reducer": "last",
+              "refId": "proposed_blocks",
+              "type": "reduce"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(machine) (increase(our_missed_block_proposals_head_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "missed {{location}}",
+              "range": false,
+              "refId": "missed_blocks_prom",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "missed_blocks_prom",
+              "hide": false,
+              "reducer": "last",
+              "refId": "missed_blocks",
+              "type": "reduce"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(machine) (increase(our_block_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "hide": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "block_reward_gwei"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$block_reward_gwei/10**9",
+              "hide": false,
+              "refId": "block_reward",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(machine) (max without(mev_relay) (increase(our_mev_boost_reward_per_validator_count_total[$__range])))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "mev_reward_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$mev_reward_gwei/10**9",
+              "hide": false,
+              "reducer": "mean",
+              "refId": "mev_reward",
+              "type": "math"
+            }
+          ],
+          "title": "Blocks per machine",
+          "transformations": [
+            {
+              "id": "reduce",
+              "options": {
+                "includeTimeField": false,
+                "labelsToFields": true,
+                "mode": "seriesToRows",
+                "reducers": [
+                  "lastNotNull"
+                ]
+              }
+            },
+            {
+              "id": "groupingToMatrix",
+              "options": {
+                "columnField": "Field",
+                "emptyValue": "null",
+                "rowField": "machine",
+                "valueField": "Last *"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "indexByName": {},
+                "renameByName": {
+                  "Value": "Proposed blocks",
+                  "actual": "Actual reward (SUM)",
+                  "actual_pv": "Actual reward (per val)",
+                  "block_reward": "Block reward",
+                  "ideal": "Ideal reward (SUM)",
+                  "ideal_pv": "Ideal reward (per val)",
+                  "location\\Field": "Location",
+                  "machine\\Field": "Machine",
+                  "mev_reward": "MEV reward",
+                  "mevb_reward": "MEV reward",
+                  "missed": "Missed blocks",
+                  "missed_blocks": "Missed blocks",
+                  "proposed_blocks": "Proposed blocks",
+                  "rate": "Rate (SUM)",
+                  "rate_pv": "Rate (per val)"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false,
+                "minWidth": 50
+              },
+              "decimals": 0,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": "/.*reward/"
+                },
+                "properties": [
+                  {
+                    "id": "decimals",
+                    "value": 4
+                  },
+                  {
+                    "id": "unit",
+                    "value": "ETH"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 18,
+            "x": 0,
+            "y": 40
+          },
+          "id": 20,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": true
+            },
+            "frameIndex": 0,
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": false,
+                "displayName": "machine"
+              }
+            ]
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(mevb_status) (increase(our_block_processed_head_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "proposed {{location}}",
+              "range": false,
+              "refId": "proposed_blocks_prom",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "proposed_blocks_prom",
+              "hide": false,
+              "reducer": "last",
+              "refId": "proposed_blocks",
+              "type": "reduce"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(mevb_status) (increase(our_missed_block_proposals_head_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "missed {{location}}",
+              "range": false,
+              "refId": "missed_blocks_prom",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "missed_blocks_prom",
+              "hide": false,
+              "reducer": "last",
+              "refId": "missed_blocks",
+              "type": "reduce"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(mevb_status) (increase(our_block_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "hide": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "block_reward_gwei"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$block_reward_gwei/10**9",
+              "hide": false,
+              "refId": "block_reward",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(mevb_status) (max without(mev_relay) (increase(our_mev_boost_reward_per_validator_count_total[$__range])))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "mev_reward_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$mev_reward_gwei/10**9",
+              "hide": false,
+              "reducer": "mean",
+              "refId": "mev_reward",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "increase(bad_relay_count_total[$__range])",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "no_relay_prom",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "no_relay_prom",
+              "hide": false,
+              "reducer": "last",
+              "refId": "no_relay",
+              "type": "reduce"
+            }
+          ],
+          "title": "Blocks per MEV boost",
+          "transformations": [
+            {
+              "id": "reduce",
+              "options": {
+                "includeTimeField": false,
+                "labelsToFields": true,
+                "mode": "seriesToRows",
+                "reducers": [
+                  "lastNotNull"
+                ]
+              }
+            },
+            {
+              "id": "groupingToMatrix",
+              "options": {
+                "columnField": "Field",
+                "emptyValue": "null",
+                "rowField": "mevb_status",
+                "valueField": "Last *"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "indexByName": {},
+                "renameByName": {
+                  "Value": "Proposed blocks",
+                  "actual": "Actual reward (SUM)",
+                  "actual_pv": "Actual reward (per val)",
+                  "block_reward": "Block reward",
+                  "ideal": "Ideal reward (SUM)",
+                  "ideal_pv": "Ideal reward (per val)",
+                  "location\\Field": "Location",
+                  "mev_reward": "MEV reward",
+                  "mevb_reward": "MEV reward",
+                  "mevb_status\\Field": "MEV status",
+                  "missed": "Missed blocks",
+                  "missed_blocks": "Missed blocks",
+                  "no_relay": "Block w/o relay",
+                  "proposed_blocks": "Proposed blocks",
+                  "rate": "Rate (SUM)",
+                  "rate_pv": "Rate (per val)"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "description": "It's not summing to overall MEV reward",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false,
+                "minWidth": 50
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Missed blocks"
+                },
+                "properties": [
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green"
+                        },
+                        {
+                          "color": "red",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": "/.*reward/"
+                },
+                "properties": [
+                  {
+                    "id": "decimals",
+                    "value": 4
+                  },
+                  {
+                    "id": "unit",
+                    "value": "ETH"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 18,
+            "x": 0,
+            "y": 47
+          },
+          "id": 21,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": true
+            },
+            "frameIndex": 0,
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": false,
+                "displayName": "machine"
+              }
+            ]
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "count by(mev_relay)(increase(our_mev_boost_reward_per_validator_count_total[$__range])>0)",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "count"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(mev_relay)(increase(our_mev_boost_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "mev_reward_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$mev_reward_gwei/10**9",
+              "hide": false,
+              "reducer": "mean",
+              "refId": "mev_reward",
+              "type": "math"
+            }
+          ],
+          "title": "Relay rewards (some block can be proposed by both proxies)",
+          "transformations": [
+            {
+              "id": "reduce",
+              "options": {
+                "includeTimeField": false,
+                "labelsToFields": true,
+                "mode": "seriesToRows",
+                "reducers": [
+                  "lastNotNull"
+                ]
+              }
+            },
+            {
+              "id": "groupingToMatrix",
+              "options": {
+                "columnField": "Field",
+                "emptyValue": "null",
+                "rowField": "mev_relay",
+                "valueField": "Last *"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "indexByName": {},
+                "renameByName": {
+                  "Value": "Blocks",
+                  "actual": "Actual reward (SUM)",
+                  "actual_pv": "Actual reward (per val)",
+                  "block_reward": "Block reward",
+                  "ideal": "Ideal reward (SUM)",
+                  "ideal_pv": "Ideal reward (per val)",
+                  "location\\Field": "Location",
+                  "mev_relay\\Field": "MEV boost proxy",
+                  "mev_reward": "MEV reward",
+                  "mevb_reward": "MEV reward",
+                  "mevb_status\\Field": "MEV status",
+                  "missed": "Missed blocks",
+                  "missed_blocks": "Missed blocks",
+                  "proposed_blocks": "Proposed blocks",
+                  "rate": "Rate (SUM)",
+                  "rate_pv": "Rate (per val)"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        }
+      ],
+      "title": "Blocks building/rewards",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "id": 32,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "description": "Attestation rate = sum(actual rewards)/sum(ideal rewards)",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 1,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Network attestation rate"
+                },
+                "properties": [
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 4
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 9,
+            "x": 0,
+            "y": 16
+          },
+          "id": 33,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean"
+              ],
+              "displayMode": "list",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "expr": "(sum(increase(net_actual_heads_count_total[$__range])) + sum(increase(net_actual_pos_sources_count_total[$__range])) + sum(increase(net_actual_pos_targets_count_total[$__range])) - sum(increase(net_actual_neg_sources_count_total[$__range])) - sum(increase(net_actual_neg_targets_count_total[$__range]))) / (sum(increase(net_ideal_heads_count_total[$__range])) + (sum(increase(net_ideal_sources_count_total[$__range])) + sum(increase(net_ideal_targets_count_total[$__range]))))",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": false,
+              "interval": "12s",
+              "legendFormat": "Network attestation rate",
+              "range": true,
+              "refId": "Network attestation rate",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "expr": "(sum by(machine)(increase(our_actual_pos_attestations_reward_per_validator_count_total[$__range]))-sum by(machine)(increase(our_actual_neg_attestations_reward_per_validator_count_total[$__range])))/sum by(machine)(increase(our_ideal_attestations_reward_per_validator_count_total[$__range]))",
+              "hide": false,
+              "instant": false,
+              "interval": "12s",
+              "legendFormat": "Attestation rate of {{machine}}",
+              "range": true,
+              "refId": "Our attestation rate"
+            }
+          ],
+          "title": "Attestation rate - total",
+          "transformations": [],
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "description": "Attestation rate = sum(actual rewards)/sum(ideal rewards)",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 1,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Network attestation rate"
+                },
+                "properties": [
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 4
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 9,
+            "x": 9,
+            "y": 16
+          },
+          "id": 34,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean"
+              ],
+              "displayMode": "list",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "expr": "sum(increase(net_actual_heads_count_total[$__range])) / sum(increase(net_ideal_heads_count_total[$__range]))",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": false,
+              "interval": "12s",
+              "legendFormat": "Network attestation rate",
+              "range": true,
+              "refId": "Network attestation rate",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "expr": "(sum by(machine)(increase(our_actual_heads_per_validator_count_total[$__range])))/sum by(machine)(increase(our_ideal_heads_per_validator_count_total[$__range]))",
+              "hide": false,
+              "instant": false,
+              "interval": "12s",
+              "legendFormat": "Attestation rate of {{machine}}",
+              "range": true,
+              "refId": "Our attestation rate"
+            }
+          ],
+          "title": "Attestation rate - heads",
+          "transformations": [],
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "description": "Attestation rate = sum(actual rewards)/sum(ideal rewards)",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 1,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Network attestation rate"
+                },
+                "properties": [
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 4
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 9,
+            "x": 0,
+            "y": 28
+          },
+          "id": 35,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean"
+              ],
+              "displayMode": "list",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "expr": "(sum(increase(net_actual_pos_sources_count_total[$__range]))-sum(increase(net_actual_neg_sources_count_total[$__range]))) / sum(increase(net_ideal_sources_count_total[$__range]))",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": false,
+              "interval": "12s",
+              "legendFormat": "Network attestation rate",
+              "range": true,
+              "refId": "Network attestation rate",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "expr": "(sum by(machine)(increase(our_actual_pos_sources_per_validator_count_total[$__range]))-sum by(machine)(increase(our_actual_neg_sources_per_validator_count_total[$__range])))/sum by(machine)(increase(our_ideal_sources_per_validator_count_total[$__range]))",
+              "hide": false,
+              "instant": false,
+              "interval": "12s",
+              "legendFormat": "Attestation rate of {{machine}}",
+              "range": true,
+              "refId": "Our attestation rate"
+            }
+          ],
+          "title": "Attestation rate - sources",
+          "transformations": [],
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "description": "Attestation rate = sum(actual rewards)/sum(ideal rewards)",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 1,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Network attestation rate"
+                },
+                "properties": [
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 4
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 9,
+            "x": 9,
+            "y": 28
+          },
+          "id": 36,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean"
+              ],
+              "displayMode": "list",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "expr": "(sum(increase(net_actual_pos_targets_count_total[$__range]))-sum(increase(net_actual_neg_targets_count_total[$__range]))) / sum(increase(net_ideal_targets_count_total[$__range]))",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": false,
+              "interval": "12s",
+              "legendFormat": "Network attestation rate",
+              "range": true,
+              "refId": "Network attestation rate",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "expr": "(sum by(machine)(increase(our_actual_pos_targets_per_validator_count_total[$__range]))-sum by(machine)(increase(our_actual_neg_targets_per_validator_count_total[$__range])))/sum by(machine)(increase(our_ideal_targets_per_validator_count_total[$__range]))",
+              "hide": false,
+              "instant": false,
+              "interval": "12s",
+              "legendFormat": "Attestation rate of {{machine}}",
+              "range": true,
+              "refId": "Our attestation rate"
+            }
+          ],
+          "title": "Attestation rate - targets",
+          "transformations": [],
+          "type": "timeseries"
+        }
+      ],
+      "title": "Attestation rewards - graphs",
+      "type": "row"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": false,
+    "refresh_intervals": [
+      "5s",
+      "12s",
+      "1m",
+      "6m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "Stats per validator",
+  "uid": "d0c14aa2-4139-4dda-87f3-34065430db91",
+  "version": 60,
+  "weekStart": ""
+}
