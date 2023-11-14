@@ -23,7 +23,7 @@ from .models import (
     Validators,
     ValidatorsLivenessRequestLighthouse,
     ValidatorsLivenessRequestTeku,
-    ValidatorsLivenessResponse, BlockReward,
+    ValidatorsLivenessResponse, BlockReward, SyncCommittee,
 )
 
 StatusEnum = Validators.DataItem.StatusEnum
@@ -181,6 +181,22 @@ class Beacon:
 
         proposer_duties_dict = response.json()
         return ProposerDuties(**proposer_duties_dict)
+
+    def get_sync_committee(self, epoch: int) -> SyncCommittee:
+        """Get sync committee validator indexes
+
+        epoch: Epoch corresponding to the proposer duties to retrieve
+        """
+        response = self.__get_retry_not_found(
+            f"{self.__url}/eth/v1/beacon/states/head/sync_committees",
+            params=dict(epoch=epoch),
+            timeout=TIMEOUT_BEACON_SEC
+        )
+
+        response.raise_for_status()
+
+        sc_dict = response.json()
+        return SyncCommittee(**sc_dict)
 
     def get_status_to_index_to_validator(
             self,

@@ -27,6 +27,7 @@ from .missed_blocks import init_blocks_per_validator_counters, process_missed_bl
     process_missed_blocks_head
 from .models import BeaconType, Validators
 from .next_blocks_proposal import process_future_blocks_proposal
+from .next_sync_committees import init_sync_committee_per_validator_counters, process_sync_committee
 from .relays import init_relays_per_validator_counters, Relays
 from .rewards import process_rewards, init_rewards_per_validator_counters
 from .slashed_validators import SlashedValidators
@@ -316,6 +317,7 @@ def _handler(
             init_relays_per_validator_counters(our_labels)
             init_rewards_per_validator_counters(our_labels)
             init_suboptimal_attestations_per_validator_counters(our_labels)
+            init_sync_committee_per_validator_counters(our_labels)
             init_sync_committee_reward_per_validator_counters(our_labels)
             if our_active_validators_per_validator_gauge is None and len(our_labels) > 0:
                 our_active_validators_per_validator_gauge = Gauge(
@@ -397,6 +399,7 @@ def _handler(
 
             export_entry_queue_dur_sec(net_active_vals_count, nb_total_pending_q_vals)
             coinbase.emit_eth_usd_conversion_rate()
+            process_sync_committee(beacon, our_active_idx2val, epoch, our_labels)
 
         if previous_epoch is not None and previous_epoch != epoch:
             print(f"🎂     Epoch     {epoch}     starts")

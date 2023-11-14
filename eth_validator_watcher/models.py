@@ -201,3 +201,10 @@ class ProposerPayloadDelivered(BaseModel):
     slot: int
     value: int
     proposer_pubkey: str
+
+
+class SyncCommittee(BaseModel):
+    class Data(BaseModel):
+        validators: list[int]
+
+    data: Data
