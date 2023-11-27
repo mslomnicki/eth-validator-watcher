@@ -80,4 +80,4 @@ def process_sync_committee(
 
     for pk in sync_committee_next_round_pubkeys:
         labels = our_labels[pk]
-        current_round_sync_committee_per_validator_count.labels(**labels).inc()
+        next_round_sync_committee_per_validator_count.labels(**labels).inc()
