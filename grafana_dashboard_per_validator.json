@@ -42,121 +42,6 @@
       },
       "fieldConfig": {
         "defaults": {
-          "mappings": [],
-          "thresholds": {
-            "mode": "percentage",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "orange",
-                "value": 70
-              },
-              {
-                "color": "red",
-                "value": 85
-              }
-            ]
-          },
-          "unit": "ETH"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 2,
-        "x": 0,
-        "y": 1
-      },
-      "id": 22,
-      "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": false
-      },
-      "pluginVersion": "10.2.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(increase(net_ideal_heads_count_total[$__range]))",
-          "format": "table",
-          "hide": true,
-          "instant": true,
-          "interval": "12s",
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "net_ih"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(increase(net_ideal_sources_count_total[$__range]))",
-          "format": "table",
-          "hide": true,
-          "instant": true,
-          "interval": "12s",
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "net_is"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(increase(net_ideal_targets_count_total[$__range]))",
-          "format": "table",
-          "hide": true,
-          "instant": true,
-          "interval": "12s",
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "net_it"
-        },
-        {
-          "datasource": {
-            "name": "Expression",
-            "type": "__expr__",
-            "uid": "__expr__"
-          },
-          "expression": "($net_ih+$net_is+$net_it)/10**9",
-          "hide": false,
-          "refId": "net_ideal",
-          "type": "math"
-        }
-      ],
-      "title": "Network ideal",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-      },
-      "fieldConfig": {
-        "defaults": {
           "decimals": 4,
           "mappings": [],
           "thresholds": {
@@ -183,7 +68,7 @@
       "gridPos": {
         "h": 4,
         "w": 2,
-        "x": 2,
+        "x": 0,
         "y": 1
       },
       "id": 24,
@@ -297,7 +182,7 @@
       "gridPos": {
         "h": 8,
         "w": 4,
-        "x": 4,
+        "x": 2,
         "y": 1
       },
       "id": 28,
@@ -457,7 +342,7 @@
           "refId": "C"
         }
       ],
-      "title": "Net rate",
+      "title": "Network rate",
       "type": "gauge"
     },
     {
@@ -488,7 +373,7 @@
       "gridPos": {
         "h": 8,
         "w": 4,
-        "x": 8,
+        "x": 6,
         "y": 1
       },
       "id": 30,
@@ -656,41 +541,40 @@
         "type": "prometheus",
         "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
       },
+      "description": "In next two epochs",
       "fieldConfig": {
         "defaults": {
-          "decimals": 4,
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
           "thresholds": {
-            "mode": "percentage",
+            "mode": "absolute",
             "steps": [
               {
                 "color": "green",
                 "value": null
               },
               {
-                "color": "orange",
-                "value": 70
-              },
-              {
-                "color": "red",
-                "value": 85
+                "color": "yellow",
+                "value": 80
               }
             ]
-          },
-          "unit": "ETH"
+          }
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 2,
-        "x": 0,
-        "y": 5
+        "h": 8,
+        "w": 4,
+        "x": 10,
+        "y": 1
       },
-      "id": 23,
+      "id": 37,
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -699,8 +583,101 @@
           "fields": "",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": false
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "expr": "max(future_block_proposals_count)",
+          "hide": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Future blocks proposal",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+      },
+      "description": "e",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #Current round"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Current round"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #Next round"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Next round"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 14,
+        "y": 1
+      },
+      "id": 38,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
       },
       "pluginVersion": "10.2.0",
       "targets": [
@@ -711,93 +688,33 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(increase(net_actual_heads_count_total[$__range]))",
+          "expr": "sum(current_round_sync_committee_per_validator_count)",
           "format": "table",
-          "hide": true,
-          "instant": true,
-          "interval": "12s",
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "ph"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(increase(net_actual_pos_sources_count_total[$__range]))",
-          "format": "table",
-          "hide": true,
-          "instant": true,
-          "interval": "12s",
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "ps"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(increase(net_actual_neg_sources_count_total[$__range]))",
-          "format": "table",
-          "hide": true,
-          "instant": true,
-          "interval": "12s",
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "ns"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(increase(net_actual_pos_targets_count_total[$__range]))",
-          "format": "table",
-          "hide": true,
-          "instant": true,
-          "interval": "12s",
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "pt"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-          },
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "sum(increase(net_actual_neg_targets_count_total[$__range]))",
-          "format": "table",
-          "hide": true,
-          "instant": true,
-          "interval": "12s",
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "nt"
-        },
-        {
-          "datasource": {
-            "name": "Expression",
-            "type": "__expr__",
-            "uid": "__expr__"
-          },
-          "expression": "($ph+$ps+$pt-$ns-$nt)/10**9",
           "hide": false,
-          "refId": "sum",
-          "type": "math"
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "Current round"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(next_round_sync_committee_per_validator_count)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "Next round"
         }
       ],
-      "title": "Net actual",
-      "type": "gauge"
+      "title": "Sync commitee",
+      "transformations": [],
+      "type": "stat"
     },
     {
       "datasource": {
@@ -832,7 +749,7 @@
       "gridPos": {
         "h": 4,
         "w": 2,
-        "x": 2,
+        "x": 0,
         "y": 5
       },
       "id": 27,
@@ -948,12 +865,337 @@
       "type": "gauge"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*round/"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 5,
+        "x": 0,
+        "y": 9
+      },
+      "id": 39,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": [],
+          "reducer": [
+            "sum"
+          ],
+          "show": true
+        },
+        "frameIndex": 0,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "machine"
+          }
+        ]
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (machine) (current_round_sync_committee_per_validator_count)",
+          "format": "table",
+          "fullMetaSearch": false,
+          "hide": true,
+          "includeNullMetadata": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "cr",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (machine) (next_round_sync_committee_per_validator_count)",
+          "format": "table",
+          "fullMetaSearch": false,
+          "hide": true,
+          "includeNullMetadata": true,
+          "instant": true,
+          "interval": "12s",
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "nr",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "cr",
+          "hide": false,
+          "reducer": "last",
+          "refId": "Current round",
+          "type": "reduce"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "nr",
+          "hide": false,
+          "reducer": "last",
+          "refId": "Next round",
+          "type": "reduce"
+        }
+      ],
+      "title": "Validators in sync committee",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "labelsToFields": true,
+            "mode": "seriesToRows",
+            "reducers": [
+              "lastNotNull"
+            ]
+          }
+        },
+        {
+          "id": "groupingToMatrix",
+          "options": {
+            "columnField": "Field",
+            "emptyValue": "null",
+            "rowField": "machine",
+            "valueField": "Last *"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Value": "Validators",
+              "actual": "Actual reward (SUM)",
+              "actual_pv": "Actual reward (per val)",
+              "ideal": "Ideal reward (SUM)",
+              "ideal_pv": "Ideal reward (per val)",
+              "location\\Field": "Location",
+              "machine\\Field": "Machine",
+              "rate": "Rate (SUM)",
+              "rate_pv": "Rate (per val)",
+              "sync_committee": "Sync committee reward"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+      },
+      "description": "Attestation rate = sum(actual rewards)/sum(ideal rewards)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 3,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 2,
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Network attestation rate"
+            },
+            "properties": [
+              {
+                "id": "custom.lineWidth",
+                "value": 4
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 14,
+        "x": 5,
+        "y": 9
+      },
+      "id": 33,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "(sum(increase(net_actual_heads_count_total[$__range])) + sum(increase(net_actual_pos_sources_count_total[$__range])) + sum(increase(net_actual_pos_targets_count_total[$__range])) - sum(increase(net_actual_neg_sources_count_total[$__range])) - sum(increase(net_actual_neg_targets_count_total[$__range]))) / (sum(increase(net_ideal_heads_count_total[$__range])) + (sum(increase(net_ideal_sources_count_total[$__range])) + sum(increase(net_ideal_targets_count_total[$__range]))))",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "interval": "12s",
+          "legendFormat": "Network attestation rate",
+          "range": true,
+          "refId": "Network attestation rate",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "expr": "(sum by(machine)(increase(our_actual_pos_attestations_reward_per_validator_count_total[$__range]))-sum by(machine)(increase(our_actual_neg_attestations_reward_per_validator_count_total[$__range])))/sum by(machine)(increase(our_ideal_attestations_reward_per_validator_count_total[$__range]))",
+          "hide": false,
+          "instant": false,
+          "interval": "12s",
+          "legendFormat": "Attestation rate of {{machine}}",
+          "range": true,
+          "refId": "Our attestation rate"
+        }
+      ],
+      "title": "Attestation rate - total",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
       "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 9
+        "y": 20
       },
       "id": 13,
       "panels": [
@@ -981,7 +1223,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -1036,14 +1279,21 @@
             "h": 6,
             "w": 18,
             "x": 0,
-            "y": 22
+            "y": 29
           },
           "id": 9,
           "options": {
             "cellHeight": "sm",
             "footer": {
               "countRows": false,
-              "fields": "",
+              "fields": [
+                "ideal",
+                "ideal_pv",
+                "actual",
+                "actual_pv",
+                "Value",
+                "sync_committee"
+              ],
               "reducer": [
                 "sum"
               ],
@@ -1191,6 +1441,49 @@
               "range": false,
               "refId": "validators",
               "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(location) (increase(our_pos_sync_committee_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "hide": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "sc_pos_gwei"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(location) (increase(our_neg_sync_committee_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "hide": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "sc_neg_gwei"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "($sc_pos_gwei-$sc_neg_gwei)/10**9",
+              "hide": false,
+              "refId": "sync_committee",
+              "type": "math"
             }
           ],
           "title": "Attestation rewards per location",
@@ -1228,7 +1521,8 @@
                   "ideal_pv": "Ideal reward (per val)",
                   "location\\Field": "Location",
                   "rate": "Rate (SUM)",
-                  "rate_pv": "Rate (per val)"
+                  "rate_pv": "Rate (per val)",
+                  "sync_committee": "Sync committee reward"
                 }
               }
             }
@@ -1258,7 +1552,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   }
                 ]
               },
@@ -1313,14 +1608,21 @@
             "h": 11,
             "w": 18,
             "x": 0,
-            "y": 28
+            "y": 35
           },
           "id": 10,
           "options": {
             "cellHeight": "sm",
             "footer": {
               "countRows": false,
-              "fields": "",
+              "fields": [
+                "ideal",
+                "actual",
+                "ideal_pv",
+                "actual_pv",
+                "Value",
+                "sync_committee"
+              ],
               "reducer": [
                 "sum"
               ],
@@ -1388,6 +1690,7 @@
               "format": "table",
               "hide": true,
               "instant": true,
+              "interval": "12s",
               "legendFormat": "__auto",
               "range": false,
               "refId": "actual_neg_gwei"
@@ -1466,6 +1769,55 @@
               "range": false,
               "refId": "validators",
               "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(machine) (increase(our_pos_sync_committee_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "sc_pos_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(machine) (increase(our_neg_sync_committee_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "sc_neg_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "($sc_pos_gwei-$sc_neg_gwei)/10**9",
+              "hide": false,
+              "refId": "sync_committee",
+              "type": "math"
             }
           ],
           "title": "Attestation rewards per machine",
@@ -1504,7 +1856,8 @@
                   "location\\Field": "Location",
                   "machine\\Field": "Machine",
                   "rate": "Rate (SUM)",
-                  "rate_pv": "Rate (per val)"
+                  "rate_pv": "Rate (per val)",
+                  "sync_committee": "Sync committee reward"
                 }
               }
             }
@@ -1589,14 +1942,21 @@
             "h": 6,
             "w": 18,
             "x": 0,
-            "y": 39
+            "y": 46
           },
           "id": 11,
           "options": {
             "cellHeight": "sm",
             "footer": {
               "countRows": false,
-              "fields": "",
+              "fields": [
+                "ideal",
+                "ideal_pv",
+                "actual",
+                "actual_pv",
+                "validators",
+                "sync_committee"
+              ],
               "reducer": [
                 "sum"
               ],
@@ -1732,16 +2092,80 @@
               "disableTextWrap": false,
               "editorMode": "code",
               "exemplar": false,
-              "expr": "sum by(mevb_status) (our_active_validators_per_validator)",
+              "expr": "sum by(mevb_status) (increase(our_pos_sync_committee_reward_per_validator_count_total[$__range]))",
               "format": "table",
               "fullMetaSearch": false,
               "hide": false,
               "includeNullMetadata": true,
               "instant": true,
+              "interval": "12s",
               "legendFormat": "__auto",
               "range": false,
-              "refId": "validators",
+              "refId": "sc_pos_gwei",
               "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(mevb_status) (increase(our_neg_sync_committee_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "sc_neg_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(mevb_status) (our_active_validators_per_validator)",
+              "format": "time_series",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "validators_query",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "validators_query",
+              "hide": false,
+              "reducer": "last",
+              "refId": "validators",
+              "type": "reduce"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "($sc_pos_gwei-$sc_neg_gwei)/10**9",
+              "hide": false,
+              "refId": "sync_committee",
+              "type": "math"
             }
           ],
           "title": "Attestation rewards per MEVB status",
@@ -1769,10 +2193,22 @@
             {
               "id": "organize",
               "options": {
-                "excludeByName": {},
-                "indexByName": {},
+                "excludeByName": {
+                  "Value": true
+                },
+                "indexByName": {
+                  "Value": 8,
+                  "actual": 2,
+                  "actual_pv": 4,
+                  "ideal": 1,
+                  "ideal_pv": 3,
+                  "mevb_status\\Field": 0,
+                  "rate": 5,
+                  "sync_committee": 7,
+                  "validators": 6
+                },
                 "renameByName": {
-                  "Value": "Validators",
+                  "Value": "",
                   "actual": "Actual reward (SUM)",
                   "actual_pv": "Actual reward (per val)",
                   "ideal": "Ideal reward (SUM)",
@@ -1780,7 +2216,372 @@
                   "location\\Field": "Location",
                   "mevb_status\\Field": "MEVB status",
                   "rate": "Rate (SUM)",
-                  "rate_pv": "Rate (per val)"
+                  "rate_pv": "Rate (per val)",
+                  "sync_committee": "Sync committee reward",
+                  "validators": "Validators"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "decimals": 4,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "ETH"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Rate (SUM)"
+                },
+                "properties": [
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "mode": "basic",
+                      "type": "gauge",
+                      "valueDisplayMode": "color"
+                    }
+                  },
+                  {
+                    "id": "unit",
+                    "value": "percentunit"
+                  },
+                  {
+                    "id": "max",
+                    "value": 1
+                  },
+                  {
+                    "id": "min",
+                    "value": 0.9
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Validators"
+                },
+                "properties": [
+                  {
+                    "id": "unit"
+                  },
+                  {
+                    "id": "decimals"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 18,
+            "x": 0,
+            "y": 52
+          },
+          "id": 42,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": [
+                "ideal",
+                "ideal_pv",
+                "actual_pv",
+                "validators",
+                "sync_committee",
+                "actual"
+              ],
+              "reducer": [
+                "sum"
+              ],
+              "show": true
+            },
+            "frameIndex": 0,
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": false,
+                "displayName": "machine"
+              }
+            ]
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(cl_client) (increase(our_ideal_attestations_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "ideal_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(cl_client) (increase(our_actual_pos_attestations_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "",
+              "range": false,
+              "refId": "actual_pos_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(cl_client) (increase(our_actual_neg_attestations_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "hide": true,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "actual_neg_gwei"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$ideal_gwei/10**9",
+              "hide": false,
+              "reducer": "mean",
+              "refId": "ideal",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "($actual_pos_gwei-$actual_neg_gwei)/10**9",
+              "hide": false,
+              "refId": "actual",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$ideal/$validators",
+              "hide": false,
+              "refId": "ideal_pv",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$actual/$validators",
+              "hide": false,
+              "refId": "actual_pv",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$actual/$ideal",
+              "hide": false,
+              "refId": "rate",
+              "type": "math"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(cl_client) (increase(our_pos_sync_committee_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "sc_pos_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(cl_client) (increase(our_neg_sync_committee_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "sc_neg_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(cl_client) (our_active_validators_per_validator)",
+              "format": "time_series",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": false,
+              "interval": "",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "validators_query",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "validators_query",
+              "hide": false,
+              "reducer": "last",
+              "refId": "validators",
+              "type": "reduce"
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "($sc_pos_gwei-$sc_neg_gwei)/10**9",
+              "hide": false,
+              "refId": "sync_committee",
+              "type": "math"
+            }
+          ],
+          "title": "Attestation rewards per CL client version",
+          "transformations": [
+            {
+              "id": "reduce",
+              "options": {
+                "includeTimeField": false,
+                "labelsToFields": true,
+                "mode": "seriesToRows",
+                "reducers": [
+                  "lastNotNull"
+                ]
+              }
+            },
+            {
+              "id": "groupingToMatrix",
+              "options": {
+                "columnField": "Field",
+                "emptyValue": "null",
+                "rowField": "cl_client",
+                "valueField": "Last *"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "Value": true,
+                  "cl_client\\Field": false
+                },
+                "indexByName": {
+                  "Value": 8,
+                  "actual": 2,
+                  "actual_pv": 4,
+                  "cl_client\\Field": 0,
+                  "ideal": 1,
+                  "ideal_pv": 3,
+                  "rate": 5,
+                  "sync_committee": 7,
+                  "validators": 6
+                },
+                "renameByName": {
+                  "Value": "",
+                  "actual": "Actual reward (SUM)",
+                  "actual_pv": "Actual reward (per val)",
+                  "cl_client\\Field": "CL client version",
+                  "ideal": "Ideal reward (SUM)",
+                  "ideal_pv": "Ideal reward (per val)",
+                  "location\\Field": "Location",
+                  "mevb_status\\Field": "MEVB status",
+                  "rate": "Rate (SUM)",
+                  "rate_pv": "Rate (per val)",
+                  "sync_committee": "Sync committee reward",
+                  "validators": "Validators"
                 }
               }
             }
@@ -1788,7 +2589,7 @@
           "type": "table"
         }
       ],
-      "title": "Attestation rewards",
+      "title": "Attestation/sync committee rewards",
       "type": "row"
     },
     {
@@ -1797,7 +2598,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 10
+        "y": 21
       },
       "id": 14,
       "panels": [
@@ -1893,7 +2694,7 @@
             "h": 6,
             "w": 18,
             "x": 0,
-            "y": 23
+            "y": 46
           },
           "id": 15,
           "options": {
@@ -2181,7 +2982,7 @@
             "h": 11,
             "w": 18,
             "x": 0,
-            "y": 29
+            "y": 52
           },
           "id": 19,
           "options": {
@@ -2432,7 +3233,7 @@
             "h": 7,
             "w": 18,
             "x": 0,
-            "y": 40
+            "y": 63
           },
           "id": 20,
           "options": {
@@ -2741,7 +3542,7 @@
             "h": 6,
             "w": 18,
             "x": 0,
-            "y": 47
+            "y": 70
           },
           "id": 21,
           "options": {
@@ -2872,7 +3673,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 11
+        "y": 22
       },
       "id": 32,
       "panels": [
@@ -2956,289 +3757,9 @@
           },
           "gridPos": {
             "h": 12,
-            "w": 9,
+            "w": 18,
             "x": 0,
-            "y": 16
-          },
-          "id": 33,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "max",
-                "mean"
-              ],
-              "displayMode": "list",
-              "placement": "right",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "10.2.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "disableTextWrap": false,
-              "editorMode": "code",
-              "expr": "(sum(increase(net_actual_heads_count_total[$__range])) + sum(increase(net_actual_pos_sources_count_total[$__range])) + sum(increase(net_actual_pos_targets_count_total[$__range])) - sum(increase(net_actual_neg_sources_count_total[$__range])) - sum(increase(net_actual_neg_targets_count_total[$__range]))) / (sum(increase(net_ideal_heads_count_total[$__range])) + (sum(increase(net_ideal_sources_count_total[$__range])) + sum(increase(net_ideal_targets_count_total[$__range]))))",
-              "fullMetaSearch": false,
-              "hide": false,
-              "includeNullMetadata": true,
-              "instant": false,
-              "interval": "12s",
-              "legendFormat": "Network attestation rate",
-              "range": true,
-              "refId": "Network attestation rate",
-              "useBackend": false
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "editorMode": "code",
-              "expr": "(sum by(machine)(increase(our_actual_pos_attestations_reward_per_validator_count_total[$__range]))-sum by(machine)(increase(our_actual_neg_attestations_reward_per_validator_count_total[$__range])))/sum by(machine)(increase(our_ideal_attestations_reward_per_validator_count_total[$__range]))",
-              "hide": false,
-              "instant": false,
-              "interval": "12s",
-              "legendFormat": "Attestation rate of {{machine}}",
-              "range": true,
-              "refId": "Our attestation rate"
-            }
-          ],
-          "title": "Attestation rate - total",
-          "transformations": [],
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-          },
-          "description": "Attestation rate = sum(actual rewards)/sum(ideal rewards)",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineStyle": {
-                  "fill": "solid"
-                },
-                "lineWidth": 1,
-                "pointSize": 3,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "decimals": 2,
-              "fieldMinMax": false,
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "percentunit"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Network attestation rate"
-                },
-                "properties": [
-                  {
-                    "id": "custom.lineWidth",
-                    "value": 4
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 12,
-            "w": 9,
-            "x": 9,
-            "y": 16
-          },
-          "id": 34,
-          "options": {
-            "legend": {
-              "calcs": [
-                "min",
-                "max",
-                "mean"
-              ],
-              "displayMode": "list",
-              "placement": "right",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
-          "pluginVersion": "10.2.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "disableTextWrap": false,
-              "editorMode": "code",
-              "expr": "sum(increase(net_actual_heads_count_total[$__range])) / sum(increase(net_ideal_heads_count_total[$__range]))",
-              "fullMetaSearch": false,
-              "hide": false,
-              "includeNullMetadata": true,
-              "instant": false,
-              "interval": "12s",
-              "legendFormat": "Network attestation rate",
-              "range": true,
-              "refId": "Network attestation rate",
-              "useBackend": false
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "editorMode": "code",
-              "expr": "(sum by(machine)(increase(our_actual_heads_per_validator_count_total[$__range])))/sum by(machine)(increase(our_ideal_heads_per_validator_count_total[$__range]))",
-              "hide": false,
-              "instant": false,
-              "interval": "12s",
-              "legendFormat": "Attestation rate of {{machine}}",
-              "range": true,
-              "refId": "Our attestation rate"
-            }
-          ],
-          "title": "Attestation rate - heads",
-          "transformations": [],
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-          },
-          "description": "Attestation rate = sum(actual rewards)/sum(ideal rewards)",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineStyle": {
-                  "fill": "solid"
-                },
-                "lineWidth": 1,
-                "pointSize": 3,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "decimals": 2,
-              "fieldMinMax": false,
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              },
-              "unit": "percentunit"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Network attestation rate"
-                },
-                "properties": [
-                  {
-                    "id": "custom.lineWidth",
-                    "value": 4
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 12,
-            "w": 9,
-            "x": 0,
-            "y": 28
+            "y": 47
           },
           "id": 35,
           "options": {
@@ -3376,9 +3897,9 @@
           },
           "gridPos": {
             "h": 12,
-            "w": 9,
-            "x": 9,
-            "y": 28
+            "w": 18,
+            "x": 0,
+            "y": 59
           },
           "id": 36,
           "options": {
@@ -3435,9 +3956,585 @@
           "title": "Attestation rate - targets",
           "transformations": [],
           "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "description": "Attestation rate = sum(actual rewards)/sum(ideal rewards)",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 1,
+                "pointSize": 3,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 2,
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "percentunit"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Network attestation rate"
+                },
+                "properties": [
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 4
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 13,
+            "w": 18,
+            "x": 0,
+            "y": 71
+          },
+          "id": 34,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "max",
+                "mean"
+              ],
+              "displayMode": "list",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "expr": "sum(increase(net_actual_heads_count_total[$__range])) / sum(increase(net_ideal_heads_count_total[$__range]))",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": false,
+              "interval": "12s",
+              "legendFormat": "Network attestation rate",
+              "range": true,
+              "refId": "Network attestation rate",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "expr": "(sum by(machine)(increase(our_actual_heads_per_validator_count_total[$__range])))/sum by(machine)(increase(our_ideal_heads_per_validator_count_total[$__range]))",
+              "hide": false,
+              "instant": false,
+              "interval": "12s",
+              "legendFormat": "Attestation rate of {{machine}}",
+              "range": true,
+              "refId": "Our attestation rate"
+            }
+          ],
+          "title": "Attestation rate - heads",
+          "transformations": [],
+          "type": "timeseries"
         }
       ],
       "title": "Attestation rewards - graphs",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      },
+      "id": 45,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "center",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "decimals": 0,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 9,
+            "x": 0,
+            "y": 24
+          },
+          "id": 44,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": [],
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "frameIndex": 0,
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": false,
+                "displayName": "machine"
+              }
+            ]
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by (machine,cl_client) (our_active_validators_per_validator)",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "cr",
+              "useBackend": false
+            }
+          ],
+          "title": "Machine/CL version matrix",
+          "transformations": [
+            {
+              "id": "groupingToMatrix",
+              "options": {
+                "columnField": "cl_client",
+                "emptyValue": "null",
+                "rowField": "machine",
+                "valueField": "Value"
+              }
+            },
+            {
+              "id": "sortBy",
+              "options": {
+                "fields": {},
+                "sort": [
+                  {
+                    "field": "machine\\cl_client"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "indexByName": {},
+                "renameByName": {
+                  "Value": "Validators",
+                  "actual": "Actual reward (SUM)",
+                  "actual_pv": "Actual reward (per val)",
+                  "cl_client\\vc_client": "CL client version/Validator client version",
+                  "ideal": "Ideal reward (SUM)",
+                  "ideal_pv": "Ideal reward (per val)",
+                  "location\\Field": "Location",
+                  "machine\\Field": "Machine",
+                  "machine\\cl_client": "Machine/CL client version",
+                  "rate": "Rate (SUM)",
+                  "rate_pv": "Rate (per val)",
+                  "sync_committee": "Sync committee reward",
+                  "vc_client\\cl_client": ""
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "center",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "decimals": 0,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "transparent",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 9,
+            "x": 9,
+            "y": 24
+          },
+          "id": 43,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": [],
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "frameIndex": 0,
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": false,
+                "displayName": "machine"
+              }
+            ]
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by (cl_client,vc_client) (our_active_validators_per_validator)",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "cr",
+              "useBackend": false
+            }
+          ],
+          "title": "CL/VC versions matrix",
+          "transformations": [
+            {
+              "id": "groupingToMatrix",
+              "options": {
+                "columnField": "vc_client",
+                "emptyValue": "null",
+                "rowField": "cl_client",
+                "valueField": "Value"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "indexByName": {},
+                "renameByName": {
+                  "Value": "Validators",
+                  "actual": "Actual reward (SUM)",
+                  "actual_pv": "Actual reward (per val)",
+                  "cl_client\\vc_client": "CL client version/Validator client version",
+                  "ideal": "Ideal reward (SUM)",
+                  "ideal_pv": "Ideal reward (per val)",
+                  "location\\Field": "Location",
+                  "machine\\Field": "Machine",
+                  "rate": "Rate (SUM)",
+                  "rate_pv": "Rate (per val)",
+                  "sync_committee": "Sync committee reward",
+                  "vc_client\\cl_client": ""
+                }
+              }
+            }
+          ],
+          "type": "table"
+        }
+      ],
+      "title": "Software versions",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 41,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "fieldMinMax": false,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": "/(Slot|Epoch)/"
+                },
+                "properties": [
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": true,
+                      "tooltip": false,
+                      "viz": false
+                    }
+                  },
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 0
+                  },
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "hidden"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 15,
+            "w": 20,
+            "x": 0,
+            "y": 48
+          },
+          "id": 40,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "expr": "epoch",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "Epoch",
+              "range": true,
+              "refId": "epoch"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "expr": "slot",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "Slot",
+              "range": true,
+              "refId": "slot"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "editorMode": "code",
+              "expr": "increase(bad_relay_count_total[$__interval])",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "Blocks w/o relay",
+              "range": true,
+              "refId": "block w/o relay"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "builder",
+              "expr": "sum(increase(our_block_processed_finalized_per_validator_count_total{mevb_status=\"mevb_yes\"}[$__interval]))",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": false,
+              "legendFormat": "Block on MEVB",
+              "range": true,
+              "refId": "mevb_yes",
+              "useBackend": false
+            }
+          ],
+          "title": "Blocks w/o relay",
+          "type": "timeseries"
+        }
+      ],
+      "title": "Tests",
       "type": "row"
     }
   ],
@@ -3467,6 +4564,6 @@
   "timezone": "",
   "title": "Stats per validator",
   "uid": "d0c14aa2-4139-4dda-87f3-34065430db91",
-  "version": 60,
+  "version": 75,
   "weekStart": ""
 }
