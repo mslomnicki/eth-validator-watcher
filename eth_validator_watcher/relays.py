@@ -8,7 +8,7 @@ from requests import Session, codes
 from requests.adapters import HTTPAdapter, Retry
 from requests.exceptions import ConnectionError
 
-from eth_validator_watcher.models import ProposerPayloadDelivered
+from eth_validator_watcher.models import ProposerPayloadDelivered, ProposerDuties
 
 MAX_TRIALS = 5
 WAIT_SEC = 0.5
@@ -81,10 +81,10 @@ class Relays:
 
         if len(our_labels) == 0:
             if not any(
-                    (
-                            self.__is_proposer_payload_delivered(relay_url, slot)
-                            for relay_url in self.__urls
-                    )
+                (
+                    self.__is_proposer_payload_delivered(relay_url, slot)
+                    for relay_url in self.__urls
+                )
             ):
                 bad_relay_count.inc()
                 print(
@@ -108,12 +108,21 @@ class Relays:
                     "🟧 Block proposed with unknown builder (may be a locally built block)"
                 )
 
+    def check_validator_registration_for_slots(
+        self,
+        slot_proposals: list[ProposerDuties.Data],
+        our_labels: dict[str, dict[str, str]],
+    ) -> list[ProposerDuties.Data]:
+        if len(slot_proposals) == 0:
+            return []
+        return []
+
     def __is_proposer_payload_delivered(
-            self,
-            url: str,
-            slot: int,
-            trial_count=0,
-            wait_sec=WAIT_SEC,
+        self,
+        url: str,
+        slot: int,
+        trial_count=0,
+        wait_sec=WAIT_SEC,
     ) -> bool:
         """Check if the block was built by a known relay.
 
@@ -140,17 +149,17 @@ class Relays:
         proposer_payload_delivered_json: list = response.json()
 
         assert (
-                len(proposer_payload_delivered_json) <= 1
+            len(proposer_payload_delivered_json) <= 1
         ), "Relay returned more than one block"
 
         return len(proposer_payload_delivered_json) == 1
 
     def __proposer_payload_delivered(
-            self,
-            url: str,
-            slot: int,
-            trial_count=0,
-            wait_sec=WAIT_SEC,
+        self,
+        url: str,
+        slot: int,
+        trial_count=0,
+        wait_sec=WAIT_SEC,
     ) -> ProposerPayloadDelivered | None:
         """Check if the block was built by a known relay.
 
@@ -177,7 +186,7 @@ class Relays:
         proposer_payload_delivered_json: list = response.json()
 
         assert (
-                len(proposer_payload_delivered_json) <= 1
+            len(proposer_payload_delivered_json) <= 1
         ), "Relay returned more than one block"
 
         return (

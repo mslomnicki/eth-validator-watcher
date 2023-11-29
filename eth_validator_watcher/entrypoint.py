@@ -448,7 +448,7 @@ def _handler(
 
             last_rewards_process_epoch = epoch
 
-        process_future_blocks_proposal(beacon, our_pubkeys, slot, is_new_epoch)
+        process_future_blocks_proposal(beacon, our_pubkeys, slot, is_new_epoch, relays, our_labels)
 
         last_processed_finalized_slot = process_missed_blocks_finalized(
             beacon, last_processed_finalized_slot, slot, our_pubkeys, our_labels, slack

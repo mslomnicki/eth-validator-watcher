@@ -279,12 +279,14 @@ def test_nominal() -> None:
         return {4}
 
     def process_future_blocks_proposal(
-        beacon: Beacon, pubkeys: set[str], slot: int, is_new_epoch: bool
+        beacon: Beacon, pubkeys: set[str], slot: int, is_new_epoch: bool, relays: Relays, labels: dict[str, dict[str, str]]
     ) -> int:
         assert isinstance(beacon, Beacon)
         assert pubkeys == {"0xaaa", "0xbbb", "0xccc", "0xddd", "0xeee", "0xfff"}
         assert slot in {63, 64}
         assert is_new_epoch is True
+        assert isinstance(relays, Relays)
+        assert labels == {}
 
         return 1
 

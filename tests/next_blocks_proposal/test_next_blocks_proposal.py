@@ -21,14 +21,20 @@ class Beacon:
         }[epoch]
 
 
+class EmptyRelays:
+    @staticmethod
+    def check_validator_registration_for_slots(slots, labels) -> list[ProposerDuties.Data]:
+        return []
+
+
 def test_handle_next_blocks_proposal_no_work():
     assert (
-        process_future_blocks_proposal(Beacon(), set(), 1344, False) == 0  # type: ignore
+        process_future_blocks_proposal(Beacon(), set(), 1344, False, EmptyRelays(), {}) == 0  # type: ignore
     )
 
 
 def test_handle_next_blocks_proposal_work():
     assert (
-        process_future_blocks_proposal(Beacon(), {"0xaaa"}, 1344, True)  # type: ignore
+        process_future_blocks_proposal(Beacon(), {"0xaaa"}, 1344, True, EmptyRelays(), {})  # type: ignore
         == 1
     )

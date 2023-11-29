@@ -5,6 +5,7 @@ import functools
 from prometheus_client import Gauge
 
 from .beacon import Beacon
+from .relays import Relays
 from .utils import NB_SLOT_PER_EPOCH
 
 print = functools.partial(print, flush=True)
@@ -20,6 +21,8 @@ def process_future_blocks_proposal(
     our_pubkeys: set[str],
     slot: int,
     is_new_epoch: bool,
+    relays: Relays,
+    our_labels: dict[str, dict[str, str]],
 ) -> int:
     """Handle next blocks proposal
 
@@ -51,5 +54,20 @@ def process_future_blocks_proposal(
                 f"💍 Our validator {item.pubkey[:10]} is going to propose a block "
                 f"at   slot {item.slot} (in {item.slot - slot} slots)"
             )
+
+    if is_new_epoch and len(filtered) > 0 and len(our_labels) > 0:
+        filtered_in_current_epoch = [
+            item
+            for item in proposers_duties_current_epoch.data
+            if item.pubkey in our_pubkeys
+        ]
+        if len(filtered_in_current_epoch) > 0:
+            slots_wo_relay = relays.check_validator_registration_for_slots(filtered_in_current_epoch, our_labels)
+            if len(slots_wo_relay) > 0:
+                for item in slots_wo_relay:
+                    print(
+                        f"❗ Our validator {item.pubkey[:10]} is going to propose a block "
+                        f"at   slot {item.slot} (in {item.slot - slot} slots) is not registered to any MEV relay"
+                    )
 
     return len(filtered)
