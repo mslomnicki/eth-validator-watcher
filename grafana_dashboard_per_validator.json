@@ -20,7 +20,7 @@
   "graphTooltip": 0,
   "id": 2,
   "links": [],
-  "liveNow": false,
+  "liveNow": true,
   "panels": [
     {
       "collapsed": false,
@@ -658,7 +658,7 @@
         ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 4,
         "w": 5,
         "x": 14,
         "y": 1
@@ -715,6 +715,32 @@
       "title": "Sync commitee",
       "transformations": [],
       "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+      },
+      "gridPos": {
+        "h": 19,
+        "w": 5,
+        "x": 19,
+        "y": 1
+      },
+      "id": 46,
+      "options": {
+        "limit": 10,
+        "navigateAfter": "10m",
+        "navigateBefore": "10m",
+        "navigateToPanel": true,
+        "onlyFromThisDashboard": false,
+        "onlyInTimeRange": false,
+        "showTags": true,
+        "showTime": true,
+        "showUser": true
+      },
+      "title": "Annotations",
+      "type": "annolist"
     },
     {
       "datasource": {
@@ -863,6 +889,150 @@
       ],
       "title": "Our actual",
       "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "dateTimeAsSystem"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "next_sc_change_ts_2 {__name__=\"epoch\", instance=\"localhost:8000\", job=\"kiln\"}"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeFromNow"
+              },
+              {
+                "id": "displayName",
+                "value": "Time to SC change"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "next_sc_change_ts {__name__=\"epoch\", instance=\"localhost:8000\", job=\"kiln\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Next SC change"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 14,
+        "y": 5
+      },
+      "id": 47,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "1606824023",
+          "hide": true,
+          "refId": "genesis",
+          "type": "math"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "epoch",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "current_epoch"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "256*(ceil($current_epoch/256))",
+          "hide": true,
+          "refId": "next_sc_epoch",
+          "type": "math"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "1000*(($next_sc_epoch*32*12)+$genesis)",
+          "hide": false,
+          "refId": "next_sc_change_ts",
+          "type": "math"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "1*$next_sc_change_ts",
+          "hide": false,
+          "refId": "next_sc_change_ts_2",
+          "type": "math"
+        }
+      ],
+      "transformations": [],
+      "type": "stat"
     },
     {
       "datasource": {
@@ -1223,8 +1393,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -1279,7 +1448,7 @@
             "h": 6,
             "w": 18,
             "x": 0,
-            "y": 29
+            "y": 45
           },
           "id": 9,
           "options": {
@@ -1552,8 +1721,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green",
-                    "value": null
+                    "color": "green"
                   }
                 ]
               },
@@ -1608,7 +1776,7 @@
             "h": 11,
             "w": 18,
             "x": 0,
-            "y": 35
+            "y": 51
           },
           "id": 10,
           "options": {
@@ -1942,7 +2110,7 @@
             "h": 6,
             "w": 18,
             "x": 0,
-            "y": 46
+            "y": 62
           },
           "id": 11,
           "options": {
@@ -2303,7 +2471,7 @@
             "h": 7,
             "w": 18,
             "x": 0,
-            "y": 52
+            "y": 68
           },
           "id": 42,
           "options": {
@@ -2694,7 +2862,7 @@
             "h": 6,
             "w": 18,
             "x": 0,
-            "y": 46
+            "y": 62
           },
           "id": 15,
           "options": {
@@ -2982,7 +3150,7 @@
             "h": 11,
             "w": 18,
             "x": 0,
-            "y": 52
+            "y": 68
           },
           "id": 19,
           "options": {
@@ -3233,7 +3401,7 @@
             "h": 7,
             "w": 18,
             "x": 0,
-            "y": 63
+            "y": 79
           },
           "id": 20,
           "options": {
@@ -3542,7 +3710,7 @@
             "h": 6,
             "w": 18,
             "x": 0,
-            "y": 70
+            "y": 86
           },
           "id": 21,
           "options": {
@@ -3759,7 +3927,7 @@
             "h": 12,
             "w": 18,
             "x": 0,
-            "y": 47
+            "y": 63
           },
           "id": 35,
           "options": {
@@ -3899,7 +4067,7 @@
             "h": 12,
             "w": 18,
             "x": 0,
-            "y": 59
+            "y": 75
           },
           "id": 36,
           "options": {
@@ -4039,7 +4207,7 @@
             "h": 13,
             "w": 18,
             "x": 0,
-            "y": 71
+            "y": 87
           },
           "id": 34,
           "options": {
@@ -4134,8 +4302,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "transparent",
-                    "value": null
+                    "color": "transparent"
                   }
                 ]
               },
@@ -4147,7 +4314,7 @@
             "h": 11,
             "w": 9,
             "x": 0,
-            "y": 24
+            "y": 40
           },
           "id": 44,
           "options": {
@@ -4262,8 +4429,7 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "transparent",
-                    "value": null
+                    "color": "transparent"
                   }
                 ]
               },
@@ -4275,7 +4441,7 @@
             "h": 11,
             "w": 9,
             "x": 9,
-            "y": 24
+            "y": 40
           },
           "id": 43,
           "options": {
@@ -4457,7 +4623,7 @@
             "h": 15,
             "w": 20,
             "x": 0,
-            "y": 48
+            "y": 64
           },
           "id": 40,
           "options": {
@@ -4538,7 +4704,7 @@
       "type": "row"
     }
   ],
-  "refresh": "",
+  "refresh": "12s",
   "schemaVersion": 38,
   "tags": [],
   "templating": {
@@ -4551,7 +4717,6 @@
   "timepicker": {
     "hidden": false,
     "refresh_intervals": [
-      "5s",
       "12s",
       "1m",
       "6m",
@@ -4564,6 +4729,6 @@
   "timezone": "",
   "title": "Stats per validator",
   "uid": "d0c14aa2-4139-4dda-87f3-34065430db91",
-  "version": 75,
+  "version": 79,
   "weekStart": ""
 }

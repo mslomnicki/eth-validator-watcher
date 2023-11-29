@@ -203,6 +203,18 @@ class ProposerPayloadDelivered(BaseModel):
     proposer_pubkey: str
 
 
+class RelayBuilderValidator(BaseModel):
+    class Entry(BaseModel):
+        class Message(BaseModel):
+            pubkey: str
+
+        message: Message
+
+    slot: int
+    validator_index: int
+    entry: Entry
+
+
 class SyncCommittee(BaseModel):
     class Data(BaseModel):
         validators: list[int]

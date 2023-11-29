@@ -1,8 +1,9 @@
 """Contains function to handle next blocks proposal"""
 
 import functools
+import random
 
-from prometheus_client import Gauge
+from prometheus_client import Gauge, Counter
 
 from .beacon import Beacon
 from .relays import Relays
@@ -14,6 +15,24 @@ future_block_proposals_count = Gauge(
     "future_block_proposals_count",
     "Future block proposals count",
 )
+
+future_block_proposals_without_mev_relay_registration_per_validator_counter: Counter | None = None
+
+
+def init_next_block_proposal_per_validator_counters(our_labels: dict[str, dict[str, str]]) -> None:
+    global future_block_proposals_without_mev_relay_registration_per_validator_counter
+
+    if len(our_labels) == 0 or future_block_proposals_without_mev_relay_registration_per_validator_counter is not None:
+        return
+
+    labels = list(random.choice(list(our_labels.values())).keys())
+    future_block_proposals_without_mev_relay_registration_per_validator_counter = Gauge(
+        "future_block_proposals_without_mev_relay_per_validator_count",
+        "Future block proposals without MEV relay registration per validator counter",
+        labels
+    )
+    for labels_dict in our_labels.values():
+        future_block_proposals_without_mev_relay_registration_per_validator_counter.labels(**labels_dict)
 
 
 def process_future_blocks_proposal(
@@ -31,6 +50,8 @@ def process_future_blocks_proposal(
     our_pubkeys : Set of our validators public keys
     slot        : Slot
     is_new_epoch: Is new epoch
+    relays      : MEV relays
+    our_labels  : Pubkey to labels dictionary
     """
     epoch = slot // NB_SLOT_PER_EPOCH
     proposers_duties_current_epoch = beacon.get_proposer_duties(epoch)
@@ -62,12 +83,14 @@ def process_future_blocks_proposal(
             if item.pubkey in our_pubkeys
         ]
         if len(filtered_in_current_epoch) > 0:
-            slots_wo_relay = relays.check_validator_registration_for_slots(filtered_in_current_epoch, our_labels)
+            slots_wo_relay = relays.check_validator_registration_for_slots(filtered_in_current_epoch)
             if len(slots_wo_relay) > 0:
                 for item in slots_wo_relay:
+                    labels = our_labels[item.pubkey]
+                    future_block_proposals_without_mev_relay_registration_per_validator_counter.labels(**labels).inc()
                     print(
                         f"❗ Our validator {item.pubkey[:10]} is going to propose a block "
-                        f"at   slot {item.slot} (in {item.slot - slot} slots) is not registered to any MEV relay"
+                        f"at   slot {item.slot} (in {item.slot - slot} slots) w/o registration to any MEV relay"
                     )
 
     return len(filtered)

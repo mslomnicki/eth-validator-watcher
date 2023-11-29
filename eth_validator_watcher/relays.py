@@ -8,7 +8,7 @@ from requests import Session, codes
 from requests.adapters import HTTPAdapter, Retry
 from requests.exceptions import ConnectionError
 
-from eth_validator_watcher.models import ProposerPayloadDelivered, ProposerDuties
+from eth_validator_watcher.models import ProposerPayloadDelivered, ProposerDuties, RelayBuilderValidator
 
 MAX_TRIALS = 5
 WAIT_SEC = 0.5
@@ -111,11 +111,32 @@ class Relays:
     def check_validator_registration_for_slots(
         self,
         slot_proposals: list[ProposerDuties.Data],
-        our_labels: dict[str, dict[str, str]],
     ) -> list[ProposerDuties.Data]:
+        """Verify if our validator is shown by relays for builders
+
+        Parameters:
+        slot_proposals: list of slot proposals in current epoch
+        our_labels    : Pubkey to labels dictionary
+
+            Returns the list of slots not registered in any MEV relay
+        """
         if len(slot_proposals) == 0:
             return []
-        return []
+        registrations: dict[int, bool] = dict()
+        pubkeys: dict[int, str] = dict()
+        for item in slot_proposals:
+            registrations[item.slot] = False
+            pubkeys[item.slot] = item.pubkey
+        for relay_url in self.__urls:
+            relay_data = self.__builder_validators(relay_url)
+            for item in relay_data:
+                if item.slot in registrations and item.entry.message.pubkey == pubkeys[item.slot]:
+                    registrations[item.slot] = True
+        return [
+            item
+            for item in slot_proposals
+            if registrations[item.slot] is False
+        ]
 
     def __is_proposer_payload_delivered(
         self,
@@ -193,3 +214,35 @@ class Relays:
             ProposerPayloadDelivered(**proposer_payload_delivered_json[0])
             if len(proposer_payload_delivered_json) == 1
             else None)
+
+    def __builder_validators(
+        self,
+        url: str,
+        trial_count=0,
+        wait_sec=WAIT_SEC,
+    ) -> list[RelayBuilderValidator]:
+        """Get the list of validators for buildera
+
+        Parameters:
+        url: URL where the relay can be reached
+        """
+        try:
+            response = self.__http.get(
+                f"{url}/relay/v1/builder/validators",
+            )
+        except ConnectionError:
+            if trial_count >= MAX_TRIALS:
+                raise
+
+            sleep(wait_sec)
+
+            return self.__builder_validators(
+                url, trial_count + 1, wait_sec
+            )
+
+        response.raise_for_status()
+        response_as_json: list = response.json()
+        return [
+            RelayBuilderValidator(**item)
+            for item in response_as_json
+        ]

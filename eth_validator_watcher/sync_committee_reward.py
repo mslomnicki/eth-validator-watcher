@@ -41,7 +41,7 @@ def process_sync_committee_reward(beacon: Beacon,
         index_to_validator    : Dictionary with:
             key  : validator index
             value: validator data corresponding to the validator index
-        our_labels : Validator nodes dictionaries
+        our_labels : Pubkey to labels dictionary
     """
     if len(index_to_validator) == 0 or len(our_labels) == 0:
         return

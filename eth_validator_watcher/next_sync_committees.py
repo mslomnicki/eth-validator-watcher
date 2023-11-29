@@ -50,7 +50,7 @@ def process_sync_committee(
             value: validator data corresponding to the validator index
     epoch        : Epoch
     is_new_epoch: Is new epoch
-    our_labels : Validator nodes dictionaries
+    our_labels : Pubkey to labels dictionary
     """
     if len(our_labels) == 0 or current_round_sync_committee_per_validator_count is None:
         return

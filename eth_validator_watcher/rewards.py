@@ -265,7 +265,7 @@ def process_rewards(
             outer key             : epoch
             outer value, inner key: validator indexes
             inner value           : validators
-        our_labels : Validator nodes dictionaries
+        our_labels : Pubkey to labels dictionary
     """
 
     if epoch < 2:

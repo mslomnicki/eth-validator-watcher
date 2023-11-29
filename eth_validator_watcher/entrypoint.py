@@ -26,7 +26,7 @@ from .missed_attestations import (
 from .missed_blocks import init_blocks_per_validator_counters, process_missed_blocks_finalized, \
     process_missed_blocks_head
 from .models import BeaconType, Validators
-from .next_blocks_proposal import process_future_blocks_proposal
+from .next_blocks_proposal import process_future_blocks_proposal, init_next_block_proposal_per_validator_counters
 from .next_sync_committees import init_sync_committee_per_validator_counters, process_sync_committee
 from .relays import init_relays_per_validator_counters, Relays
 from .rewards import process_rewards, init_rewards_per_validator_counters
@@ -319,6 +319,7 @@ def _handler(
             init_suboptimal_attestations_per_validator_counters(our_labels)
             init_sync_committee_per_validator_counters(our_labels)
             init_sync_committee_reward_per_validator_counters(our_labels)
+            init_next_block_proposal_per_validator_counters(our_labels)
             if our_active_validators_per_validator_gauge is None and len(our_labels) > 0:
                 our_active_validators_per_validator_gauge = Gauge(
                     "our_active_validators_per_validator",
