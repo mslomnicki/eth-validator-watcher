@@ -1259,7 +1259,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -1307,7 +1307,7 @@
         "x": 5,
         "y": 9
       },
-      "id": 33,
+      "id": 48,
       "options": {
         "legend": {
           "calcs": [],
@@ -1329,7 +1329,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "(sum(increase(net_actual_heads_count_total[$__range])) + sum(increase(net_actual_pos_sources_count_total[$__range])) + sum(increase(net_actual_pos_targets_count_total[$__range])) - sum(increase(net_actual_neg_sources_count_total[$__range])) - sum(increase(net_actual_neg_targets_count_total[$__range]))) / (sum(increase(net_ideal_heads_count_total[$__range])) + (sum(increase(net_ideal_sources_count_total[$__range])) + sum(increase(net_ideal_targets_count_total[$__range]))))",
+          "expr": "(sum(increase(net_actual_heads_count_total[$interval])) + sum(increase(net_actual_pos_sources_count_total[$interval])) + sum(increase(net_actual_pos_targets_count_total[$interval])) - sum(increase(net_actual_neg_sources_count_total[$interval])) - sum(increase(net_actual_neg_targets_count_total[$interval]))) / (sum(increase(net_ideal_heads_count_total[$interval])) + (sum(increase(net_ideal_sources_count_total[$interval])) + sum(increase(net_ideal_targets_count_total[$interval]))))>0",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -1346,7 +1346,7 @@
             "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
           },
           "editorMode": "code",
-          "expr": "(sum by(machine)(increase(our_actual_pos_attestations_reward_per_validator_count_total[$__range]))-sum by(machine)(increase(our_actual_neg_attestations_reward_per_validator_count_total[$__range])))/sum by(machine)(increase(our_ideal_attestations_reward_per_validator_count_total[$__range]))",
+          "expr": "(sum by(machine)(increase(our_actual_pos_attestations_reward_per_validator_count_total[$interval]))-sum by(machine)(increase(our_actual_neg_attestations_reward_per_validator_count_total[$interval])))/sum by(machine)(increase(our_ideal_attestations_reward_per_validator_count_total[$interval]))",
           "hide": false,
           "instant": false,
           "interval": "12s",
@@ -1355,7 +1355,7 @@
           "refId": "Our attestation rate"
         }
       ],
-      "title": "Attestation rate - total",
+      "title": "Attestation rate - total (Interval from top of page)",
       "transformations": [],
       "type": "timeseries"
     },
@@ -2107,371 +2107,10 @@
             ]
           },
           "gridPos": {
-            "h": 6,
-            "w": 18,
-            "x": 0,
-            "y": 62
-          },
-          "id": 11,
-          "options": {
-            "cellHeight": "sm",
-            "footer": {
-              "countRows": false,
-              "fields": [
-                "ideal",
-                "ideal_pv",
-                "actual",
-                "actual_pv",
-                "validators",
-                "sync_committee"
-              ],
-              "reducer": [
-                "sum"
-              ],
-              "show": true
-            },
-            "frameIndex": 0,
-            "showHeader": true,
-            "sortBy": [
-              {
-                "desc": false,
-                "displayName": "machine"
-              }
-            ]
-          },
-          "pluginVersion": "10.2.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "disableTextWrap": false,
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "sum by(mevb_status) (increase(our_ideal_attestations_reward_per_validator_count_total[$__range]))",
-              "format": "table",
-              "fullMetaSearch": false,
-              "hide": true,
-              "includeNullMetadata": true,
-              "instant": true,
-              "interval": "12s",
-              "legendFormat": "__auto",
-              "range": false,
-              "refId": "ideal_gwei",
-              "useBackend": false
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "disableTextWrap": false,
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "sum by(mevb_status) (increase(our_actual_pos_attestations_reward_per_validator_count_total[$__range]))",
-              "format": "table",
-              "fullMetaSearch": false,
-              "hide": true,
-              "includeNullMetadata": true,
-              "instant": true,
-              "interval": "12s",
-              "legendFormat": "",
-              "range": false,
-              "refId": "actual_pos_gwei",
-              "useBackend": false
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "sum by(mevb_status) (increase(our_actual_neg_attestations_reward_per_validator_count_total[$__range]))",
-              "format": "table",
-              "hide": true,
-              "instant": true,
-              "legendFormat": "__auto",
-              "range": false,
-              "refId": "actual_neg_gwei"
-            },
-            {
-              "datasource": {
-                "name": "Expression",
-                "type": "__expr__",
-                "uid": "__expr__"
-              },
-              "expression": "$ideal_gwei/10**9",
-              "hide": false,
-              "reducer": "mean",
-              "refId": "ideal",
-              "type": "math"
-            },
-            {
-              "datasource": {
-                "name": "Expression",
-                "type": "__expr__",
-                "uid": "__expr__"
-              },
-              "expression": "($actual_pos_gwei-$actual_neg_gwei)/10**9",
-              "hide": false,
-              "refId": "actual",
-              "type": "math"
-            },
-            {
-              "datasource": {
-                "name": "Expression",
-                "type": "__expr__",
-                "uid": "__expr__"
-              },
-              "expression": "$ideal/$validators",
-              "hide": false,
-              "refId": "ideal_pv",
-              "type": "math"
-            },
-            {
-              "datasource": {
-                "name": "Expression",
-                "type": "__expr__",
-                "uid": "__expr__"
-              },
-              "expression": "$actual/$validators",
-              "hide": false,
-              "refId": "actual_pv",
-              "type": "math"
-            },
-            {
-              "datasource": {
-                "name": "Expression",
-                "type": "__expr__",
-                "uid": "__expr__"
-              },
-              "expression": "$actual/$ideal",
-              "hide": false,
-              "refId": "rate",
-              "type": "math"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "disableTextWrap": false,
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "sum by(mevb_status) (increase(our_pos_sync_committee_reward_per_validator_count_total[$__range]))",
-              "format": "table",
-              "fullMetaSearch": false,
-              "hide": false,
-              "includeNullMetadata": true,
-              "instant": true,
-              "interval": "12s",
-              "legendFormat": "__auto",
-              "range": false,
-              "refId": "sc_pos_gwei",
-              "useBackend": false
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "disableTextWrap": false,
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "sum by(mevb_status) (increase(our_neg_sync_committee_reward_per_validator_count_total[$__range]))",
-              "format": "table",
-              "fullMetaSearch": false,
-              "hide": false,
-              "includeNullMetadata": true,
-              "instant": true,
-              "interval": "12s",
-              "legendFormat": "__auto",
-              "range": false,
-              "refId": "sc_neg_gwei",
-              "useBackend": false
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "disableTextWrap": false,
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "sum by(mevb_status) (our_active_validators_per_validator)",
-              "format": "time_series",
-              "fullMetaSearch": false,
-              "hide": true,
-              "includeNullMetadata": true,
-              "instant": false,
-              "interval": "",
-              "legendFormat": "__auto",
-              "range": true,
-              "refId": "validators_query",
-              "useBackend": false
-            },
-            {
-              "datasource": {
-                "name": "Expression",
-                "type": "__expr__",
-                "uid": "__expr__"
-              },
-              "expression": "validators_query",
-              "hide": false,
-              "reducer": "last",
-              "refId": "validators",
-              "type": "reduce"
-            },
-            {
-              "datasource": {
-                "name": "Expression",
-                "type": "__expr__",
-                "uid": "__expr__"
-              },
-              "expression": "($sc_pos_gwei-$sc_neg_gwei)/10**9",
-              "hide": false,
-              "refId": "sync_committee",
-              "type": "math"
-            }
-          ],
-          "title": "Attestation rewards per MEVB status",
-          "transformations": [
-            {
-              "id": "reduce",
-              "options": {
-                "includeTimeField": false,
-                "labelsToFields": true,
-                "mode": "seriesToRows",
-                "reducers": [
-                  "lastNotNull"
-                ]
-              }
-            },
-            {
-              "id": "groupingToMatrix",
-              "options": {
-                "columnField": "Field",
-                "emptyValue": "null",
-                "rowField": "mevb_status",
-                "valueField": "Last *"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "Value": true
-                },
-                "indexByName": {
-                  "Value": 8,
-                  "actual": 2,
-                  "actual_pv": 4,
-                  "ideal": 1,
-                  "ideal_pv": 3,
-                  "mevb_status\\Field": 0,
-                  "rate": 5,
-                  "sync_committee": 7,
-                  "validators": 6
-                },
-                "renameByName": {
-                  "Value": "",
-                  "actual": "Actual reward (SUM)",
-                  "actual_pv": "Actual reward (per val)",
-                  "ideal": "Ideal reward (SUM)",
-                  "ideal_pv": "Ideal reward (per val)",
-                  "location\\Field": "Location",
-                  "mevb_status\\Field": "MEVB status",
-                  "rate": "Rate (SUM)",
-                  "rate_pv": "Rate (per val)",
-                  "sync_committee": "Sync committee reward",
-                  "validators": "Validators"
-                }
-              }
-            }
-          ],
-          "type": "table"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "custom": {
-                "align": "auto",
-                "cellOptions": {
-                  "type": "auto"
-                },
-                "inspect": false
-              },
-              "decimals": 4,
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  }
-                ]
-              },
-              "unit": "ETH"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Rate (SUM)"
-                },
-                "properties": [
-                  {
-                    "id": "custom.cellOptions",
-                    "value": {
-                      "mode": "basic",
-                      "type": "gauge",
-                      "valueDisplayMode": "color"
-                    }
-                  },
-                  {
-                    "id": "unit",
-                    "value": "percentunit"
-                  },
-                  {
-                    "id": "max",
-                    "value": 1
-                  },
-                  {
-                    "id": "min",
-                    "value": 0.9
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Validators"
-                },
-                "properties": [
-                  {
-                    "id": "unit"
-                  },
-                  {
-                    "id": "decimals"
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
             "h": 7,
             "w": 18,
             "x": 0,
-            "y": 68
+            "y": 62
           },
           "id": 42,
           "options": {
@@ -2862,7 +2501,7 @@
             "h": 6,
             "w": 18,
             "x": 0,
-            "y": 62
+            "y": 46
           },
           "id": 15,
           "options": {
@@ -3150,7 +2789,7 @@
             "h": 11,
             "w": 18,
             "x": 0,
-            "y": 68
+            "y": 52
           },
           "id": 19,
           "options": {
@@ -3352,289 +2991,6 @@
             "type": "prometheus",
             "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
           },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "custom": {
-                "align": "auto",
-                "cellOptions": {
-                  "type": "auto"
-                },
-                "inspect": false,
-                "minWidth": 50
-              },
-              "decimals": 0,
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  }
-                ]
-              },
-              "unit": "none"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byRegexp",
-                  "options": "/.*reward/"
-                },
-                "properties": [
-                  {
-                    "id": "decimals",
-                    "value": 4
-                  },
-                  {
-                    "id": "unit",
-                    "value": "ETH"
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 7,
-            "w": 18,
-            "x": 0,
-            "y": 79
-          },
-          "id": 20,
-          "options": {
-            "cellHeight": "sm",
-            "footer": {
-              "countRows": false,
-              "fields": "",
-              "reducer": [
-                "sum"
-              ],
-              "show": true
-            },
-            "frameIndex": 0,
-            "showHeader": true,
-            "sortBy": [
-              {
-                "desc": false,
-                "displayName": "machine"
-              }
-            ]
-          },
-          "pluginVersion": "10.2.0",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "disableTextWrap": false,
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "sum by(mevb_status) (increase(our_block_processed_head_per_validator_count_total[$__range]))",
-              "format": "table",
-              "fullMetaSearch": false,
-              "hide": true,
-              "includeNullMetadata": true,
-              "instant": true,
-              "interval": "12s",
-              "legendFormat": "proposed {{location}}",
-              "range": false,
-              "refId": "proposed_blocks_prom",
-              "useBackend": false
-            },
-            {
-              "datasource": {
-                "name": "Expression",
-                "type": "__expr__",
-                "uid": "__expr__"
-              },
-              "expression": "proposed_blocks_prom",
-              "hide": false,
-              "reducer": "last",
-              "refId": "proposed_blocks",
-              "type": "reduce"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "disableTextWrap": false,
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "sum by(mevb_status) (increase(our_missed_block_proposals_head_per_validator_count_total[$__range]))",
-              "format": "table",
-              "fullMetaSearch": false,
-              "hide": true,
-              "includeNullMetadata": true,
-              "instant": true,
-              "interval": "12s",
-              "legendFormat": "missed {{location}}",
-              "range": false,
-              "refId": "missed_blocks_prom",
-              "useBackend": false
-            },
-            {
-              "datasource": {
-                "name": "Expression",
-                "type": "__expr__",
-                "uid": "__expr__"
-              },
-              "expression": "missed_blocks_prom",
-              "hide": false,
-              "reducer": "last",
-              "refId": "missed_blocks",
-              "type": "reduce"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "sum by(mevb_status) (increase(our_block_reward_per_validator_count_total[$__range]))",
-              "format": "table",
-              "hide": true,
-              "instant": true,
-              "interval": "12s",
-              "legendFormat": "__auto",
-              "range": false,
-              "refId": "block_reward_gwei"
-            },
-            {
-              "datasource": {
-                "name": "Expression",
-                "type": "__expr__",
-                "uid": "__expr__"
-              },
-              "expression": "$block_reward_gwei/10**9",
-              "hide": false,
-              "refId": "block_reward",
-              "type": "math"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "disableTextWrap": false,
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "sum by(mevb_status) (max without(mev_relay) (increase(our_mev_boost_reward_per_validator_count_total[$__range])))",
-              "format": "table",
-              "fullMetaSearch": false,
-              "hide": true,
-              "includeNullMetadata": true,
-              "instant": true,
-              "interval": "12s",
-              "legendFormat": "__auto",
-              "range": false,
-              "refId": "mev_reward_gwei",
-              "useBackend": false
-            },
-            {
-              "datasource": {
-                "name": "Expression",
-                "type": "__expr__",
-                "uid": "__expr__"
-              },
-              "expression": "$mev_reward_gwei/10**9",
-              "hide": false,
-              "reducer": "mean",
-              "refId": "mev_reward",
-              "type": "math"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "disableTextWrap": false,
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "increase(bad_relay_count_total[$__range])",
-              "format": "table",
-              "fullMetaSearch": false,
-              "hide": true,
-              "includeNullMetadata": true,
-              "instant": true,
-              "legendFormat": "__auto",
-              "range": false,
-              "refId": "no_relay_prom",
-              "useBackend": false
-            },
-            {
-              "datasource": {
-                "name": "Expression",
-                "type": "__expr__",
-                "uid": "__expr__"
-              },
-              "expression": "no_relay_prom",
-              "hide": false,
-              "reducer": "last",
-              "refId": "no_relay",
-              "type": "reduce"
-            }
-          ],
-          "title": "Blocks per MEV boost",
-          "transformations": [
-            {
-              "id": "reduce",
-              "options": {
-                "includeTimeField": false,
-                "labelsToFields": true,
-                "mode": "seriesToRows",
-                "reducers": [
-                  "lastNotNull"
-                ]
-              }
-            },
-            {
-              "id": "groupingToMatrix",
-              "options": {
-                "columnField": "Field",
-                "emptyValue": "null",
-                "rowField": "mevb_status",
-                "valueField": "Last *"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {},
-                "indexByName": {},
-                "renameByName": {
-                  "Value": "Proposed blocks",
-                  "actual": "Actual reward (SUM)",
-                  "actual_pv": "Actual reward (per val)",
-                  "block_reward": "Block reward",
-                  "ideal": "Ideal reward (SUM)",
-                  "ideal_pv": "Ideal reward (per val)",
-                  "location\\Field": "Location",
-                  "mev_reward": "MEV reward",
-                  "mevb_reward": "MEV reward",
-                  "mevb_status\\Field": "MEV status",
-                  "missed": "Missed blocks",
-                  "missed_blocks": "Missed blocks",
-                  "no_relay": "Block w/o relay",
-                  "proposed_blocks": "Proposed blocks",
-                  "rate": "Rate (SUM)",
-                  "rate_pv": "Rate (per val)"
-                }
-              }
-            }
-          ],
-          "type": "table"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-          },
           "description": "It's not summing to overall MEV reward",
           "fieldConfig": {
             "defaults": {
@@ -3707,10 +3063,10 @@
             ]
           },
           "gridPos": {
-            "h": 6,
+            "h": 10,
             "w": 18,
             "x": 0,
-            "y": 86
+            "y": 63
           },
           "id": 21,
           "options": {
@@ -3927,7 +3283,7 @@
             "h": 12,
             "w": 18,
             "x": 0,
-            "y": 63
+            "y": 47
           },
           "id": 35,
           "options": {
@@ -3955,7 +3311,7 @@
               },
               "disableTextWrap": false,
               "editorMode": "code",
-              "expr": "(sum(increase(net_actual_pos_sources_count_total[$__range]))-sum(increase(net_actual_neg_sources_count_total[$__range]))) / sum(increase(net_ideal_sources_count_total[$__range]))",
+              "expr": "(sum(increase(net_actual_pos_sources_count_total[$interval]))-sum(increase(net_actual_neg_sources_count_total[$interval]))) / sum(increase(net_ideal_sources_count_total[$interval]))",
               "fullMetaSearch": false,
               "hide": false,
               "includeNullMetadata": true,
@@ -3972,7 +3328,7 @@
                 "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
               },
               "editorMode": "code",
-              "expr": "(sum by(machine)(increase(our_actual_pos_sources_per_validator_count_total[$__range]))-sum by(machine)(increase(our_actual_neg_sources_per_validator_count_total[$__range])))/sum by(machine)(increase(our_ideal_sources_per_validator_count_total[$__range]))",
+              "expr": "(sum by(machine)(increase(our_actual_pos_sources_per_validator_count_total[$interval]))-sum by(machine)(increase(our_actual_neg_sources_per_validator_count_total[$interval])))/sum by(machine)(increase(our_ideal_sources_per_validator_count_total[$interval]))",
               "hide": false,
               "instant": false,
               "interval": "12s",
@@ -4067,7 +3423,7 @@
             "h": 12,
             "w": 18,
             "x": 0,
-            "y": 75
+            "y": 59
           },
           "id": 36,
           "options": {
@@ -4095,7 +3451,7 @@
               },
               "disableTextWrap": false,
               "editorMode": "code",
-              "expr": "(sum(increase(net_actual_pos_targets_count_total[$__range]))-sum(increase(net_actual_neg_targets_count_total[$__range]))) / sum(increase(net_ideal_targets_count_total[$__range]))",
+              "expr": "(sum(increase(net_actual_pos_targets_count_total[$interval]))-sum(increase(net_actual_neg_targets_count_total[$interval]))) / sum(increase(net_ideal_targets_count_total[$interval]))",
               "fullMetaSearch": false,
               "hide": false,
               "includeNullMetadata": true,
@@ -4112,7 +3468,7 @@
                 "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
               },
               "editorMode": "code",
-              "expr": "(sum by(machine)(increase(our_actual_pos_targets_per_validator_count_total[$__range]))-sum by(machine)(increase(our_actual_neg_targets_per_validator_count_total[$__range])))/sum by(machine)(increase(our_ideal_targets_per_validator_count_total[$__range]))",
+              "expr": "(sum by(machine)(increase(our_actual_pos_targets_per_validator_count_total[$interval]))-sum by(machine)(increase(our_actual_neg_targets_per_validator_count_total[$interval])))/sum by(machine)(increase(our_ideal_targets_per_validator_count_total[$interval]))",
               "hide": false,
               "instant": false,
               "interval": "12s",
@@ -4207,7 +3563,7 @@
             "h": 13,
             "w": 18,
             "x": 0,
-            "y": 87
+            "y": 71
           },
           "id": 34,
           "options": {
@@ -4235,7 +3591,7 @@
               },
               "disableTextWrap": false,
               "editorMode": "code",
-              "expr": "sum(increase(net_actual_heads_count_total[$__range])) / sum(increase(net_ideal_heads_count_total[$__range]))",
+              "expr": "sum(increase(net_actual_heads_count_total[$interval])) / sum(increase(net_ideal_heads_count_total[$interval]))",
               "fullMetaSearch": false,
               "hide": false,
               "includeNullMetadata": true,
@@ -4252,7 +3608,7 @@
                 "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
               },
               "editorMode": "code",
-              "expr": "(sum by(machine)(increase(our_actual_heads_per_validator_count_total[$__range])))/sum by(machine)(increase(our_ideal_heads_per_validator_count_total[$__range]))",
+              "expr": "(sum by(machine)(increase(our_actual_heads_per_validator_count_total[$interval])))/sum by(machine)(increase(our_ideal_heads_per_validator_count_total[$interval]))",
               "hide": false,
               "instant": false,
               "interval": "12s",
@@ -4314,7 +3670,7 @@
             "h": 11,
             "w": 9,
             "x": 0,
-            "y": 40
+            "y": 48
           },
           "id": 44,
           "options": {
@@ -4441,7 +3797,7 @@
             "h": 11,
             "w": 9,
             "x": 9,
-            "y": 40
+            "y": 48
           },
           "id": 43,
           "options": {
@@ -4533,51 +3889,26 @@
         "x": 0,
         "y": 24
       },
-      "id": 41,
+      "id": 52,
       "panels": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
           },
+          "description": "",
           "fieldConfig": {
             "defaults": {
               "color": {
-                "mode": "palette-classic"
+                "mode": "thresholds"
               },
               "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
                 },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "auto",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
+                "inspect": false
               },
-              "fieldMinMax": false,
               "mappings": [],
               "thresholds": {
                 "mode": "absolute",
@@ -4592,91 +3923,56 @@
                 ]
               }
             },
-            "overrides": [
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 12,
+            "x": 0,
+            "y": 41
+          },
+          "id": 49,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": [
+                "mev_relay",
+                "validators"
+              ],
+              "reducer": [
+                "sum"
+              ],
+              "show": true
+            },
+            "showHeader": true,
+            "sortBy": [
               {
-                "matcher": {
-                  "id": "byRegexp",
-                  "options": "/(Slot|Epoch)/"
-                },
-                "properties": [
-                  {
-                    "id": "custom.hideFrom",
-                    "value": {
-                      "legend": true,
-                      "tooltip": false,
-                      "viz": false
-                    }
-                  },
-                  {
-                    "id": "custom.lineWidth",
-                    "value": 0
-                  },
-                  {
-                    "id": "custom.axisPlacement",
-                    "value": "hidden"
-                  }
-                ]
+                "desc": false,
+                "displayName": "machine\\mev_relay"
               }
             ]
           },
-          "gridPos": {
-            "h": 15,
-            "w": 20,
-            "x": 0,
-            "y": 64
-          },
-          "id": 40,
-          "options": {
-            "legend": {
-              "calcs": [],
-              "displayMode": "list",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "none"
-            }
-          },
+          "pluginVersion": "10.2.0",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
                 "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
               },
+              "disableTextWrap": false,
               "editorMode": "code",
-              "expr": "epoch",
+              "exemplar": false,
+              "expr": "sum by(machine, mev_relay) (mev_relay_registration_per_validator)",
+              "format": "time_series",
+              "fullMetaSearch": false,
               "hide": false,
-              "instant": false,
-              "legendFormat": "Epoch",
-              "range": true,
-              "refId": "epoch"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "editorMode": "code",
-              "expr": "slot",
-              "hide": false,
-              "instant": false,
-              "legendFormat": "Slot",
-              "range": true,
-              "refId": "slot"
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
-              },
-              "editorMode": "code",
-              "expr": "increase(bad_relay_count_total[$__interval])",
-              "hide": false,
-              "instant": false,
-              "legendFormat": "Blocks w/o relay",
-              "range": true,
-              "refId": "block w/o relay"
+              "includeNullMetadata": true,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "mev_relay_data",
+              "useBackend": false
             },
             {
               "datasource": {
@@ -4685,22 +3981,464 @@
               },
               "disableTextWrap": false,
               "editorMode": "builder",
-              "expr": "sum(increase(our_block_processed_finalized_per_validator_count_total{mevb_status=\"mevb_yes\"}[$__interval]))",
+              "expr": "label_replace(sum by(machine) (our_active_validators_per_validator), \"mev_relay\", \"Validators\", \"\", \"\")",
               "fullMetaSearch": false,
               "hide": false,
               "includeNullMetadata": true,
               "instant": false,
-              "legendFormat": "Block on MEVB",
+              "legendFormat": "__auto",
               "range": true,
-              "refId": "mevb_yes",
+              "refId": "A",
               "useBackend": false
             }
           ],
-          "title": "Blocks w/o relay",
-          "type": "timeseries"
+          "title": "MEV relay registrations",
+          "transformations": [
+            {
+              "id": "reduce",
+              "options": {
+                "labelsToFields": true,
+                "reducers": [
+                  "lastNotNull"
+                ]
+              }
+            },
+            {
+              "id": "groupingToMatrix",
+              "options": {
+                "columnField": "mev_relay",
+                "rowField": "machine",
+                "valueField": "Last *"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "percentage": false
+                },
+                "indexByName": {
+                  "Aestus": 6,
+                  "Agnostic Gnosis": 3,
+                  "BloXroute [Max-Profit]": 2,
+                  "BloXroute [Regulated]": 4,
+                  "flashbots": 5,
+                  "machine\\mev_relay": 0,
+                  "ultra sound": 1
+                },
+                "renameByName": {
+                  "machine\\Field": "Machine",
+                  "mev_relay": "Registered to MEV relay",
+                  "percentage": "Registered validators",
+                  "validators": "Validators"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 12,
+            "x": 0,
+            "y": 53
+          },
+          "id": 55,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": [],
+              "reducer": [
+                "sum"
+              ],
+              "show": true
+            },
+            "frameIndex": 1,
+            "showHeader": true,
+            "sortBy": []
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "builder",
+              "exemplar": false,
+              "expr": "sum by(code, mev_relay) (mev_relay_registration_status_codes)",
+              "format": "time_series",
+              "fullMetaSearch": false,
+              "hide": false,
+              "includeNullMetadata": true,
+              "instant": true,
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "mev_relay_data",
+              "useBackend": false
+            }
+          ],
+          "title": "MEV relay response codes for $relay",
+          "transformations": [
+            {
+              "id": "reduce",
+              "options": {
+                "includeTimeField": false,
+                "labelsToFields": true,
+                "mode": "seriesToRows",
+                "reducers": [
+                  "lastNotNull"
+                ]
+              }
+            },
+            {
+              "id": "groupingToMatrix",
+              "options": {
+                "columnField": "mev_relay",
+                "rowField": "code",
+                "valueField": "Last *"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "percentage": false
+                },
+                "indexByName": {
+                  "Aestus": 6,
+                  "Agnostic Gnosis": 3,
+                  "BloXroute [Max-Profit]": 2,
+                  "BloXroute [Regulated]": 4,
+                  "code\\mev_relay": 0,
+                  "flashbots": 5,
+                  "ultra sound": 1
+                },
+                "renameByName": {
+                  "Value": "Count",
+                  "code\\Field": "Response code",
+                  "machine\\Field": "Machine",
+                  "mev_relay": "Registered to MEV relay",
+                  "percentage": "Registered validators",
+                  "validators": "Validators"
+                }
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false,
+                "minWidth": 50
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Proposed blocks"
+                },
+                "properties": [
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Missed blocks"
+                },
+                "properties": [
+                  {
+                    "id": "decimals",
+                    "value": 0
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green"
+                        },
+                        {
+                          "color": "red",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": "/.*reward/"
+                },
+                "properties": [
+                  {
+                    "id": "decimals",
+                    "value": 4
+                  },
+                  {
+                    "id": "unit",
+                    "value": "ETH"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 0,
+            "y": 65
+          },
+          "id": 60,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": true
+            },
+            "frameIndex": 0,
+            "showHeader": true,
+            "sortBy": []
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+              },
+              "disableTextWrap": false,
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "sum by(machine, mev_relay) (increase(our_mev_boost_reward_per_validator_count_total[$__range]))",
+              "format": "table",
+              "fullMetaSearch": false,
+              "hide": true,
+              "includeNullMetadata": true,
+              "instant": true,
+              "interval": "12s",
+              "legendFormat": "__auto",
+              "range": false,
+              "refId": "mev_reward_gwei",
+              "useBackend": false
+            },
+            {
+              "datasource": {
+                "name": "Expression",
+                "type": "__expr__",
+                "uid": "__expr__"
+              },
+              "expression": "$mev_reward_gwei/10**9",
+              "hide": false,
+              "reducer": "mean",
+              "refId": "mev_reward",
+              "type": "math"
+            }
+          ],
+          "title": "Blocks per relay per machine",
+          "transformations": [
+            {
+              "id": "reduce",
+              "options": {
+                "includeTimeField": false,
+                "labelsToFields": true,
+                "mode": "seriesToRows",
+                "reducers": [
+                  "lastNotNull"
+                ]
+              }
+            },
+            {
+              "id": "groupingToMatrix",
+              "options": {
+                "columnField": "mev_relay",
+                "rowField": "machine",
+                "valueField": "Last *"
+              }
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "indexByName": {
+                  "Aestus": 6,
+                  "Agnostic Gnosis": 3,
+                  "BloXroute [Max-Profit]": 2,
+                  "BloXroute [Regulated]": 4,
+                  "flashbots": 5,
+                  "machine\\mev_relay": 0,
+                  "ultra sound": 1
+                },
+                "renameByName": {}
+              }
+            }
+          ],
+          "type": "table"
         }
       ],
-      "title": "Tests",
+      "title": "MEV stats",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 25
+      },
+      "id": 41,
+      "panels": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "f999c534-4b90-4870-98f2-53a918a7c92e"
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 26
+          },
+          "id": 61,
+          "options": {
+            "dedupStrategy": "none",
+            "enableLogDetails": false,
+            "prettifyLogMessage": false,
+            "showCommonLabels": false,
+            "showLabels": false,
+            "showTime": true,
+            "sortOrder": "Descending",
+            "wrapLogMessage": false
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "f999c534-4b90-4870-98f2-53a918a7c92e"
+              },
+              "editorMode": "builder",
+              "expr": "{unit=\"eth-validator-watcher.service\"} |~ `Our validator.*is going`",
+              "queryType": "range",
+              "refId": "A"
+            }
+          ],
+          "title": "Block proposals",
+          "type": "logs"
+        },
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "f999c534-4b90-4870-98f2-53a918a7c92e"
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 35
+          },
+          "id": 62,
+          "options": {
+            "dedupStrategy": "none",
+            "enableLogDetails": false,
+            "prettifyLogMessage": false,
+            "showCommonLabels": false,
+            "showLabels": false,
+            "showTime": true,
+            "sortOrder": "Descending",
+            "wrapLogMessage": false
+          },
+          "pluginVersion": "10.2.0",
+          "targets": [
+            {
+              "datasource": {
+                "type": "loki",
+                "uid": "f999c534-4b90-4870-98f2-53a918a7c92e"
+              },
+              "editorMode": "builder",
+              "expr": "{unit=\"eth-validator-watcher.service\"} |= `w/o registration to any MEV relay`",
+              "queryType": "range",
+              "refId": "A"
+            }
+          ],
+          "title": "Block w/o MEV relay",
+          "type": "logs"
+        }
+      ],
+      "title": "Logs",
       "type": "row"
     }
   ],
@@ -4708,7 +4446,94 @@
   "schemaVersion": 38,
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "384s",
+          "value": "384s"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Interval for graphs",
+        "multi": false,
+        "name": "interval",
+        "options": [
+          {
+            "selected": false,
+            "text": "$__interval",
+            "value": "$__interval"
+          },
+          {
+            "selected": false,
+            "text": "$__rate_interval",
+            "value": "$__rate_interval"
+          },
+          {
+            "selected": false,
+            "text": "$__range",
+            "value": "$__range"
+          },
+          {
+            "selected": false,
+            "text": "12s",
+            "value": "12s"
+          },
+          {
+            "selected": true,
+            "text": "384s",
+            "value": "384s"
+          },
+          {
+            "selected": false,
+            "text": "15m",
+            "value": "15m"
+          },
+          {
+            "selected": false,
+            "text": "1h",
+            "value": "1h"
+          },
+          {
+            "selected": false,
+            "text": "1d",
+            "value": "1d"
+          }
+        ],
+        "query": "$__interval, $__rate_interval, $__range, 12s, 384s, 15m, 1h, 1d",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+        },
+        "definition": "label_values(mev_relay_registration_per_validator,mev_relay)",
+        "hide": 2,
+        "includeAll": true,
+        "label": "Relay",
+        "multi": false,
+        "name": "relay",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(mev_relay_registration_per_validator,mev_relay)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
   },
   "time": {
     "from": "now-24h",
@@ -4729,6 +4554,6 @@
   "timezone": "",
   "title": "Stats per validator",
   "uid": "d0c14aa2-4139-4dda-87f3-34065430db91",
-  "version": 79,
+  "version": 102,
   "weekStart": ""
 }
