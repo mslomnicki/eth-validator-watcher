@@ -1,6 +1,5 @@
 from eth_validator_watcher.missed_blocks import (
-    missed_block_proposals_head_count,
-    missed_block_proposals_head_count_details,
+    metric_missed_block_proposals_head_count,
     process_missed_blocks_head,
 )
 from eth_validator_watcher.models import ProposerDuties
@@ -31,20 +30,13 @@ def test_process_missed_blocks_head_no_block() -> None:
 
     slack = Slack()
 
-    counter_before = missed_block_proposals_head_count.collect()[0].samples[0].value  # type: ignore
+    counter_before = metric_missed_block_proposals_head_count.collect()[0].samples[0].value  # type: ignore
     assert process_missed_blocks_head(Beacon(), None, 3, {"0xaaa", "0xddd"}, {}, slack)  # type: ignore
-    counter_after = missed_block_proposals_head_count.collect()[0].samples[0].value  # type: ignore
-
-    # Has sample for slot
-    has_slot_metric = False
-    for sample in missed_block_proposals_head_count_details.collect()[0].samples:  # type: ignore
-        if sample.labels["slot"] == "3":
-            has_slot_metric = True
+    counter_after = metric_missed_block_proposals_head_count.collect()[0].samples[0].value  # type: ignore
 
     delta = counter_after - counter_before
     assert delta == 1
     assert slack.counter == 1
-    assert has_slot_metric
 
 
 def test_process_missed_blocks_head_habemus_blockam() -> None:
@@ -72,17 +64,10 @@ def test_process_missed_blocks_head_habemus_blockam() -> None:
 
     slack = Slack()
 
-    counter_before = missed_block_proposals_head_count.collect()[0].samples[0].value  # type: ignore
+    counter_before = metric_missed_block_proposals_head_count.collect()[0].samples[0].value  # type: ignore
     assert not process_missed_blocks_head(Beacon(), "A BLOCK", 2, {"0xaaa", "0xddd"}, {}, slack)  # type: ignore
-    counter_after = missed_block_proposals_head_count.collect()[0].samples[0].value  # type: ignore
-
-    # Has sample for slot
-    has_slot_metric = False
-    for sample in missed_block_proposals_head_count_details.collect()[0].samples:  # type: ignore
-        if sample.labels["slot"] == "2":
-            has_slot_metric = True
+    counter_after = metric_missed_block_proposals_head_count.collect()[0].samples[0].value  # type: ignore
 
     delta = counter_after - counter_before
     assert delta == 0
     assert slack.counter == 0
-    assert not (has_slot_metric)

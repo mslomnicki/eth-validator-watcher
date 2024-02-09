@@ -3,14 +3,14 @@ from requests.exceptions import ConnectionError
 from requests_mock import Mocker
 
 from eth_validator_watcher.models import ProposerPayloadDelivered
-from eth_validator_watcher.relays import Relays, bad_relay_count
+from eth_validator_watcher.relays import Relays, metric_bad_relay_count
 
 
 def test_process_no_relay() -> None:
-    counter_before = bad_relay_count.collect()[0].samples[0].value  # type: ignore
+    counter_before = metric_bad_relay_count.collect()[0].samples[0].value  # type: ignore
     relays = Relays(urls=[])
     relays.process(slot=42, our_labels={})
-    counter_after = bad_relay_count.collect()[0].samples[0].value  # type: ignore
+    counter_after = metric_bad_relay_count.collect()[0].samples[0].value  # type: ignore
 
     delta = counter_after - counter_before
     assert delta == 0
@@ -19,7 +19,7 @@ def test_process_no_relay() -> None:
 def test_process_bad_relay() -> None:
     relays = Relays(urls=["http://relay-1.com", "http://relay-2.com"])
 
-    counter_before = bad_relay_count.collect()[0].samples[0].value  # type: ignore
+    counter_before = metric_bad_relay_count.collect()[0].samples[0].value  # type: ignore
 
     with Mocker() as mock:
         mock.get(
@@ -34,7 +34,7 @@ def test_process_bad_relay() -> None:
 
         relays.process(slot=42, our_labels={})
 
-    counter_after = bad_relay_count.collect()[0].samples[0].value  # type: ignore
+    counter_after = metric_bad_relay_count.collect()[0].samples[0].value  # type: ignore
     delta = counter_after - counter_before
     assert delta == 1
 
@@ -42,7 +42,7 @@ def test_process_bad_relay() -> None:
 def test_process_good_relay() -> None:
     relays = Relays(urls=["http://relay-1.com", "http://relay-2.com"])
 
-    counter_before = bad_relay_count.collect()[0].samples[0].value  # type: ignore
+    counter_before = metric_bad_relay_count.collect()[0].samples[0].value  # type: ignore
 
     with Mocker() as mock:
         mock.get(
@@ -57,7 +57,7 @@ def test_process_good_relay() -> None:
 
         relays.process(slot=42, our_labels={})
 
-    counter_after = bad_relay_count.collect()[0].samples[0].value  # type: ignore
+    counter_after = metric_bad_relay_count.collect()[0].samples[0].value  # type: ignore
     delta = counter_after - counter_before
     assert delta == 0
 

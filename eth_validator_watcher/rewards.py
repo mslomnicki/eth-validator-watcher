@@ -18,9 +18,9 @@ AreIdeal = Tuple[bool, bool, bool]  # source, target, head
 # Network validators
 # ------------------
 (
-    net_suboptimal_sources_rate_gauge,
-    net_suboptimal_targets_rate_gauge,
-    net_suboptimal_heads_rate_gauge,
+    metric_net_suboptimal_sources_rate_gauge,
+    metric_net_suboptimal_targets_rate_gauge,
+    metric_net_suboptimal_heads_rate_gauge,
 ) = (
     Gauge("net_suboptimal_sources_rate", "Network suboptimal sources rate"),
     Gauge("net_suboptimal_targets_rate", "Network suboptimal targets rate"),
@@ -28,9 +28,9 @@ AreIdeal = Tuple[bool, bool, bool]  # source, target, head
 )
 
 (
-    net_ideal_sources_count,
-    net_ideal_targets_count,
-    net_ideal_heads_count,
+    metric_net_ideal_sources_count,
+    metric_net_ideal_targets_count,
+    metric_net_ideal_heads_count,
 ) = (
     Counter("net_ideal_sources_count", "Network ideal sources count"),
     Counter("net_ideal_targets_count", "Network ideal targets count"),
@@ -38,11 +38,11 @@ AreIdeal = Tuple[bool, bool, bool]  # source, target, head
 )
 
 (
-    net_actual_pos_sources_count,
-    net_actual_neg_sources_count,
-    net_actual_pos_targets_count,
-    net_actual_neg_targets_count,
-    net_actual_heads_count,
+    metric_net_actual_pos_sources_count,
+    metric_net_actual_neg_sources_count,
+    metric_net_actual_pos_targets_count,
+    metric_net_actual_neg_targets_count,
+    metric_net_actual_heads_count,
 ) = (
     Counter("net_actual_pos_sources_count", "Network actual positive sources count"),
     Counter("net_actual_neg_sources_count", "Network actual negative sources count"),
@@ -54,9 +54,9 @@ AreIdeal = Tuple[bool, bool, bool]  # source, target, head
 # Our validators
 # --------------
 (
-    our_suboptimal_sources_rate_gauge,
-    our_suboptimal_targets_rate_gauge,
-    our_suboptimal_heads_rate_gauge,
+    metric_our_suboptimal_sources_rate_gauge,
+    metric_our_suboptimal_targets_rate_gauge,
+    metric_our_suboptimal_heads_rate_gauge,
 ) = (
     Gauge("our_suboptimal_sources_rate", "Our suboptimal sources rate"),
     Gauge("our_suboptimal_targets_rate", "Our suboptimal targets rate"),
@@ -64,9 +64,9 @@ AreIdeal = Tuple[bool, bool, bool]  # source, target, head
 )
 
 (
-    our_ideal_sources_count,
-    our_ideal_targets_count,
-    our_ideal_heads_count,
+    metric_our_ideal_sources_count,
+    metric_our_ideal_targets_count,
+    metric_our_ideal_heads_count,
 ) = (
     Counter("our_ideal_sources_count", "Our ideal sources count"),
     Counter("our_ideal_targets_count", "Our ideal targets count"),
@@ -74,11 +74,11 @@ AreIdeal = Tuple[bool, bool, bool]  # source, target, head
 )
 
 (
-    our_actual_pos_sources_count,
-    our_actual_neg_sources_count,
-    our_actual_pos_targets_count,
-    our_actual_neg_targets_count,
-    our_actual_heads_count,
+    metric_our_actual_pos_sources_count,
+    metric_our_actual_neg_sources_count,
+    metric_our_actual_pos_targets_count,
+    metric_our_actual_neg_targets_count,
+    metric_our_actual_heads_count,
 ) = (
     Counter("our_actual_pos_sources_count", "Our actual positive sources count"),
     Counter("our_actual_neg_sources_count", "Our actual negative sources count"),
@@ -324,35 +324,35 @@ def process_rewards(
     total_ideal_targets = sum(ideal_targets)
     total_ideal_heads = sum(ideal_heads)
 
-    net_ideal_sources_count.inc(total_ideal_sources)
-    net_ideal_targets_count.inc(total_ideal_targets)
-    net_ideal_heads_count.inc(total_ideal_heads)
+    metric_net_ideal_sources_count.inc(total_ideal_sources)
+    metric_net_ideal_targets_count.inc(total_ideal_targets)
+    metric_net_ideal_heads_count.inc(total_ideal_heads)
 
     total_actual_sources = sum(actual_sources)
     total_actual_targets = sum(actual_targets)
     total_actual_heads = sum(actual_heads)
 
     (
-        net_actual_pos_sources_count
+        metric_net_actual_pos_sources_count
         if total_actual_sources >= 0
-        else net_actual_neg_sources_count
+        else metric_net_actual_neg_sources_count
     ).inc(abs(total_actual_sources))
 
     (
-        net_actual_pos_targets_count
+        metric_net_actual_pos_targets_count
         if total_actual_targets >= 0
-        else net_actual_neg_targets_count
+        else metric_net_actual_neg_targets_count
     ).inc(abs(total_actual_targets))
 
-    net_actual_heads_count.inc(total_actual_heads)
+    metric_net_actual_heads_count.inc(total_actual_heads)
 
     suboptimal_sources_rate = 1 - sum(are_sources_ideal) / len(are_sources_ideal)
     suboptimal_targets_rate = 1 - sum(are_targets_ideal) / len(are_targets_ideal)
     suboptimal_heads_rate = 1 - sum(are_heads_ideal) / len(are_heads_ideal)
 
-    net_suboptimal_sources_rate_gauge.set(suboptimal_sources_rate)
-    net_suboptimal_targets_rate_gauge.set(suboptimal_targets_rate)
-    net_suboptimal_heads_rate_gauge.set(suboptimal_heads_rate)
+    metric_net_suboptimal_sources_rate_gauge.set(suboptimal_sources_rate)
+    metric_net_suboptimal_targets_rate_gauge.set(suboptimal_targets_rate)
+    metric_net_suboptimal_heads_rate_gauge.set(suboptimal_heads_rate)
 
     # Our validators
     # --------------
@@ -404,35 +404,35 @@ def process_rewards(
     total_ideal_targets = sum(ideal_targets)
     total_ideal_heads = sum(ideal_heads)
 
-    our_ideal_sources_count.inc(total_ideal_sources)
-    our_ideal_targets_count.inc(total_ideal_targets)
-    our_ideal_heads_count.inc(total_ideal_heads)
+    metric_our_ideal_sources_count.inc(total_ideal_sources)
+    metric_our_ideal_targets_count.inc(total_ideal_targets)
+    metric_our_ideal_heads_count.inc(total_ideal_heads)
 
     total_actual_sources = sum(actual_sources)
     total_actual_targets = sum(actual_targets)
     total_actual_heads = sum(actual_heads)
 
     (
-        our_actual_pos_sources_count
+        metric_our_actual_pos_sources_count
         if total_actual_sources >= 0
-        else our_actual_neg_sources_count
+        else metric_our_actual_neg_sources_count
     ).inc(abs(total_actual_sources))
 
     (
-        our_actual_pos_targets_count
+        metric_our_actual_pos_targets_count
         if total_actual_targets >= 0
-        else our_actual_neg_targets_count
+        else metric_our_actual_neg_targets_count
     ).inc(abs(total_actual_targets))
 
-    our_actual_heads_count.inc(total_actual_heads)
+    metric_our_actual_heads_count.inc(total_actual_heads)
 
     suboptimal_sources_rate = 1 - sum(are_sources_ideal) / len(are_sources_ideal)
     suboptimal_targets_rate = 1 - sum(are_targets_ideal) / len(are_targets_ideal)
     suboptimal_heads_rate = 1 - sum(are_heads_ideal) / len(are_heads_ideal)
 
-    our_suboptimal_sources_rate_gauge.set(suboptimal_sources_rate)
-    our_suboptimal_targets_rate_gauge.set(suboptimal_targets_rate)
-    our_suboptimal_heads_rate_gauge.set(suboptimal_heads_rate)
+    metric_our_suboptimal_sources_rate_gauge.set(suboptimal_sources_rate)
+    metric_our_suboptimal_targets_rate_gauge.set(suboptimal_targets_rate)
+    metric_our_suboptimal_heads_rate_gauge.set(suboptimal_heads_rate)
 
     _validator_counters_update(our_ideal_sources_per_validator_count, None, pubkeys, ideal_sources, our_labels)
     _validator_counters_update(our_ideal_targets_per_validator_count, None, pubkeys, ideal_targets, our_labels)

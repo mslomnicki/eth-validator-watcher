@@ -22,7 +22,7 @@ RELAY_MAPPING: dict[str, str] = {
     "https://0xa15b52576bcbf1072f4a011c0f99f9fb6c66f3e1ff321f11f461d15e31b1cb359caa092c71bbded0bae5b5ea401aab7e@aestus.live": "Aestus"
 }
 
-bad_relay_count = Counter(
+metric_bad_relay_count = Counter(
     "bad_relay_count",
     "Bad relay count",
 )
@@ -89,7 +89,7 @@ class Relays:
                     for relay_url in self.__urls
                 )
             ):
-                bad_relay_count.inc()
+                metric_bad_relay_count.inc()
                 print(
                     "🟧 Block proposed with unknown builder (may be a locally built block)"
                 )
@@ -106,7 +106,7 @@ class Relays:
                     our_mev_boost_reward_per_validator_count.labels(**labels_with_relay).inc(
                         payload.value / 10 ** 9)  # value in Gwei
             if not known_builder:
-                bad_relay_count.inc()
+                metric_bad_relay_count.inc()
                 print(
                     "🟧 Block proposed with unknown builder (may be a locally built block)"
                 )

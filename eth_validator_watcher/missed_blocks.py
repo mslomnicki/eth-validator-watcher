@@ -11,26 +11,14 @@ from .utils import NB_SLOT_PER_EPOCH, Slack
 
 print = functools.partial(print, flush=True)
 
-missed_block_proposals_head_count = Counter(
+metric_missed_block_proposals_head_count = Counter(
     "missed_block_proposals_head_count",
     "Missed block proposals head count",
 )
 
-missed_block_proposals_head_count_details = Counter(
-    "missed_block_proposals_head_count_details",
-    "Missed block proposals head count details",
-    ["slot", "epoch"],
-)
-
-missed_block_proposals_finalized_count = Counter(
+metric_missed_block_proposals_finalized_count = Counter(
     "missed_block_proposals_finalized_count",
     "Missed block proposals finalized count",
-)
-
-missed_block_proposals_finalized_count_details = Counter(
-    "missed_block_proposals_finalized_count_details",
-    "Missed block proposals finalized count details",
-    ["slot", "epoch"],
 )
 
 our_block_processed_head_per_validator_count: Counter | None = None
@@ -139,8 +127,7 @@ def process_missed_blocks_head(
         slack.send_message(message_slack)
 
     if is_our_validator and missed:
-        missed_block_proposals_head_count.inc()
-        missed_block_proposals_head_count_details.labels(slot=slot, epoch=epoch).inc()
+        metric_missed_block_proposals_head_count.inc()
 
     if is_our_validator and our_missed_block_proposals_head_per_validator_count is not None:
         labels = our_labels[proposer_pubkey]
@@ -227,11 +214,7 @@ def process_missed_blocks_finalized(
 
                 slack.send_message(message_slack)
 
-            missed_block_proposals_finalized_count.inc()
-
-            missed_block_proposals_finalized_count_details.labels(
-                slot=slot_, epoch=epoch
-            ).inc()
+            metric_missed_block_proposals_finalized_count.inc()
 
             if our_missed_block_proposals_finalized_per_validator_count is not None:
                 our_missed_block_proposals_finalized_per_validator_count.labels(**our_labels[proposer_pubkey]).inc()

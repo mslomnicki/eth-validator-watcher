@@ -3,6 +3,7 @@
 from prometheus_client import Gauge
 
 MIN_PER_EPOCH_CHURN_LIMIT = 4
+MAX_PER_EPOCH_CHURN_LIMIT = 8
 CHURN_LIMIT_QUOTIENT = 65536
 NB_SECONDS_PER_SLOT = 12
 NB_SLOT_PER_EPOCH = 32
@@ -49,7 +50,7 @@ BUCKETS: list[tuple[int, int]] = [
     (2_621_440, 40),
 ]
 
-entry_queue_duration_sec = Gauge(
+metric_entry_queue_duration_sec = Gauge(
     "entry_queue_duration_sec",
     "Entry queue duration in seconds",
 )
@@ -61,7 +62,7 @@ def compute_validators_churn(nb_active_validators: int) -> int:
     Parameters:
     nb_active_validators: The number of currently active validators
     """
-    return max(MIN_PER_EPOCH_CHURN_LIMIT, nb_active_validators // CHURN_LIMIT_QUOTIENT)
+    return min(MAX_PER_EPOCH_CHURN_LIMIT, max(MIN_PER_EPOCH_CHURN_LIMIT, nb_active_validators // CHURN_LIMIT_QUOTIENT))
 
 
 def get_bucket_index(validator_index: int) -> int:
@@ -141,4 +142,4 @@ def export_duration_sec(
     """
 
     duration_sec = compute_duration_sec(nb_active_validators, position_in_entry_queue)
-    entry_queue_duration_sec.set(duration_sec)
+    metric_entry_queue_duration_sec.set(duration_sec)
