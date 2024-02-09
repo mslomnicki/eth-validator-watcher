@@ -1,4 +1,91 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    },
+    {
+      "name": "DS_EXPRESSION",
+      "label": "Expression",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "__expr__"
+    },
+    {
+      "name": "DS_LOKI",
+      "label": "Loki",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "loki",
+      "pluginName": "Loki"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "datasource",
+      "id": "__expr__",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "annolist",
+      "name": "Annotations list",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "10.2.0"
+    },
+    {
+      "type": "panel",
+      "id": "logs",
+      "name": "Logs",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "loki",
+      "name": "Loki",
+      "version": "1.0.0"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -18,7 +105,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
+  "id": null,
   "links": [],
   "liveNow": true,
   "panels": [
@@ -38,7 +125,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -91,7 +178,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -107,7 +194,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -123,7 +210,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -138,9 +225,8 @@
         },
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "($heads+$sources+$targets)/10**9",
           "hide": false,
@@ -154,7 +240,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -205,7 +291,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -221,7 +307,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -237,7 +323,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -253,7 +339,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -269,7 +355,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -284,9 +370,8 @@
         },
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "($ph+$ps+$pt-$ns-$nt)/($A+$B+$C)",
           "hide": false,
@@ -296,7 +381,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -312,7 +397,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -328,7 +413,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -348,7 +433,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -396,7 +481,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -412,7 +497,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -428,7 +513,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -444,7 +529,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -460,7 +545,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -475,9 +560,8 @@
         },
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "($ph+$ps+$pt-$ns-$nt)/($A+$B+$C)",
           "hide": false,
@@ -487,7 +571,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -503,7 +587,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -519,7 +603,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -539,7 +623,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "In next two epochs",
       "fieldConfig": {
@@ -591,7 +675,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "max(future_block_proposals_count)",
@@ -607,7 +691,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "e",
       "fieldConfig": {
@@ -684,7 +768,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -699,7 +783,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -719,7 +803,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+        "uid": "${DS_PROMETHEUS}"
       },
       "gridPos": {
         "h": 19,
@@ -745,7 +829,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -798,7 +882,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -814,7 +898,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -830,7 +914,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -846,7 +930,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -862,7 +946,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -877,9 +961,8 @@
         },
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "($ph+$ps+$pt-$ns-$nt)/10**9",
           "hide": false,
@@ -893,7 +976,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -973,9 +1056,8 @@
       "targets": [
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "1606824023",
           "hide": true,
@@ -985,7 +1067,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -999,9 +1081,8 @@
         },
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "256*(ceil($current_epoch/256))",
           "hide": true,
@@ -1010,9 +1091,8 @@
         },
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "1000*(($next_sc_epoch*32*12)+$genesis)",
           "hide": false,
@@ -1021,9 +1101,8 @@
         },
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "1*$next_sc_change_ts",
           "hide": false,
@@ -1037,7 +1116,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1116,7 +1195,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "disableTextWrap": false,
           "editorMode": "code",
@@ -1136,7 +1215,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "disableTextWrap": false,
           "editorMode": "code",
@@ -1155,9 +1234,8 @@
         },
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "cr",
           "hide": false,
@@ -1167,9 +1245,8 @@
         },
         {
           "datasource": {
-            "name": "Expression",
             "type": "__expr__",
-            "uid": "__expr__"
+            "uid": "${DS_EXPRESSION}"
           },
           "expression": "nr",
           "hide": false,
@@ -1225,7 +1302,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Attestation rate = sum(actual rewards)/sum(ideal rewards)",
       "fieldConfig": {
@@ -1325,7 +1402,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "disableTextWrap": false,
           "editorMode": "code",
@@ -1343,7 +1420,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "(sum by(machine)(increase(our_actual_pos_attestations_reward_per_validator_count_total[$interval]))-sum by(machine)(increase(our_actual_neg_attestations_reward_per_validator_count_total[$interval])))/sum by(machine)(increase(our_ideal_attestations_reward_per_validator_count_total[$interval]))",
@@ -1372,7 +1449,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -1482,7 +1559,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -1502,7 +1579,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -1522,7 +1599,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -1537,9 +1614,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$ideal_gwei/10**9",
               "hide": false,
@@ -1549,9 +1625,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "($actual_pos_gwei-$actual_neg_gwei)/10**9",
               "hide": false,
@@ -1560,9 +1635,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$ideal/$validators",
               "hide": false,
@@ -1571,9 +1645,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$actual/$validators",
               "hide": false,
@@ -1582,9 +1655,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$actual/$ideal",
               "hide": false,
@@ -1594,7 +1666,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -1614,7 +1686,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -1630,7 +1702,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -1645,9 +1717,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "($sc_pos_gwei-$sc_neg_gwei)/10**9",
               "hide": false,
@@ -1701,7 +1772,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -1810,7 +1881,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -1830,7 +1901,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -1850,7 +1921,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -1865,9 +1936,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$ideal_gwei/10**9",
               "hide": false,
@@ -1877,9 +1947,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "($actual_pos_gwei-$actual_neg_gwei)/10**9",
               "hide": false,
@@ -1888,9 +1957,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$ideal/$validators",
               "hide": false,
@@ -1899,9 +1967,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$actual/$validators",
               "hide": false,
@@ -1910,9 +1977,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$actual/$ideal",
               "hide": false,
@@ -1922,7 +1988,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -1941,7 +2007,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -1960,7 +2026,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -1978,9 +2044,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "($sc_pos_gwei-$sc_neg_gwei)/10**9",
               "hide": false,
@@ -2035,7 +2100,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -2144,7 +2209,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -2164,7 +2229,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -2184,7 +2249,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -2198,9 +2263,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$ideal_gwei/10**9",
               "hide": false,
@@ -2210,9 +2274,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "($actual_pos_gwei-$actual_neg_gwei)/10**9",
               "hide": false,
@@ -2221,9 +2284,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$ideal/$validators",
               "hide": false,
@@ -2232,9 +2294,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$actual/$validators",
               "hide": false,
@@ -2243,9 +2304,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$actual/$ideal",
               "hide": false,
@@ -2255,7 +2315,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -2275,7 +2335,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -2295,7 +2355,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -2314,9 +2374,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "validators_query",
               "hide": false,
@@ -2326,9 +2385,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "($sc_pos_gwei-$sc_neg_gwei)/10**9",
               "hide": false,
@@ -2412,7 +2470,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -2528,7 +2586,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -2547,9 +2605,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "proposed_blocks_prom",
               "hide": false,
@@ -2560,7 +2617,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -2579,9 +2636,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "missed_blocks_prom",
               "hide": false,
@@ -2592,7 +2648,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -2607,9 +2663,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$block_reward_gwei/10**9",
               "hide": false,
@@ -2619,7 +2674,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -2638,9 +2693,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$mev_reward_gwei/10**9",
               "hide": false,
@@ -2700,7 +2754,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -2816,7 +2870,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -2835,9 +2889,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "proposed_blocks_prom",
               "hide": false,
@@ -2848,7 +2901,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -2867,9 +2920,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "missed_blocks_prom",
               "hide": false,
@@ -2880,7 +2932,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -2895,9 +2947,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$block_reward_gwei/10**9",
               "hide": false,
@@ -2907,7 +2958,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -2926,9 +2977,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$mev_reward_gwei/10**9",
               "hide": false,
@@ -2989,7 +3039,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "It's not summing to overall MEV reward",
           "fieldConfig": {
@@ -3093,7 +3143,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "exemplar": false,
@@ -3108,7 +3158,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -3126,9 +3176,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$mev_reward_gwei/10**9",
               "hide": false,
@@ -3204,7 +3253,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "Attestation rate = sum(actual rewards)/sum(ideal rewards)",
           "fieldConfig": {
@@ -3307,7 +3356,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -3325,7 +3374,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "(sum by(machine)(increase(our_actual_pos_sources_per_validator_count_total[$interval]))-sum by(machine)(increase(our_actual_neg_sources_per_validator_count_total[$interval])))/sum by(machine)(increase(our_ideal_sources_per_validator_count_total[$interval]))",
@@ -3344,7 +3393,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "Attestation rate = sum(actual rewards)/sum(ideal rewards)",
           "fieldConfig": {
@@ -3447,7 +3496,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -3465,7 +3514,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "(sum by(machine)(increase(our_actual_pos_targets_per_validator_count_total[$interval]))-sum by(machine)(increase(our_actual_neg_targets_per_validator_count_total[$interval])))/sum by(machine)(increase(our_ideal_targets_per_validator_count_total[$interval]))",
@@ -3484,7 +3533,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "Attestation rate = sum(actual rewards)/sum(ideal rewards)",
           "fieldConfig": {
@@ -3587,7 +3636,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -3605,7 +3654,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
               "expr": "(sum by(machine)(increase(our_actual_heads_per_validator_count_total[$interval])))/sum by(machine)(increase(our_ideal_heads_per_validator_count_total[$interval]))",
@@ -3638,7 +3687,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -3697,7 +3746,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -3765,7 +3814,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -3824,7 +3873,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -3894,7 +3943,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -3958,7 +4007,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -3977,7 +4026,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "builder",
@@ -4040,7 +4089,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4097,7 +4146,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "builder",
@@ -4166,7 +4215,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4277,7 +4326,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+                "uid": "${DS_PROMETHEUS}"
               },
               "disableTextWrap": false,
               "editorMode": "code",
@@ -4296,9 +4345,8 @@
             },
             {
               "datasource": {
-                "name": "Expression",
                 "type": "__expr__",
-                "uid": "__expr__"
+                "uid": "${DS_EXPRESSION}"
               },
               "expression": "$mev_reward_gwei/10**9",
               "hide": false,
@@ -4364,7 +4412,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "f999c534-4b90-4870-98f2-53a918a7c92e"
+            "uid": "${DS_LOKI}"
           },
           "gridPos": {
             "h": 9,
@@ -4388,7 +4436,7 @@
             {
               "datasource": {
                 "type": "loki",
-                "uid": "f999c534-4b90-4870-98f2-53a918a7c92e"
+                "uid": "${DS_LOKI}"
               },
               "editorMode": "builder",
               "expr": "{unit=\"eth-validator-watcher.service\"} |~ `Our validator.*is going`",
@@ -4402,7 +4450,7 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "f999c534-4b90-4870-98f2-53a918a7c92e"
+            "uid": "${DS_LOKI}"
           },
           "gridPos": {
             "h": 9,
@@ -4426,7 +4474,7 @@
             {
               "datasource": {
                 "type": "loki",
-                "uid": "f999c534-4b90-4870-98f2-53a918a7c92e"
+                "uid": "${DS_LOKI}"
               },
               "editorMode": "builder",
               "expr": "{unit=\"eth-validator-watcher.service\"} |= `w/o registration to any MEV relay`",
@@ -4442,7 +4490,7 @@
       "type": "row"
     }
   ],
-  "refresh": "12s",
+  "refresh": "5s",
   "schemaVersion": 38,
   "tags": [],
   "templating": {
@@ -4450,8 +4498,8 @@
       {
         "current": {
           "selected": false,
-          "text": "384s",
-          "value": "384s"
+          "text": "$__rate_interval",
+          "value": "$__rate_interval"
         },
         "hide": 0,
         "includeAll": false,
@@ -4465,7 +4513,7 @@
             "value": "$__interval"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "$__rate_interval",
             "value": "$__rate_interval"
           },
@@ -4480,7 +4528,7 @@
             "value": "12s"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "384s",
             "value": "384s"
           },
@@ -4506,14 +4554,10 @@
         "type": "custom"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "f6e8ddce-ae07-4a11-a087-158315498fa6"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "label_values(mev_relay_registration_per_validator,mev_relay)",
         "hide": 2,
