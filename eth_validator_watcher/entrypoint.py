@@ -384,8 +384,6 @@ def _handler(
 
             if len(our_labels) > 0:
                 our_active_validators_per_validator_gauge.clear()
-                # for labels in list(map(dict, set(tuple(sorted(d.items())) for d in our_labels.values()))):
-                #     our_active_validators_per_validator_gauge.labels(**labels)
                 for status, validators in our_status2idx2val.items():
                     for validator in validators.values():
                         labels = our_labels[validator.pubkey]
