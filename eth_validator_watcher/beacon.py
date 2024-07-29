@@ -322,7 +322,7 @@ class Beacon:
 
         response = self.__get_retry_not_found(
             f"{self.__url}/eth/v1/beacon/rewards/blocks/{slot}",
-            timeout=10,
+            timeout=TIMEOUT_BEACON_SEC,
         )
 
         response.raise_for_status()
@@ -342,7 +342,7 @@ class Beacon:
         try:
             response = self.__post_retry_not_found(
                 f"{self.__url}/eth/v1/beacon/rewards/sync_committee/{slot}",
-                timeout=10,
+                timeout=TIMEOUT_BEACON_SEC,
             )
 
             response.raise_for_status()
