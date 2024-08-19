@@ -15,7 +15,7 @@ def normalized_public_key(pubkey: str) -> str:
     Parameters:
         pubkey: Public key to normalize
     """
-    if pubkey.startswith('0x'):
+    if pubkey.startswith("0x"):
         pubkey = pubkey[2:]
     return pubkey.lower()
 
@@ -38,18 +38,19 @@ class WatchedValidator:
         self._v = Validator()
 
         # This gets overriden by process_config if the validator is watched.
-        self._v.labels : Optional[list[str]] = [LABEL_SCOPE_ALL_NETWORK, LABEL_SCOPE_NETWORK]
+        self._v.labels: Optional[list[str]] = [
+            LABEL_SCOPE_ALL_NETWORK,
+            LABEL_SCOPE_NETWORK,
+        ]
 
     @property
     def effective_balance(self) -> int:
-        """Get the effective balance of the validator.
-        """
+        """Get the effective balance of the validator."""
         return self._v.consensus_effective_balance
 
     @property
     def labels(self) -> list[str]:
-        """Get the labels for the validator.
-        """
+        """Get the labels for the validator."""
         return self._v.labels
 
     def process_config(self, config: WatchedKeyConfig):
@@ -86,9 +87,11 @@ class WatchedValidator:
         liveness: Validator liveness data
         """
         self._v.previous_missed_attestation = self._v.missed_attestation
-        self._v.missed_attestation = liveness.is_live != True
+        self._v.missed_attestation = not liveness.is_live
 
-    def process_rewards(self, ideal: Rewards.Data.IdealReward, reward: Rewards.Data.TotalReward):
+    def process_rewards(
+        self, ideal: Rewards.Data.IdealReward, reward: Rewards.Data.TotalReward
+    ):
         """Processes rewards data.
 
         Parameters:
@@ -107,7 +110,7 @@ class WatchedValidator:
 
         Parameters:
             slot: Slot of the block proposal
-            missed: Whether the block was missed
+            has_block: The block was proposed
         """
         if has_block:
             self._v.proposed_blocks = self._v.proposed_blocks + [slot]
@@ -119,10 +122,12 @@ class WatchedValidator:
 
         Parameters:
             slot: Slot of the block proposal
-            missed: Whether the block was missed
+            has_block: The block was proposed
         """
         if has_block:
-            self._v.proposed_blocks_finalized = self._v.proposed_blocks_finalized + [slot]
+            self._v.proposed_blocks_finalized = self._v.proposed_blocks_finalized + [
+                slot
+            ]
         else:
             self._v.missed_blocks_finalized = self._v.missed_blocks_finalized + [slot]
 
@@ -135,8 +140,7 @@ class WatchedValidator:
         self._v.future_blocks_proposal = self._v.future_blocks_proposal + [slot]
 
     def reset_blocks(self):
-        """Reset the counters for the next run.
-        """
+        """Reset the counters for the next run."""
         self._v.missed_blocks = []
         self._v.missed_blocks_finalized = []
         self._v.proposed_blocks = []
@@ -192,7 +196,9 @@ class WatchedValidators:
             config: Updated configuration
         """
         for item in config.watched_keys:
-            index = self._pubkey_to_index.get(normalized_public_key(item.public_key), None)
+            index = self._pubkey_to_index.get(
+                normalized_public_key(item.public_key), None
+            )
             if index:
                 validator = self._validators.get(index)
                 if validator:
@@ -205,14 +211,15 @@ class WatchedValidators:
 
         Parameters:
             validators: New validator state for the epoch from the beaconchain.
-            liveness: Whether or not the validator attested in the previous epoch.
         """
         for item in validators.data:
             validator = self._validators.get(item.index)
             if validator is None:
                 validator = WatchedValidator()
                 self._validators[item.index] = validator
-                self._pubkey_to_index[normalized_public_key(item.validator.pubkey)] = item.index
+                self._pubkey_to_index[normalized_public_key(item.validator.pubkey)] = (
+                    item.index
+                )
 
             validator.process_epoch(item)
 

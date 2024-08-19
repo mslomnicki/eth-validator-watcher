@@ -1,7 +1,7 @@
 """This module contains facilities to keep track of which validator proposes blocks.
 """
 
-from dataclasses import dataclass
+from typing import Optional
 
 from .beacon import Beacon
 from .models import Spec
@@ -20,10 +20,10 @@ class ProposerSchedule:
         self._head_schedule = dict()
         self._finalized_schedule = dict()
 
-    def get_head_proposer(self, slot: int) -> int:
+    def get_head_proposer(self, slot: int) -> Optional[int]:
         return self._head_schedule.get(slot, None)
 
-    def get_finalized_proposer(self, slot: int) -> int:
+    def get_finalized_proposer(self, slot: int) -> Optional[int]:
         return self._finalized_schedule.get(slot, None)
 
     def get_future_proposals(self, slot: int) -> dict[int, int]:
@@ -32,7 +32,13 @@ class ProposerSchedule:
     def epoch(self, slot: int) -> int:
         return slot // self._spec.data.SLOTS_PER_EPOCH
 
-    def update(self, beacon: Beacon, slot: int, last_processed_finalized: int, last_finalized: int) -> None:
+    def update(
+        self,
+        beacon: Beacon,
+        slot: int,
+        last_processed_finalized: int,
+        last_finalized: int,
+    ) -> None:
         # Current slots & future proposals.
         epoch = self.epoch(slot)
         if slot not in self._head_schedule:
@@ -54,5 +60,11 @@ class ProposerSchedule:
                     self._finalized_schedule[duty.slot] = duty.validator_index
 
     def clear(self, last_processed: int, last_processed_finalized) -> None:
-        self._head_schedule = {k: v for k, v in self._head_schedule.items() if k > last_processed}
-        self._finalized_schedule = {k: v for k, v in self._finalized_schedule.items() if k > last_processed_finalized}
+        self._head_schedule = {
+            k: v for k, v in self._head_schedule.items() if k > last_processed
+        }
+        self._finalized_schedule = {
+            k: v
+            for k, v in self._finalized_schedule.items()
+            if k > last_processed_finalized
+        }

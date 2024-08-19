@@ -137,7 +137,8 @@ class Beacon:
         """
         try:
             response = self._get(
-                f"{self._url}/eth/v1/beacon/headers/{block_identifier}", timeout=self._timeout_sec
+                f"{self._url}/eth/v1/beacon/headers/{block_identifier}",
+                timeout=self._timeout_sec,
             )
             response.raise_for_status()
         except HTTPError as e:
@@ -155,7 +156,8 @@ class Beacon:
         epoch: Epoch corresponding to the proposer duties to retrieve
         """
         response = self._get_retry_not_found(
-            f"{self._url}/eth/v1/validator/duties/proposer/{epoch}", timeout=self._timeout_sec
+            f"{self._url}/eth/v1/validator/duties/proposer/{epoch}",
+            timeout=self._timeout_sec,
         )
 
         response.raise_for_status()
@@ -164,7 +166,8 @@ class Beacon:
 
     def get_validators(self, slot: int) -> Validators:
         response = self._get_retry_not_found(
-            f"{self._url}/eth/v1/beacon/states/{slot}/validators", timeout=self._timeout_sec
+            f"{self._url}/eth/v1/beacon/states/{slot}/validators",
+            timeout=self._timeout_sec,
         )
 
         response.raise_for_status()
@@ -187,7 +190,9 @@ class Beacon:
 
         return Rewards.model_validate_json(response.text)
 
-    def get_validators_liveness(self, epoch: int, indexes: list[int]) -> ValidatorsLivenessResponse:
+    def get_validators_liveness(
+        self, epoch: int, indexes: list[int]
+    ) -> ValidatorsLivenessResponse:
         """Get validators liveness.
 
         Parameters:

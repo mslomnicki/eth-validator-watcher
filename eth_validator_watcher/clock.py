@@ -11,7 +11,14 @@ class BeaconClock:
     slot.
     """
 
-    def __init__(self, genesis: int, slot_duration: int, slots_per_epoch: int, replay_start_at: int | None, replay_end_at: int | None) -> None:
+    def __init__(
+        self,
+        genesis: int,
+        slot_duration: int,
+        slots_per_epoch: int,
+        replay_start_at: int | None,
+        replay_end_at: int | None,
+    ) -> None:
         self._genesis = genesis
         self._slot_duration = slot_duration
         self._slots_per_epoch = slots_per_epoch
@@ -24,7 +31,7 @@ class BeaconClock:
         self._replay_elapsed_ = 0.0
 
         if self._replay_start_at is not None:
-            logging.info(f'⏰ Starting clock at timestamp @ {self._replay_start_at}')
+            logging.info(f"⏰ Starting clock at timestamp @ {self._replay_start_at}")
 
     def now(self) -> float:
         """Get the current time in seconds since the epoch.
@@ -68,7 +75,9 @@ class BeaconClock:
         --------
         int: Current slot.
         """
-        return int((self.now() - self._lag_seconds - self._genesis) // self._slot_duration)
+        return int(
+            (self.now() - self._lag_seconds - self._genesis) // self._slot_duration
+        )
 
     def maybe_wait_for_slot(self, slot: int) -> None:
         """Wait until the given slot is reached.
@@ -81,12 +90,14 @@ class BeaconClock:
             Slot to wait for.
         """
         if self._replay_start_at is not None:
-            logging.info(f'⏰ Fast-forwarding to slot {slot}')
-            self._replay_elapsed_ += (slot - self.get_current_slot()) * self._slot_duration + self._lag_seconds
+            logging.info(f"⏰ Fast-forwarding to slot {slot}")
+            self._replay_elapsed_ += (
+                slot - self.get_current_slot()
+            ) * self._slot_duration + self._lag_seconds
             return
 
         target = self._genesis + slot * self._slot_duration + self._lag_seconds
         now = self.now()
         if now < target:
-            logging.info(f'⏰ Waiting {target - now:.2f} seconds for slot {slot}')
+            logging.info(f"⏰ Waiting {target - now:.2f} seconds for slot {slot}")
             time.sleep(target - now)

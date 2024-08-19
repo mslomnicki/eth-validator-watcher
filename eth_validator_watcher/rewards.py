@@ -5,8 +5,7 @@ from .watched_validators import WatchedValidators
 
 
 def process_rewards(validators: WatchedValidators, rewards: Rewards) -> None:
-    """Processes rewards for all validators.
-    """
+    """Processes rewards for all validators."""
     ideal_by_eb: dict[int, Rewards.Data.IdealReward] = {}
     for ideal_reward in rewards.data.ideal_rewards:
         ideal_by_eb[ideal_reward.effective_balance] = ideal_reward
@@ -21,4 +20,3 @@ def process_rewards(validators: WatchedValidators, rewards: Rewards) -> None:
             continue
 
         validator.process_rewards(ideal, reward)
-
