@@ -159,3 +159,11 @@ class BlockRewardResponse(BaseModel):
         total: int
 
     data: Data
+
+
+class SyncCommitteeRewardsResponse(BaseModel):
+    class Data(BaseModel):
+        validator_index: int
+        reward: int
+
+    data: list[Data]

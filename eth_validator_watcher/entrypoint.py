@@ -18,7 +18,7 @@ from .log import log_details, slack_send
 from .metrics import get_prometheus_metrics, compute_validator_metrics
 from .models import BlockIdentierType, Validators
 from .proposer_schedule import ProposerSchedule
-from .rewards import process_rewards
+from .rewards import process_rewards, process_sync_committee_rewards
 from .utils import (
     SLOT_FOR_CONFIG_RELOAD,
     SLOT_FOR_MISSED_ATTESTATIONS_PROCESS,
@@ -142,6 +142,9 @@ class ValidatorWatcher:
             self._metrics.eth_actual_consensus_rewards_gwei.labels(label, network).set(
                 m.actual_consensus_reward
             )
+            self._metrics.eth_sync_committee_rewards_gwei.labels(label, network).set(
+                m.sync_committee_reward
+            )
             self._metrics.eth_consensus_rewards_rate.labels(label, network).set(
                 pct(m.actual_consensus_reward, m.ideal_consensus_reward, True)
             )
@@ -245,6 +248,10 @@ class ValidatorWatcher:
 
             process_block(watched_validators, self._schedule, slot, has_block)
             process_future_blocks(watched_validators, self._schedule, slot)
+
+            logging.info("🔨 Processing sync committee rewards")
+            sync_committee_rewards = self._beacon.get_sync_committee_rewards(slot)
+            process_sync_committee_rewards(watched_validators, sync_committee_rewards)
 
             while (
                 last_processed_finalized_slot

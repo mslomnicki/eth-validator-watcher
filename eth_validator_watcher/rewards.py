@@ -1,6 +1,6 @@
 """Contains functions to handle rewards calculation"""
 
-from .models import Rewards
+from .models import Rewards, SyncCommitteeRewardsResponse
 from .watched_validators import WatchedValidators
 
 
@@ -20,3 +20,15 @@ def process_rewards(validators: WatchedValidators, rewards: Rewards) -> None:
             continue
 
         validator.process_rewards(ideal, reward)
+
+
+def process_sync_committee_rewards(
+    validators: WatchedValidators, rewards: SyncCommitteeRewardsResponse
+) -> None:
+    """Processes sync committee rewards for all validators."""
+    for reward_entry in rewards.data:
+        validator = validators.get_validator_by_index(reward_entry.validator_index)
+        if not validator:
+            continue
+
+        validator.process_sync_committee_reward(reward_entry.reward)

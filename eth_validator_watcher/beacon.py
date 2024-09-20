@@ -16,6 +16,7 @@ from .models import (
     ProposerDuties,
     Rewards,
     Spec,
+    SyncCommitteeRewardsResponse,
     Validators,
     ValidatorsLivenessResponse,
 )
@@ -244,6 +245,33 @@ class Beacon:
 
             response.raise_for_status()
             return BlockRewardResponse.model_validate_json(response.text)
+        except HTTPError as e:
+            if e.response.status_code == codes.not_found:
+                # If we are here, it means the block does not exist
+                raise NoBlockError from e
+
+            # If we are here, it's an other error
+            raise
+
+    def get_sync_committee_rewards(
+        self,
+        slot: int,
+    ) -> SyncCommitteeRewardsResponse:
+        """Get sync committee rewards.
+
+        Parameters:
+        slot            : Slot corresponding to the rewards to retrieve
+        """
+
+        try:
+            response = self._post_retry_not_found(
+                f"{self._url}/eth/v1/beacon/rewards/sync_committee/{slot}",
+                timeout=self._timeout_sec,
+            )
+
+            response.raise_for_status()
+
+            return SyncCommitteeRewardsResponse.model_validate_json(response.text)
         except HTTPError as e:
             if e.response.status_code == codes.not_found:
                 # If we are here, it means the block does not exist
