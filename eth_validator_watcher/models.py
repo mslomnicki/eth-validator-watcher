@@ -151,3 +151,11 @@ class Rewards(BaseModel):
         total_rewards: list[TotalReward]
 
     data: Data
+
+
+class BlockRewardResponse(BaseModel):
+    class Data(BaseModel):
+        proposer_index: int
+        total: int
+
+    data: Data
