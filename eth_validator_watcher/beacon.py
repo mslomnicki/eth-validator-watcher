@@ -16,6 +16,7 @@ from .models import (
     ProposerDuties,
     Rewards,
     Spec,
+    SyncCommitteeDutyResponse,
     SyncCommitteeRewardsResponse,
     Validators,
     ValidatorsLivenessResponse,
@@ -252,6 +253,21 @@ class Beacon:
 
             # If we are here, it's an other error
             raise
+
+    def get_sync_committee(self, epoch: int) -> SyncCommitteeDutyResponse:
+        """Get sync committee validator indexes
+
+        Parameters:
+        epoch: Epoch corresponding to the proposer duties to retrieve
+        """
+        response = self._get_retry_not_found(
+            f"{self._url}/eth/v1/beacon/states/head/sync_committees",
+            params=dict(epoch=epoch),
+            timeout=self._timeout_sec,
+        )
+
+        response.raise_for_status()
+        return SyncCommitteeDutyResponse.model_validate_json(response.text)
 
     def get_sync_committee_rewards(
         self,

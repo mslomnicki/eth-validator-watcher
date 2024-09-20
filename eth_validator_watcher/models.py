@@ -40,6 +40,7 @@ class Genesis(BaseModel):
 
 class Spec(BaseModel):
     class Data(BaseModel):
+        EPOCHS_PER_SYNC_COMMITTEE_PERIOD: int
         SECONDS_PER_SLOT: int
         SLOTS_PER_EPOCH: int
 
@@ -157,6 +158,13 @@ class BlockRewardResponse(BaseModel):
     class Data(BaseModel):
         proposer_index: int
         total: int
+
+    data: Data
+
+
+class SyncCommitteeDutyResponse(BaseModel):
+    class Data(BaseModel):
+        validators: list[int]
 
     data: Data
 
