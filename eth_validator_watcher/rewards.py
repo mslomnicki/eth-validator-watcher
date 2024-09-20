@@ -1,6 +1,6 @@
 """Contains functions to handle rewards calculation"""
 
-from .models import Rewards, SyncCommitteeRewardsResponse
+from .models import BlockRewardResponse, Rewards, SyncCommitteeRewardsResponse
 from .watched_validators import WatchedValidators
 
 
@@ -20,6 +20,15 @@ def process_rewards(validators: WatchedValidators, rewards: Rewards) -> None:
             continue
 
         validator.process_rewards(ideal, reward)
+
+
+def process_block_reward(
+    validators: WatchedValidators, reward: BlockRewardResponse
+) -> None:
+    """Processes block reward."""
+    validator = validators.get_validator_by_index(reward.data.proposer_index)
+    if validator:
+        validator.process_block_reward(reward.data.total)
 
 
 def process_sync_committee_rewards(

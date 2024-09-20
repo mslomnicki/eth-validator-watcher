@@ -105,6 +105,14 @@ class WatchedValidator:
         self._v.ideal_consensus_reward = ideal.source + ideal.target + ideal.head
         self._v.actual_consensus_reward = reward.source + reward.target + reward.head
 
+    def process_block_reward(self, reward: int):
+        """Processes block reward data.
+
+        Parameters:
+            reward: Actual reward
+        """
+        self._v.block_reward = reward
+
     def process_sync_committee_reward(self, reward: int):
         """Processes sync committee reward data.
 

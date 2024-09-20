@@ -26,6 +26,7 @@ struct Validator {
   bool suboptimal_head = false;
   float64_t ideal_consensus_reward = 0;
   float64_t actual_consensus_reward = 0;
+  float64_t block_reward = 0;
   float64_t sync_committee_reward = 0;
 
   // Updated data from the blocks processing
@@ -58,6 +59,7 @@ struct MetricsByLabel {
 
   float64_t ideal_consensus_reward = 0;
   float64_t actual_consensus_reward = 0;
+  float64_t block_reward = 0;
   float64_t sync_committee_reward = 0;
   uint64_t missed_attestations = 0;
   uint64_t missed_consecutive_attestations = 0;
@@ -114,6 +116,7 @@ namespace {
         m.ideal_consensus_reward += v.ideal_consensus_reward;
         m.actual_consensus_reward += v.actual_consensus_reward;
         m.sync_committee_reward += v.sync_committee_reward;
+        m.block_reward += v.block_reward;
 
         m.missed_attestations += int(v.missed_attestation == true);
         m.missed_consecutive_attestations += int(v.previous_missed_attestation == true);
@@ -163,6 +166,7 @@ namespace {
 
         m.ideal_consensus_reward += metric.ideal_consensus_reward;
         m.actual_consensus_reward += metric.actual_consensus_reward;
+        m.block_reward += metric.block_reward;
         m.sync_committee_reward += metric.sync_committee_reward;
         m.missed_attestations += metric.missed_attestations;
         m.missed_consecutive_attestations += metric.missed_consecutive_attestations;
@@ -201,6 +205,7 @@ PYBIND11_MODULE(eth_validator_watcher_ext, m) {
     .def_readwrite("suboptimal_head", &Validator::suboptimal_head)
     .def_readwrite("ideal_consensus_reward", &Validator::ideal_consensus_reward)
     .def_readwrite("actual_consensus_reward", &Validator::actual_consensus_reward)
+    .def_readwrite("block_reward", &Validator::block_reward)
     .def_readwrite("sync_committee_reward", &Validator::sync_committee_reward)
     .def_readwrite("missed_blocks", &Validator::missed_blocks)
     .def_readwrite("missed_blocks_finalized", &Validator::missed_blocks_finalized)
@@ -225,6 +230,7 @@ PYBIND11_MODULE(eth_validator_watcher_ext, m) {
     .def_readwrite("validator_slashes", &MetricsByLabel::validator_slashes)
     .def_readwrite("ideal_consensus_reward", &MetricsByLabel::ideal_consensus_reward)
     .def_readwrite("actual_consensus_reward", &MetricsByLabel::actual_consensus_reward)
+    .def_readwrite("block_reward", &MetricsByLabel::block_reward)
     .def_readwrite("sync_committee_reward", &MetricsByLabel::sync_committee_reward)
     .def_readwrite("missed_attestations", &MetricsByLabel::missed_attestations)
     .def_readwrite("missed_consecutive_attestations", &MetricsByLabel::missed_consecutive_attestations)

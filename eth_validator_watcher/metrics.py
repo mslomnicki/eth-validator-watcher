@@ -26,6 +26,7 @@ class PrometheusMetrics:
     eth_consensus_rewards_rate: Gauge
     eth_ideal_consensus_rewards_gwei: Gauge
     eth_actual_consensus_rewards_gwei: Gauge
+    eth_block_rewards_gwei: Gauge
     eth_sync_committee_rewards_gwei: Gauge
     eth_missed_attestations_count: Gauge
     eth_missed_consecutive_attestations_count: Gauge
@@ -103,6 +104,11 @@ def get_prometheus_metrics() -> PrometheusMetrics:
             eth_actual_consensus_rewards_gwei=Gauge(
                 "eth_actual_consensus_rewards_gwei",
                 "Actual consensus rewards sampled every epoch",
+                ["scope", "network"],
+            ),
+            eth_block_rewards_gwei=Gauge(
+                "eth_block_rewards_gwei",
+                "Block rewards sampled every block",
                 ["scope", "network"],
             ),
             eth_sync_committee_rewards_gwei=Gauge(
