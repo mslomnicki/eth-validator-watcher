@@ -23,7 +23,9 @@ from .models import (
     Validators,
     ValidatorsLivenessRequestLighthouse,
     ValidatorsLivenessRequestTeku,
-    ValidatorsLivenessResponse, BlockReward, SyncCommittee,
+    ValidatorsLivenessResponse,
+    BlockReward,
+    SyncCommittee,
 )
 
 StatusEnum = Validators.DataItem.StatusEnum
@@ -76,6 +78,7 @@ class Beacon:
             )
         )
 
+        self.__http_retry_not_found.headers.update({"Content-Type": "application/json"})
         self.__http_retry_not_found.mount("http://", adapter_retry_not_found)
         self.__http_retry_not_found.mount("https://", adapter_retry_not_found)
 
@@ -127,7 +130,8 @@ class Beacon:
         """
         try:
             response = self.__get(
-                f"{self.__url}/eth/v1/beacon/headers/{block_identifier}", timeout=TIMEOUT_BEACON_SEC
+                f"{self.__url}/eth/v1/beacon/headers/{block_identifier}",
+                timeout=TIMEOUT_BEACON_SEC,
             )
 
             response.raise_for_status()
@@ -174,7 +178,8 @@ class Beacon:
         epoch: Epoch corresponding to the proposer duties to retrieve
         """
         response = self.__get_retry_not_found(
-            f"{self.__url}/eth/v1/validator/duties/proposer/{epoch}", timeout=TIMEOUT_BEACON_SEC
+            f"{self.__url}/eth/v1/validator/duties/proposer/{epoch}",
+            timeout=TIMEOUT_BEACON_SEC,
         )
 
         response.raise_for_status()
@@ -190,7 +195,7 @@ class Beacon:
         response = self.__get_retry_not_found(
             f"{self.__url}/eth/v1/beacon/states/head/sync_committees",
             params=dict(epoch=epoch),
-            timeout=TIMEOUT_BEACON_SEC
+            timeout=TIMEOUT_BEACON_SEC,
         )
 
         response.raise_for_status()
@@ -199,7 +204,7 @@ class Beacon:
         return SyncCommittee(**sc_dict)
 
     def get_status_to_index_to_validator(
-            self,
+        self,
     ) -> dict[StatusEnum, dict[int, Validators.DataItem.Validator]]:
         """Get a nested dictionnary with:
         outer key               : Status
@@ -207,7 +212,8 @@ class Beacon:
         inner value             : Validator
         """
         response = self.__get_retry_not_found(
-            f"{self.__url}/eth/v1/beacon/states/head/validators", timeout=TIMEOUT_BEACON_SEC
+            f"{self.__url}/eth/v1/beacon/states/head/validators",
+            timeout=TIMEOUT_BEACON_SEC,
         )
 
         response.raise_for_status()
@@ -215,9 +221,9 @@ class Beacon:
 
         validators = Validators(**validators_dict)
 
-        result: dict[
-            StatusEnum, dict[int, Validators.DataItem.Validator]
-        ] = defaultdict(dict)
+        result: dict[StatusEnum, dict[int, Validators.DataItem.Validator]] = (
+            defaultdict(dict)
+        )
 
         for item in validators.data:
             result[item.status][item.index] = item.validator
@@ -226,7 +232,7 @@ class Beacon:
 
     @lru_cache(maxsize=1)
     def get_duty_slot_to_committee_index_to_validators_index(
-            self, epoch: int
+        self, epoch: int
     ) -> dict[int, dict[int, list[int]]]:
         """Get a nested dictionnary.
         outer key               : Slot number
@@ -258,10 +264,10 @@ class Beacon:
         return result
 
     def get_rewards(
-            self,
-            beacon_type: BeaconType,
-            epoch: int,
-            validators_index: set[int] | None = None,
+        self,
+        beacon_type: BeaconType,
+        epoch: int,
+        validators_index: set[int] | None = None,
     ) -> Rewards:
         """Get rewards.
 
@@ -311,8 +317,8 @@ class Beacon:
         return Rewards(**rewards_dict)
 
     def get_block_reward(
-            self,
-            slot: int,
+        self,
+        slot: int,
     ) -> BlockReward:
         """Get block rewards.
 
@@ -330,8 +336,8 @@ class Beacon:
         return BlockReward(**rewards_dict)
 
     def get_sync_committee_reward(
-            self,
-            slot: int,
+        self,
+        slot: int,
     ) -> SyncCommitteeReward:
         """Get sync committee rewards.
 
@@ -357,7 +363,7 @@ class Beacon:
             raise
 
     def get_validators_liveness(
-            self, beacon_type: BeaconType, epoch: int, validators_index: set[int]
+        self, beacon_type: BeaconType, epoch: int, validators_index: set[int]
     ) -> dict[int, bool]:
         """Get validators liveness.
 
@@ -436,7 +442,7 @@ class Beacon:
             return None
 
     def __get_validators_liveness_lighthouse(
-            self, epoch: int, validators_index: set[int]
+        self, epoch: int, validators_index: set[int]
     ) -> Response:
         """Get validators liveness from Lighthouse.
 
@@ -456,7 +462,7 @@ class Beacon:
         )
 
     def __get_validators_liveness_old_teku(
-            self, epoch: int, validators_index: set[int]
+        self, epoch: int, validators_index: set[int]
     ) -> Response:
         """Get validators liveness from Teku.
 
@@ -476,7 +482,7 @@ class Beacon:
         )
 
     def __get_validators_liveness_beacon_api(
-            self, epoch: int, validators_index: set[int]
+        self, epoch: int, validators_index: set[int]
     ) -> Response:
         """Get validators liveness from neither Lighthouse nor Teku.
 
